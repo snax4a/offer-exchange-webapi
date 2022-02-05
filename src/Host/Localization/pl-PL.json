@@ -1,0 +1,21 @@
+{
+  "auth.failed": "Uwierzytelnianie nie powiodło się.",
+  "tenant.invalid": "Nieprawidłowy najemca.",
+  "tenant.expired": "Ważność najemcy wygasła. Prosimy o kontakt z Administratorem Aplikacji.",
+  "tenant.inactive": "Najemca nie jest aktywny. Prosimy o kontakt z Administratorem Aplikacji.",
+  "caching.added": "Dodano pamięć podręczną : {0}",
+  "caching.refreshed": "Odświeżono pamięć podręczną : {0}",
+  "identity.usernotfound": "Użytkownik nie znaleziony.",
+  "identity.usernotactive": "Użytkownik nieaktywny. Skontaktuj się z administratorem.",
+  "identity.emailnotconfirmed": "E-mail nie potwierdzony.",
+  "identity.invalidcredentials": "Podane dane logowania są nieprawidłowe.",
+  "identity.invalidtoken": "Nieprawidłowy Token.",
+  "identity.invalidrefreshtoken": "Nieprawidłowy token odświeżania.",
+  "entity.notfound": "{0} {1} Nie znaleziono.",
+  "product.alreadyexists": "Produkt {0} już istnieje.",
+  "product.notfound": "Nie znaleziono produktu {0}.",
+  "brand.notfound": "Nie znaleziono marki {0}.",
+  "brand.cannotbedeleted": "Nie można usunąć marki, ponieważ jest używana.",
+  "brand.alreadyexists": "Marka {0} już istnieje.",
+  "exceptionmiddleware.supportmessage": "Podaj ErrorId zespołowi pomocy technicznej do dalszej analizy."
+}
