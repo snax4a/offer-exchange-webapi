@@ -22,10 +22,7 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
                 .WithMessage((_, phone) => string.Format(localizer["Phone number {0} is already registered."], phone))
                 .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
 
-        RuleFor(p => p.FirstName).Cascade(CascadeMode.Stop)
-            .NotEmpty();
-
-        RuleFor(p => p.LastName).Cascade(CascadeMode.Stop)
+        RuleFor(p => p.CompanyName).Cascade(CascadeMode.Stop)
             .NotEmpty();
 
         RuleFor(p => p.Password).Cascade(CascadeMode.Stop)
