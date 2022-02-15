@@ -79,8 +79,7 @@ internal partial class UserService
             user = new ApplicationUser
             {
                 ObjectId = principal.GetObjectId(),
-                FirstName = principal.FindFirstValue(ClaimTypes.GivenName),
-                LastName = principal.FindFirstValue(ClaimTypes.Surname),
+                CompanyName = principal.FindFirstValue(FSHClaims.ComapnyName),
                 Email = email,
                 NormalizedEmail = email.ToUpperInvariant(),
                 UserName = username,
@@ -107,8 +106,7 @@ internal partial class UserService
         var user = new ApplicationUser
         {
             Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
+            CompanyName = request.CompanyName,
             UserName = request.UserName,
             PhoneNumber = request.PhoneNumber,
             IsActive = true
@@ -164,8 +162,7 @@ internal partial class UserService
             }
         }
 
-        user.FirstName = request.FirstName;
-        user.LastName = request.LastName;
+        user.CompanyName = request.CompanyName;
         user.PhoneNumber = request.PhoneNumber;
         string phoneNumber = await _userManager.GetPhoneNumberAsync(user);
         if (request.PhoneNumber != phoneNumber)
