@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "11220000-4800-acde-e32c-08d9f0ad0b37",
+    "Name": "Artykuły medyczne",
+    "Color": "TURQUOISE"
+  },
+  {
+    "Id": "11220000-4800-acde-2c28-08d9f0ad0b39",
+    "Name": "Elektronika",
+    "Color": "BLUE"
+  },
+  {
+    "Id": "11220000-4800-acde-2ce6-08d9f0ad0b39",
+    "Name": "Żywność",
+    "Color": "GREEN"
+  },
+  {
+    "Id": "11220000-4800-acde-7248-08d9f0ad2531",
+    "Name": "Artykuły budowlane",
+    "Color": "GREY"
+  }
+]
