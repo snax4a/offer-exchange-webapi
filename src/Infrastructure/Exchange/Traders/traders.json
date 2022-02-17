@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "11220000-4800-acde-1362-08d9f0ae1dfa",
+    "FirstName": "Piotr",
+    "LastName": "Brodowicz",
+    "Email": "piotr.b@example.com"
+  },
+  {
+    "Id": "11220000-4800-acde-718a-08d9f0ae1dfb",
+    "FirstName": "Agata",
+    "LastName": "Wiśniewska",
+    "Email": "agata.wisniewska@etrade.pl"
+  },
+  {
+    "Id": "11220000-4800-acde-7220-08d9f0ae1dfb",
+    "FirstName": "Grzegorz",
+    "LastName": "Biały",
+    "Email": "gb@etrade.pl"
+  },
+  {
+    "Id": "11220000-4800-acde-7234-08d9f0ae1dfb",
+    "FirstName": "Robert",
+    "LastName": "Drewniak",
+    "Email": "robert.drewniak@onet.pl"
+  }
+]
