@@ -3,11 +3,13 @@ namespace FSH.WebApi.Domain.Exchange;
 public class Group : AuditableEntity, IAggregateRoot
 {
     public string Name { get; private set; }
-    public ColorName Color { get; set; }
+    public ColorName Color { get; private set; }
     public ICollection<TraderGroup> TraderGroups { get; private set; } = new List<TraderGroup>();
 
     public Group(string name, ColorName color)
     {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+
         Name = name;
         Color = color;
     }

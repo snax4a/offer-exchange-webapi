@@ -3,6 +3,7 @@ using System;
 using FSH.WebApi.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Migrators.PostgreSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220217190215_AddedInquiryAndOfferEntities")]
+    partial class AddedInquiryAndOfferEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -315,6 +317,16 @@ namespace Migrators.PostgreSQL.Migrations.Application
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DeliveryCostDescription")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<decimal?>("DeliveryCostPrice")
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<int>("DeliveryCostType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Freebie")
                         .HasMaxLength(2000)
@@ -881,35 +893,6 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .WithMany("Offers")
                         .HasForeignKey("TraderId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("FSH.WebApi.Domain.Exchange.DeliveryCost", "DeliveryCost", b1 =>
-                        {
-                            b1.Property<Guid>("OfferId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Description")
-                                .HasMaxLength(2000)
-                                .HasColumnType("character varying(2000)")
-                                .HasColumnName("DeliveryCostDescription");
-
-                            b1.Property<decimal?>("GrossPrice")
-                                .HasColumnType("numeric(18,2)")
-                                .HasColumnName("DeliveryCostGrossPrice");
-
-                            b1.Property<int>("Type")
-                                .HasColumnType("integer")
-                                .HasColumnName("DeliveryCostType");
-
-                            b1.HasKey("OfferId");
-
-                            b1.ToTable("Offers", "Catalog");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OfferId");
-                        });
-
-                    b.Navigation("DeliveryCost")
                         .IsRequired();
 
                     b.Navigation("Inquiry");

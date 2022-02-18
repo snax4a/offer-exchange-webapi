@@ -1,6 +1,5 @@
 ﻿using Finbuckle.MultiTenant.EntityFrameworkCore;
 using FSH.WebApi.Domain.Catalog;
-using FSH.WebApi.Domain.Exchange;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
