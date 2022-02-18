@@ -20,6 +20,11 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Group> Groups => Set<Group>();
     public DbSet<Trader> Traders => Set<Trader>();
+    public DbSet<Inquiry> Inquiries => Set<Inquiry>();
+    public DbSet<InquiryProduct> InquiryProducts => Set<InquiryProduct>();
+    public DbSet<InquiryRecipient> InquiryRecipients => Set<InquiryRecipient>();
+    public DbSet<Offer> Offers => Set<Offer>();
+    public DbSet<OfferProduct> OfferProducts => Set<OfferProduct>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

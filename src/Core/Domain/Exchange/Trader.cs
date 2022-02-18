@@ -6,9 +6,15 @@ public class Trader : AuditableEntity, IAggregateRoot
     public string LastName { get; private set; }
     public string Email { get; private set; }
     public ICollection<TraderGroup> TraderGroups { get; private set; } = new List<TraderGroup>();
+    public ICollection<InquiryRecipient> InquiryRecipients { get; private set; } = new List<InquiryRecipient>();
+    public ICollection<Offer> Offers { get; private set; } = new List<Offer>();
 
     public Trader(string firstName, string lastName, string email)
     {
+        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentNullException(nameof(firstName));
+        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentNullException(nameof(lastName));
+        if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException(nameof(email));
+
         FirstName = firstName;
         LastName = lastName;
         Email = email;
