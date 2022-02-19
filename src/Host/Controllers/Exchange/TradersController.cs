@@ -19,4 +19,12 @@ public class TradersController : VersionedApiController
     {
         return Mediator.Send(new GetTraderRequest(id));
     }
+
+    [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.Traders)]
+    [OpenApiOperation("Create a new trader.", "")]
+    public Task<Guid> CreateAsync(CreateTraderRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }
