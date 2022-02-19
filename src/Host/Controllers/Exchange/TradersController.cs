@@ -37,4 +37,12 @@ public class TradersController : VersionedApiController
             ? BadRequest()
             : Ok(await Mediator.Send(request));
     }
+
+    [HttpDelete("{id:guid}")]
+    [MustHavePermission(FSHAction.Delete, FSHResource.Traders)]
+    [OpenApiOperation("Delete trader.", "")]
+    public Task<Guid> DeleteAsync(Guid id)
+    {
+        return Mediator.Send(new DeleteTraderRequest(id));
+    }
 }

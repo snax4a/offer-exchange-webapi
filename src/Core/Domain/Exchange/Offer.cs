@@ -2,6 +2,7 @@ namespace FSH.WebApi.Domain.Exchange;
 
 public class Offer : AuditableEntity, IAggregateRoot
 {
+    // TODO: Add relation to user
     public string CurrencyCode { get; private set; } = default!;
     public decimal NetValue { get; private set; }
     public decimal GrossValue { get; private set; }
