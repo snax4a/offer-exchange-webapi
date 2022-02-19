@@ -11,7 +11,7 @@ public class GroupConfig : IEntityTypeConfiguration<Group>
     {
         builder.IsMultiTenant();
         builder.Property(g => g.Name).HasMaxLength(32);
-        builder.HasIndex(g => new { g.Name, g.CreatedBy }).IsUnique(true);
+        builder.HasIndex(g => new { g.Name, g.CreatedBy });
     }
 }
 

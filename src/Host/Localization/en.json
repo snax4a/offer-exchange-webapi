@@ -12,5 +12,8 @@
   "identity.invalidtoken": "Invalid Token.",
   "entity.notfound": "{0} {1} Not Found.",
   "product.alreadyexists": "Product {0} already Exists.",
-  "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis."
+  "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis.",
+  "group.notfound": "Group {0} Not Found.",
+  "group.cannotbedeleted": "Group cannot be deleted as it's being used.",
+  "group.alreadyexists": "Group {0} already Exists."
 }
