@@ -11,4 +11,12 @@ public class TradersController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpGet("{id:guid}")]
+    [MustHavePermission(FSHAction.View, FSHResource.Traders)]
+    [OpenApiOperation("Get trader details.", "")]
+    public Task<TraderDto> GetAsync(Guid id)
+    {
+        return Mediator.Send(new GetTraderRequest(id));
+    }
 }
