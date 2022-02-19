@@ -17,5 +17,8 @@
   "brand.notfound": "Nie znaleziono marki {0}.",
   "brand.cannotbedeleted": "Nie można usunąć marki, ponieważ jest używana.",
   "brand.alreadyexists": "Marka {0} już istnieje.",
-  "exceptionmiddleware.supportmessage": "Podaj ErrorId zespołowi pomocy technicznej do dalszej analizy."
+  "exceptionmiddleware.supportmessage": "Podaj ErrorId zespołowi pomocy technicznej do dalszej analizy.",
+  "group.notfound": "Nie znaleziono grupy {0}.",
+  "group.cannotbedeleted": "Nie można usunąć grupy, ponieważ jest używana.",
+  "group.alreadyexists": "Grupa {0} już istnieje."
 }

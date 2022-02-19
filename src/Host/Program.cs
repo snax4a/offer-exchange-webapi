@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using FSH.WebApi.Application;
 using FSH.WebApi.Host.Configurations;
@@ -21,7 +22,14 @@ try
         .ReadFrom.Configuration(builder.Configuration);
     });
 
-    builder.Services.AddControllers().AddFluentValidation();
+    builder.Services
+        .AddControllers()
+        .AddJsonOptions(opt =>
+        {
+            opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        })
+        .AddFluentValidation();
+
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();
 
