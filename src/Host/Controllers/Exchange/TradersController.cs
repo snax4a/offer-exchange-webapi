@@ -27,4 +27,14 @@ public class TradersController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpPut("{id:guid}")]
+    [MustHavePermission(FSHAction.Update, FSHResource.Traders)]
+    [OpenApiOperation("Update trader.", "")]
+    public async Task<ActionResult<Guid>> UpdateAsync(UpdateTraderRequest request, Guid id)
+    {
+        return id != request.Id
+            ? BadRequest()
+            : Ok(await Mediator.Send(request));
+    }
 }
