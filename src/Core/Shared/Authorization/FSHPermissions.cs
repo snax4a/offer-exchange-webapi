@@ -27,6 +27,7 @@ public static class FSHResource
     public const string Products = nameof(Products);
     public const string Brands = nameof(Brands);
     public const string Groups = nameof(Groups);
+    public const string Traders = nameof(Traders);
 }
 
 public static class FSHPermissions
@@ -63,10 +64,15 @@ public static class FSHPermissions
         new("Generate Brands", FSHAction.Generate, FSHResource.Brands),
         new("Clean Brands", FSHAction.Clean, FSHResource.Brands),
         new("Search Groups", FSHAction.Search, FSHResource.Groups, IsBasic: true),
-        new("Search Groups", FSHAction.View, FSHResource.Groups, IsBasic: true),
+        new("View Groups", FSHAction.View, FSHResource.Groups, IsBasic: true),
         new("Create Groups", FSHAction.Create, FSHResource.Groups, IsBasic: true),
         new("Update Groups", FSHAction.Update, FSHResource.Groups, IsBasic: true),
         new("Delete Groups", FSHAction.Delete, FSHResource.Groups, IsBasic: true),
+        new("Search Traders", FSHAction.Search, FSHResource.Traders, IsBasic: true),
+        new("View Traders", FSHAction.View, FSHResource.Traders, IsBasic: true),
+        new("Create Traders", FSHAction.Create, FSHResource.Traders, IsBasic: true),
+        new("Update Traders", FSHAction.Update, FSHResource.Traders, IsBasic: true),
+        new("Delete Traders", FSHAction.Delete, FSHResource.Traders, IsBasic: true),
         new("View Tenants", FSHAction.View, FSHResource.Tenants, IsRoot: true),
         new("Create Tenants", FSHAction.Create, FSHResource.Tenants, IsRoot: true),
         new("Update Tenants", FSHAction.Update, FSHResource.Tenants, IsRoot: true),

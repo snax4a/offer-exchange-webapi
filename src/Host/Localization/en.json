@@ -1,5 +1,6 @@
 {
   "auth.failed": "Authentication Failed.",
+  "email.invalid": "Invalid Email Address.",
   "tenant.invalid": "Invalid Tenant.",
   "tenant.expired": "Tenant Validity Has Expired. Please contact the Application Administrator.",
   "tenant.inactive": "Tenant is not Active. Please contact the Application Administrator.",
@@ -15,5 +16,8 @@
   "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis.",
   "group.notfound": "Group {0} Not Found.",
   "group.cannotbedeleted": "Group cannot be deleted as it's being used.",
-  "group.alreadyexists": "Group {0} already Exists."
+  "group.alreadyexists": "Group {0} already Exists.",
+  "trader.notfound": "Trader {0} Not Found.",
+  "trader.cannotbedeleted": "Trader cannot be deleted as it's being used.",
+  "trader.alreadyexists": "Trader {0} already Exists."
 }
