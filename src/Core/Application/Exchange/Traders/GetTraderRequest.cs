@@ -7,12 +7,6 @@ public class GetTraderRequest : IRequest<TraderDto>
     public GetTraderRequest(Guid id) => Id = id;
 }
 
-public class TraderByIdSpec : Specification<Trader, TraderDto>, ISingleResultSpecification
-{
-    public TraderByIdSpec(Guid id, Guid userId) =>
-        Query.Where(t => t.Id == id && t.CreatedBy == userId);
-}
-
 public class GetTraderRequestHandler : IRequestHandler<GetTraderRequest, TraderDto>
 {
     private readonly ICurrentUser _currentUser;
@@ -23,7 +17,7 @@ public class GetTraderRequestHandler : IRequestHandler<GetTraderRequest, TraderD
 
     public async Task<TraderDto> Handle(GetTraderRequest request, CancellationToken cancellationToken)
     {
-        ISpecification<Trader, TraderDto> spec = new TraderByIdSpec(request.Id, _currentUser.GetUserId());
+        ISpecification<Trader, TraderDto> spec = new TraderDetailsSpec(request.Id, _currentUser.GetUserId());
         var trader = await _repository.GetBySpecAsync(spec, cancellationToken);
 
         if (trader is not null) return trader;

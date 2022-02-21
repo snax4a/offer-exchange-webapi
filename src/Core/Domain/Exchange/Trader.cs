@@ -38,10 +38,26 @@ public class Trader : AuditableEntity, IAggregateRoot
         return this;
     }
 
-    public Trader RemoveGroup(Group group)
+    public Trader AddGroup(Guid groupId)
     {
-        var traderGroup = TraderGroups.FirstOrDefault(x => x.TraderId == Id && x.GroupId == group.Id);
+        if (!TraderGroups.Any(x => x.GroupId == groupId))
+        {
+            TraderGroups.Add(new TraderGroup(Id, groupId));
+        }
+
+        return this;
+    }
+
+    public Trader RemoveGroup(Guid groupId)
+    {
+        var traderGroup = TraderGroups.FirstOrDefault(x => x.TraderId == Id && x.GroupId == groupId);
         if (traderGroup is not null) TraderGroups.Remove(traderGroup);
+        return this;
+    }
+
+    public Trader ClearGroups()
+    {
+        TraderGroups.Clear();
         return this;
     }
 }
