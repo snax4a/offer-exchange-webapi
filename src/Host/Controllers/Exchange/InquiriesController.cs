@@ -11,4 +11,12 @@ public class InquiriesController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpGet("{id:guid}")]
+    [MustHavePermission(FSHAction.View, FSHResource.Inquiries)]
+    [OpenApiOperation("Get inquiry details.", "")]
+    public Task<InquiryDetailsDto> GetAsync(Guid id)
+    {
+        return Mediator.Send(new GetInquiryRequest(id));
+    }
 }
