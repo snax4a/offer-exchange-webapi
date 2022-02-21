@@ -11,6 +11,6 @@ public class InquiryDetailsDto : IDto
     public DateTime CreatedOn { get; set; }
     public int RecipientCount { get; set; }
     public int OfferCount { get; set; }
-    public IList<InquiryProductDto> Products { get; set; } = default!;
+    public IList<InquiryProductDetailsDto> Products { get; set; } = default!;
     public IList<TraderDto> Recipients { get; set; } = default!;
 }

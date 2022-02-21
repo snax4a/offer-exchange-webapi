@@ -19,4 +19,12 @@ public class InquiriesController : VersionedApiController
     {
         return Mediator.Send(new GetInquiryRequest(id));
     }
+
+    [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.Inquiries)]
+    [OpenApiOperation("Create a new inquiry.", "")]
+    public Task<Guid> CreateAsync(CreateInquiryRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }

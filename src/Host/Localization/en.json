@@ -20,5 +20,7 @@
   "trader.notfound": "Trader {0} not Found.",
   "trader.cannotbedeleted": "Trader cannot be deleted as it's being used.",
   "trader.alreadyexists": "Trader {0} already Exists.",
-  "inquiry.notfound": "Inquiry {0} not Found."
+  "inquiry.notfound": "Inquiry {0} not Found.",
+  "inquiry.norecipients": "Inquiry must have at least one recipient.",
+  "inquiry.noproducts": "Inquiry must have at least one product."
 }

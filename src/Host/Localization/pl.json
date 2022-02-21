@@ -25,5 +25,7 @@
   "trader.notfound": "Nie znaleziono handlowca {0}.",
   "trader.cannotbedeleted": "Nie można usunąć handlowca, ponieważ jest używany.",
   "trader.alreadyexists": "Handlowiec {0} już istnieje.",
-  "inquiry.notfound": "Nie znaleziono zapytania {0}."
+  "inquiry.notfound": "Nie znaleziono zapytania {0}.",
+  "inquiry.norecipients": "Zapytanie musi mieć co najmniej jednego odbiorcę.",
+  "inquiry.noproducts": "Zapytanie musi mieć co najmniej jeden produkt."
 }

@@ -16,22 +16,29 @@ public class Inquiry : AuditableEntity, IAggregateRoot
     }
 
     public Inquiry(
+        Guid id,
         int referenceNumber,
         string name,
         string title,
-        List<InquiryProduct> products,
-        List<InquiryRecipient> inquiryRecipients)
+        IList<InquiryProduct> products,
+        IList<Guid> recipientIds)
     {
+        if (id == Guid.Empty) throw new ArgumentException("Cannot be empty Guid", nameof(id));
         if (referenceNumber <= 0) throw new ArgumentException("Must be a positive number", nameof(referenceNumber));
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         if (string.IsNullOrWhiteSpace(title)) throw new ArgumentNullException(nameof(title));
         if (products.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(products));
-        if (inquiryRecipients.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(inquiryRecipients));
+        if (recipientIds.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(recipientIds));
 
+        Id = id;
         ReferenceNumber = referenceNumber;
         Name = name;
         Title = title;
         Products = products;
-        InquiryRecipients = inquiryRecipients;
+
+        foreach (Guid traderId in recipientIds)
+        {
+            InquiryRecipients.Add(new InquiryRecipient(id, traderId));
+        }
     }
 }
