@@ -23,6 +23,9 @@
   "group.cannotbedeleted": "Nie można usunąć grupy, ponieważ jest używana.",
   "group.alreadyexists": "Grupa {0} już istnieje.",
   "trader.notfound": "Nie znaleziono handlowca {0}.",
-  "trader.cannotbedeleted": "Nie można usunąć handlowca, ponieważ jest używana.",
-  "trader.alreadyexists": "Handlowiec {0} już istnieje."
+  "trader.cannotbedeleted": "Nie można usunąć handlowca, ponieważ jest używany.",
+  "trader.alreadyexists": "Handlowiec {0} już istnieje.",
+  "inquiry.notfound": "Nie znaleziono zapytania {0}.",
+  "inquiry.norecipients": "Zapytanie musi mieć co najmniej jednego odbiorcę.",
+  "inquiry.noproducts": "Zapytanie musi mieć co najmniej jeden produkt."
 }

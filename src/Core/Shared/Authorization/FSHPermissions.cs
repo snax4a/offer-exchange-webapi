@@ -28,6 +28,7 @@ public static class FSHResource
     public const string Brands = nameof(Brands);
     public const string Groups = nameof(Groups);
     public const string Traders = nameof(Traders);
+    public const string Inquiries = nameof(Inquiries);
 }
 
 public static class FSHPermissions
@@ -73,6 +74,11 @@ public static class FSHPermissions
         new("Create Traders", FSHAction.Create, FSHResource.Traders, IsBasic: true),
         new("Update Traders", FSHAction.Update, FSHResource.Traders, IsBasic: true),
         new("Delete Traders", FSHAction.Delete, FSHResource.Traders, IsBasic: true),
+        new("Search Inquiries", FSHAction.Search, FSHResource.Inquiries, IsBasic: true),
+        new("View Inquiries", FSHAction.View, FSHResource.Inquiries, IsBasic: true),
+        new("Create Inquiries", FSHAction.Create, FSHResource.Inquiries, IsBasic: true),
+        new("Update Inquiries", FSHAction.Update, FSHResource.Inquiries, IsBasic: true),
+        new("Delete Inquiries", FSHAction.Delete, FSHResource.Inquiries, IsBasic: true),
         new("View Tenants", FSHAction.View, FSHResource.Tenants, IsRoot: true),
         new("Create Tenants", FSHAction.Create, FSHResource.Tenants, IsRoot: true),
         new("Update Tenants", FSHAction.Update, FSHResource.Tenants, IsRoot: true),

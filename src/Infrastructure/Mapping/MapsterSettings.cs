@@ -1,4 +1,5 @@
-﻿using FSH.WebApi.Application.Exchange.Traders;
+﻿using FSH.WebApi.Application.Exchange.Inquiries;
+using FSH.WebApi.Application.Exchange.Traders;
 using FSH.WebApi.Domain.Exchange;
 using Mapster;
 
@@ -14,7 +15,10 @@ public class MapsterSettings
         // This one is actually not necessary as it's mapped by convention
         // TypeAdapterConfig<Product, ProductDto>.NewConfig().Map(dest => dest.BrandName, src => src.Brand.Name);
 
-        TypeAdapterConfig<Trader, TraderDto>.NewConfig()
+        TypeAdapterConfig<Trader, TraderDetailsDto>.NewConfig()
             .Map(dest => dest.Groups, src => src.TraderGroups.Select(tg => tg.Group));
+
+        TypeAdapterConfig<Inquiry, InquiryDetailsDto>.NewConfig()
+            .Map(dest => dest.Recipients, src => src.InquiryRecipients.Select(ir => ir.Trader));
     }
 }

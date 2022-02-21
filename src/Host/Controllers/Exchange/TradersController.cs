@@ -7,7 +7,7 @@ public class TradersController : VersionedApiController
     [HttpPost("search")]
     [MustHavePermission(FSHAction.Search, FSHResource.Traders)]
     [OpenApiOperation("Search traders using available filters.", "")]
-    public Task<PaginationResponse<TraderDto>> SearchAsync(SearchTradersRequest request)
+    public Task<PaginationResponse<TraderDetailsDto>> SearchAsync(SearchTradersRequest request)
     {
         return Mediator.Send(request);
     }
@@ -15,7 +15,7 @@ public class TradersController : VersionedApiController
     [HttpGet("{id:guid}")]
     [MustHavePermission(FSHAction.View, FSHResource.Traders)]
     [OpenApiOperation("Get trader details.", "")]
-    public Task<TraderDto> GetAsync(Guid id)
+    public Task<TraderDetailsDto> GetAsync(Guid id)
     {
         return Mediator.Send(new GetTraderRequest(id));
     }

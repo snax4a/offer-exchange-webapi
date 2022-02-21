@@ -14,10 +14,13 @@
   "entity.notfound": "{0} {1} Not Found.",
   "product.alreadyexists": "Product {0} already Exists.",
   "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis.",
-  "group.notfound": "Group {0} Not Found.",
+  "group.notfound": "Group {0} not Found.",
   "group.cannotbedeleted": "Group cannot be deleted as it's being used.",
   "group.alreadyexists": "Group {0} already Exists.",
-  "trader.notfound": "Trader {0} Not Found.",
+  "trader.notfound": "Trader {0} not Found.",
   "trader.cannotbedeleted": "Trader cannot be deleted as it's being used.",
-  "trader.alreadyexists": "Trader {0} already Exists."
+  "trader.alreadyexists": "Trader {0} already Exists.",
+  "inquiry.notfound": "Inquiry {0} not Found.",
+  "inquiry.norecipients": "Inquiry must have at least one recipient.",
+  "inquiry.noproducts": "Inquiry must have at least one product."
 }

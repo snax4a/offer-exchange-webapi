@@ -1,10 +1,10 @@
 namespace FSH.WebApi.Application.Exchange.Traders;
 
-public class SearchTradersRequest : PaginationFilter, IRequest<PaginationResponse<TraderDto>>
+public class SearchTradersRequest : PaginationFilter, IRequest<PaginationResponse<TraderDetailsDto>>
 {
 }
 
-public class SearchTradersSpec : EntitiesByPaginationFilterSpec<Trader, TraderDto>
+public class SearchTradersSpec : EntitiesByPaginationFilterSpec<Trader, TraderDetailsDto>
 {
     public SearchTradersSpec(SearchTradersRequest request, Guid userId)
         : base(request) => Query
@@ -14,7 +14,7 @@ public class SearchTradersSpec : EntitiesByPaginationFilterSpec<Trader, TraderDt
             .OrderBy(t => new { t.FirstName, t.LastName }, !request.HasOrderBy());
 }
 
-public class SearchTradersRequestHandler : IRequestHandler<SearchTradersRequest, PaginationResponse<TraderDto>>
+public class SearchTradersRequestHandler : IRequestHandler<SearchTradersRequest, PaginationResponse<TraderDetailsDto>>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Trader> _repository;
@@ -22,13 +22,13 @@ public class SearchTradersRequestHandler : IRequestHandler<SearchTradersRequest,
     public SearchTradersRequestHandler(ICurrentUser currentUser, IReadRepository<Trader> repository) =>
         (_currentUser, _repository) = (currentUser, repository);
 
-    public async Task<PaginationResponse<TraderDto>> Handle(SearchTradersRequest request, CancellationToken cancellationToken)
+    public async Task<PaginationResponse<TraderDetailsDto>> Handle(SearchTradersRequest request, CancellationToken cancellationToken)
     {
         var spec = new SearchTradersSpec(request, _currentUser.GetUserId());
 
         var list = await _repository.ListAsync(spec, cancellationToken);
         int count = await _repository.CountAsync(spec, cancellationToken);
 
-        return new PaginationResponse<TraderDto>(list, count, request.PageNumber, request.PageSize);
+        return new PaginationResponse<TraderDetailsDto>(list, count, request.PageNumber, request.PageSize);
     }
 }
