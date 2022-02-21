@@ -119,6 +119,7 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
         builder.Property(o => o.CurrencyCode).HasMaxLength(3);
         builder.Property(o => o.NetValue).HasColumnType("decimal(18,2)");
         builder.Property(o => o.GrossValue).HasColumnType("decimal(18,2)");
+        builder.Property(o => o.ExpirationDate).IsRequired(false);
         builder.Property(o => o.Freebie).HasMaxLength(2000).IsRequired(false);
 
         // Configure DeliveryCost value object as owned entity

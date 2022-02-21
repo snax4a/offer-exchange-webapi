@@ -6,6 +6,7 @@ public class Offer : AuditableEntity, IAggregateRoot
     public string CurrencyCode { get; private set; } = default!;
     public decimal NetValue { get; private set; }
     public decimal GrossValue { get; private set; }
+    public DateTime? ExpirationDate { get; private set; }
     public DeliveryCost DeliveryCost { get; private set; } = default!;
     public string? Freebie { get; private set; }
     public bool HasFreebies { get; private set; }
