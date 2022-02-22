@@ -1,8 +1,7 @@
 namespace FSH.WebApi.Domain.Exchange;
 
-public class Offer : AuditableEntity, IAggregateRoot
+public class Offer : BaseEntity, IAggregateRoot
 {
-    // TODO: Add relation to user
     public string CurrencyCode { get; private set; } = default!;
     public decimal NetValue { get; private set; }
     public decimal GrossValue { get; private set; }
@@ -11,6 +10,7 @@ public class Offer : AuditableEntity, IAggregateRoot
     public string? Freebie { get; private set; }
     public bool HasFreebies { get; private set; }
     public bool HasReplacements { get; private set; }
+    public Guid UserId { get; private set; }
     public Guid InquiryId { get; private set; }
     public virtual Inquiry Inquiry { get; private set; } = default!;
     public Guid TraderId { get; private set; }
