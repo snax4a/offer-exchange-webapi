@@ -16,8 +16,13 @@ public class DeleteTraderRequestHandler : IRequestHandler<DeleteTraderRequest, G
     private readonly IReadRepository<Offer> _offerRepo;
     private readonly IStringLocalizer<DeleteTraderRequestHandler> _localizer;
 
-    public DeleteTraderRequestHandler(IRepositoryWithEvents<Trader> traderRepo, IReadRepository<Offer> offerRepo, IStringLocalizer<DeleteTraderRequestHandler> localizer) =>
+    public DeleteTraderRequestHandler(
+        IRepositoryWithEvents<Trader> traderRepo,
+        IReadRepository<Offer> offerRepo,
+        IStringLocalizer<DeleteTraderRequestHandler> localizer)
+    {
         (_traderRepo, _offerRepo, _localizer) = (traderRepo, offerRepo, localizer);
+    }
 
     public async Task<Guid> Handle(DeleteTraderRequest request, CancellationToken cancellationToken)
     {

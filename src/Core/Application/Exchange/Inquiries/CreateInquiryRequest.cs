@@ -1,11 +1,7 @@
+using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 using MassTransit;
 
 namespace FSH.WebApi.Application.Exchange.Inquiries;
-
-public class UserInquiriesSpec : Specification<Inquiry>, ISingleResultSpecification
-{
-    public UserInquiriesSpec(Guid userId) => Query.Where(i => i.CreatedBy == userId);
-}
 
 public class CreateInquiryRequest : IRequest<Guid>
 {
@@ -51,8 +47,10 @@ public class CreateInquiryRequestHandler : IRequestHandler<CreateInquiryRequest,
     // Add Domain Events automatically by using IRepositoryWithEvents
     private readonly IRepositoryWithEvents<Inquiry> _repository;
 
-    public CreateInquiryRequestHandler(ICurrentUser currentUser, IRepositoryWithEvents<Inquiry> repository) =>
+    public CreateInquiryRequestHandler(ICurrentUser currentUser, IRepositoryWithEvents<Inquiry> repository)
+    {
         (_currentUser, _repository) = (currentUser, repository);
+    }
 
     public async Task<Guid> Handle(CreateInquiryRequest request, CancellationToken cancellationToken)
     {

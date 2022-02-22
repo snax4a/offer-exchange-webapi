@@ -1,4 +1,6 @@
-﻿namespace FSH.WebApi.Application.Exchange.Traders;
+﻿using FSH.WebApi.Application.Exchange.Traders.Specifications;
+
+namespace FSH.WebApi.Application.Exchange.Traders;
 
 public class GetTraderRequest : IRequest<TraderDetailsDto>
 {
@@ -13,7 +15,13 @@ public class GetTraderRequestHandler : IRequestHandler<GetTraderRequest, TraderD
     private readonly IRepository<Trader> _repository;
     private readonly IStringLocalizer<GetTraderRequestHandler> _localizer;
 
-    public GetTraderRequestHandler(ICurrentUser currentUser, IRepository<Trader> repository, IStringLocalizer<GetTraderRequestHandler> localizer) => (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    public GetTraderRequestHandler(
+        ICurrentUser currentUser,
+        IRepository<Trader> repository,
+        IStringLocalizer<GetTraderRequestHandler> localizer)
+    {
+        (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    }
 
     public async Task<TraderDetailsDto> Handle(GetTraderRequest request, CancellationToken cancellationToken)
     {

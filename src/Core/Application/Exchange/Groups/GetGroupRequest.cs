@@ -1,4 +1,6 @@
-﻿namespace FSH.WebApi.Application.Exchange.Groups;
+﻿using FSH.WebApi.Application.Exchange.Groups.Specifications;
+
+namespace FSH.WebApi.Application.Exchange.Groups;
 
 public class GetGroupRequest : IRequest<GroupDto>
 {
@@ -7,19 +9,19 @@ public class GetGroupRequest : IRequest<GroupDto>
     public GetGroupRequest(Guid id) => Id = id;
 }
 
-public class GroupByIdSpec : Specification<Group, GroupDto>, ISingleResultSpecification
-{
-    public GroupByIdSpec(Guid id, Guid userId) =>
-        Query.Where(g => g.Id == id && g.CreatedBy == userId);
-}
-
 public class GetGroupRequestHandler : IRequestHandler<GetGroupRequest, GroupDto>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IRepository<Group> _repository;
     private readonly IStringLocalizer<GetGroupRequestHandler> _localizer;
 
-    public GetGroupRequestHandler(ICurrentUser currentUser, IRepository<Group> repository, IStringLocalizer<GetGroupRequestHandler> localizer) => (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    public GetGroupRequestHandler(
+        ICurrentUser currentUser,
+        IRepository<Group> repository,
+        IStringLocalizer<GetGroupRequestHandler> localizer)
+    {
+        (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    }
 
     public async Task<GroupDto> Handle(GetGroupRequest request, CancellationToken cancellationToken)
     {

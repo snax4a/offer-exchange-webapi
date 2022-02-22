@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Traders.Specifications;
+
 namespace FSH.WebApi.Application.Exchange.Traders;
 
 public class UpdateTraderRequest : IRequest<Guid>
@@ -43,8 +45,13 @@ public class UpdateTraderRequestHandler : IRequestHandler<UpdateTraderRequest, G
     private readonly IRepositoryWithEvents<Trader> _repository;
     private readonly IStringLocalizer<UpdateTraderRequestHandler> _localizer;
 
-    public UpdateTraderRequestHandler(ICurrentUser currentUser, IRepositoryWithEvents<Trader> repository, IStringLocalizer<UpdateTraderRequestHandler> localizer) =>
+    public UpdateTraderRequestHandler(
+        ICurrentUser currentUser,
+        IRepositoryWithEvents<Trader> repository,
+        IStringLocalizer<UpdateTraderRequestHandler> localizer)
+    {
         (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    }
 
     public async Task<Guid> Handle(UpdateTraderRequest request, CancellationToken cancellationToken)
     {

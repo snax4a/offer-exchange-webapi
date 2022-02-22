@@ -1,4 +1,4 @@
-﻿using FSH.WebApi.Application.Exchange.Traders;
+﻿using FSH.WebApi.Application.Exchange.Traders.Specifications;
 
 namespace FSH.WebApi.Application.Exchange.Groups;
 
@@ -16,8 +16,13 @@ public class DeleteGroupRequestHandler : IRequestHandler<DeleteGroupRequest, Gui
     private readonly IReadRepository<Trader> _traderRepo;
     private readonly IStringLocalizer<DeleteGroupRequestHandler> _localizer;
 
-    public DeleteGroupRequestHandler(IRepositoryWithEvents<Group> groupRepo, IReadRepository<Trader> traderRepo, IStringLocalizer<DeleteGroupRequestHandler> localizer) =>
+    public DeleteGroupRequestHandler(
+        IRepositoryWithEvents<Group> groupRepo,
+        IReadRepository<Trader> traderRepo,
+        IStringLocalizer<DeleteGroupRequestHandler> localizer)
+    {
         (_groupRepo, _traderRepo, _localizer) = (groupRepo, traderRepo, localizer);
+    }
 
     public async Task<Guid> Handle(DeleteGroupRequest request, CancellationToken cancellationToken)
     {

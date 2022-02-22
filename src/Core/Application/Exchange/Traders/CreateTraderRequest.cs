@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Traders.Specifications;
+
 namespace FSH.WebApi.Application.Exchange.Traders;
 
 public class CreateTraderRequest : IRequest<Guid>
