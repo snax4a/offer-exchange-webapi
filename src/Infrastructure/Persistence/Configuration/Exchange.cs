@@ -86,7 +86,8 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
     {
         builder.IsMultiTenant();
         builder.Property(op => op.CurrencyCode).HasMaxLength(3);
-        builder.Property(op => op.NetPrice).HasColumnType("decimal(3,2)");
+        builder.Property(op => op.VatRate).HasColumnType("decimal(3,2)");
+        builder.Property(op => op.NetPrice).HasColumnType("decimal(18,2)");
         builder.Property(op => op.ReplacementName).IsRequired(false).HasMaxLength(100);
         builder.Property(op => op.Freebie).HasMaxLength(2000).IsRequired(false);
 

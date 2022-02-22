@@ -1,6 +1,6 @@
 namespace FSH.WebApi.Domain.Exchange;
 
-public class OfferProduct : AuditableEntity, IAggregateRoot
+public class OfferProduct : BaseEntity, IAggregateRoot
 {
     public string CurrencyCode { get; private set; }
     public decimal VatRate { get; private set; }

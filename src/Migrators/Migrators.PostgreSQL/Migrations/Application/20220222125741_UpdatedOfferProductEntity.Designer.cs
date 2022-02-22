@@ -3,6 +3,7 @@ using System;
 using FSH.WebApi.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Migrators.PostgreSQL.Migrations.Application
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220222125741_UpdatedOfferProductEntity")]
+    partial class UpdatedOfferProductEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,7 +379,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("boolean");
 
                     b.Property<decimal>("NetPrice")
-                        .HasColumnType("numeric(18,2)");
+                        .HasColumnType("numeric(3,2)");
 
                     b.Property<Guid>("OfferId")
                         .HasColumnType("uuid");
@@ -392,7 +394,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("character varying(64)");
 
                     b.Property<decimal>("VatRate")
-                        .HasColumnType("numeric(3,2)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 

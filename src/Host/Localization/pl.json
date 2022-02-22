@@ -27,5 +27,6 @@
   "trader.alreadyexists": "Handlowiec {0} już istnieje.",
   "inquiry.notfound": "Nie znaleziono zapytania {0}.",
   "inquiry.norecipients": "Zapytanie musi mieć co najmniej jednego odbiorcę.",
-  "inquiry.noproducts": "Zapytanie musi mieć co najmniej jeden produkt."
+  "inquiry.noproducts": "Zapytanie musi mieć co najmniej jeden produkt.",
+  "offer.notfound": "Nie znaleziono oferty {0}."
 }
