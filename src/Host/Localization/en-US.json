@@ -28,5 +28,7 @@
   "inquiry.notfound": "Inquiry {0} not found.",
   "inquiry.norecipients": "Inquiry must have at least one recipient.",
   "inquiry.noproducts": "Inquiry must have at least one product.",
-  "offer.notfound": "Offer {0} not found."
+  "offer.notfound": "Offer {0} not found.",
+  "offer.noproducts": "Offer must have at least one product.",
+  "offer.invalidtoken": "Offer token is invalid"
 }

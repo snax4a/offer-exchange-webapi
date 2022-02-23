@@ -1,18 +1,12 @@
-﻿namespace FSH.WebApi.Application.Exchange.Offers;
+﻿using FSH.WebApi.Application.Exchange.Offers.Specifications;
+
+namespace FSH.WebApi.Application.Exchange.Offers;
 
 public class GetOfferRequest : IRequest<OfferDetailsDto>
 {
     public Guid Id { get; set; }
 
     public GetOfferRequest(Guid id) => Id = id;
-}
-
-public class OfferDetailsSpec : Specification<Offer, OfferDetailsDto>, ISingleResultSpecification
-{
-    public OfferDetailsSpec(Guid id, Guid userId) =>
-        Query
-            .Where(o => o.Id == id && o.UserId == userId)
-            .Include(o => o.OfferProducts);
 }
 
 public class GetOfferRequestHandler : IRequestHandler<GetOfferRequest, OfferDetailsDto>

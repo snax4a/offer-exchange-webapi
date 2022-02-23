@@ -19,4 +19,12 @@ public class OffersController : VersionedApiController
     {
         return Mediator.Send(new GetOfferRequest(id));
     }
+
+    [HttpPost]
+    [AllowAnonymous]
+    [OpenApiOperation("Create a new offer.", "")]
+    public Task<Guid> CreateAsync(CreateOfferRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }

@@ -1,4 +1,4 @@
-﻿using FSH.WebApi.Application.Exchange.Offers;
+﻿using FSH.WebApi.Application.Exchange.Offers.Specifications;
 
 namespace FSH.WebApi.Application.Exchange.Traders;
 

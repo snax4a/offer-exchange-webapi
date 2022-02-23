@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Groups.Specifications;
+
 namespace FSH.WebApi.Application.Exchange.Groups;
 
 public class CreateGroupRequest : IRequest<Guid>

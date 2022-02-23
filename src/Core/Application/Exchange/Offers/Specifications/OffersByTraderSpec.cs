@@ -1,4 +1,4 @@
-﻿namespace FSH.WebApi.Application.Exchange.Offers;
+﻿namespace FSH.WebApi.Application.Exchange.Offers.Specifications;
 
 public class OffersByTraderSpec : Specification<Offer>
 {
