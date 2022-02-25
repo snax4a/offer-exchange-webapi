@@ -46,13 +46,14 @@ public class CreateInquiryRequestHandler : IRequestHandler<CreateInquiryRequest,
 
     // Add Domain Events automatically by using IRepositoryWithEvents
     private readonly IRepositoryWithEvents<Inquiry> _repository;
+    private readonly IJobService _jobService;
 
-    public CreateInquiryRequestHandler(ICurrentUser currentUser, IRepositoryWithEvents<Inquiry> repository)
+    public CreateInquiryRequestHandler(ICurrentUser currentUser, IRepositoryWithEvents<Inquiry> repository, IJobService jobService)
     {
-        (_currentUser, _repository) = (currentUser, repository);
+        (_currentUser, _repository, _jobService) = (currentUser, repository, jobService);
     }
 
-    public async Task<Guid> Handle(CreateInquiryRequest request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateInquiryRequest request, CancellationToken ct)
     {
         Guid inquiryId = NewId.Next().ToGuid();
         List<InquiryProduct> products = new();
@@ -63,10 +64,15 @@ public class CreateInquiryRequestHandler : IRequestHandler<CreateInquiryRequest,
         }
 
         var spec = new UserInquiriesSpec(_currentUser.GetUserId());
-        int referenceNumber = await _repository.CountAsync(spec, cancellationToken);
+        int referenceNumber = await _repository.CountAsync(spec, ct);
         var inquiry = new Inquiry(inquiryId, referenceNumber + 1, request.Name, request.Title, products, request.RecipientIds);
 
-        await _repository.AddAsync(inquiry, cancellationToken);
+        await _repository.AddAsync(inquiry, ct);
+
+        foreach (Guid traderId in request.RecipientIds)
+        {
+            _jobService.Enqueue<IInquirySenderJob>(x => x.SendAsync(inquiry.Id, traderId, CancellationToken.None));
+        }
 
         return inquiry.Id;
     }

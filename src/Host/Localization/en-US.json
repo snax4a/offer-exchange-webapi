@@ -30,5 +30,16 @@
   "inquiry.noproducts": "Inquiry must have at least one product.",
   "offer.notfound": "Offer {0} not found.",
   "offer.noproducts": "Offer must have at least one product.",
-  "offer.invalidtoken": "Offer token is invalid"
+  "offer.invalidtoken": "Offer token is invalid",
+  "inquirymail.subject": "New request for quotation from - {0}",
+  "inquirymail.greeting-text": "Welcome {0}!",
+  "inquirymail.main-text-1": "{0} {1} from company {2} sends you an inquiry via the platform OfferExchange.net",
+  "inquirymail.main-text-2": "If you have any questions, please contact the sender by e-mail: {0}",
+  "inquirymail.main-text-3": "Click the button below to go to the offer form.",
+  "inquirymail.offer-button-text": "Make an offer",
+  "inquirymail.copy-link-description": "If the button does not work, please copy and paste the link below into your browser",
+  "inquirymail.regards-text": "Regards,",
+  "inquirymail.team-text": "Offer Exchange team",
+  "inquirymail.read-more-description": "Do you want to know what Offer Exchange is?",
+  "inquirymail.read-more-link-text": "Read here"
 }
