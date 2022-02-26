@@ -97,17 +97,17 @@ public class InquirySenderJob : IInquirySenderJob
     {
         return new InquiryEmailModel()
         {
-            GreetingText = string.Format(_localizer["inquirymail.greeting-text"], trader.FirstName),
-            MainText1 = string.Format(_localizer["inquirymail.main-text-1"], "<b>Szymon", "Sus</b>", $"<b>{user.CompanyName}</b>"),
+            GreetingText = string.Format(_localizer["mail.greeting-text"], trader.FirstName),
+            MainText1 = string.Format(_localizer["inquirymail.main-text-1"], $"<b>{user.FirstName}", $"{user.LastName}</b>", $"<b>{user.CompanyName}</b>"),
             MainText2 = string.Format(_localizer["inquirymail.main-text-2"], $"<b>{user.Email}</b>"),
             MainText3 = _localizer["inquirymail.main-text-3"],
             OfferFormUrl = GetOfferFormUri(inquiryId, trader.Id),
             OfferFormButtonText = _localizer["inquirymail.offer-button-text"],
-            CopyLinkDescription = _localizer["inquirymail.copy-link-description"],
-            RegardsText = _localizer["inquirymail.regards-text"],
-            TeamText = _localizer["inquirymail.team-text"],
-            ReadMoreDescription = _localizer["inquirymail.read-more-description"],
-            ReadMoreLinkText = _localizer["inquirymail.read-more-link-text"]
+            CopyLinkDescription = _localizer["mail.copy-link-description"],
+            RegardsText = _localizer["mail.regards-text"],
+            TeamText = _localizer["mail.team-text"],
+            ReadMoreDescription = _localizer["mail.read-more-description"],
+            ReadMoreLinkText = _localizer["mail.read-more-link-text"]
         };
     }
 }
