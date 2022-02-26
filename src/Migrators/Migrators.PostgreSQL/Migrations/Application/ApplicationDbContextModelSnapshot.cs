@@ -301,21 +301,12 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("CurrencyCode")
                         .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("character varying(3)");
 
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedOn")
+                    b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Freebie")
@@ -334,12 +325,6 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<Guid>("InquiryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("LastModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<decimal>("NetValue")
                         .HasColumnType("numeric(18,2)");
 
@@ -351,11 +336,16 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<Guid>("TraderId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("InquiryId");
 
                     b.HasIndex("TraderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Offers", "Catalog");
 
@@ -368,22 +358,10 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("CurrencyCode")
                         .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("character varying(3)");
-
-                    b.Property<Guid?>("DeletedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("timestamp without time zone");
@@ -398,17 +376,14 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<bool>("IsReplacement")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("LastModifiedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<decimal>("NetPrice")
-                        .HasColumnType("numeric(3,2)");
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<Guid>("OfferId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ReplacementName")
                         .HasMaxLength(100)
@@ -419,8 +394,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<decimal>("VatRate")
-                        .HasColumnType("numeric");
+                    b.Property<decimal?>("VatRate")
+                        .HasColumnType("numeric(3,2)");
 
                     b.HasKey("Id");
 

@@ -1,4 +1,4 @@
-﻿namespace FSH.WebApi.Application.Exchange.Groups;
+﻿namespace FSH.WebApi.Application.Exchange.Groups.Specifications;
 
 public class GroupByNameAndOwnerSpec : Specification<Group>, ISingleResultSpecification
 {

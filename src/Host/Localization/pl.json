@@ -27,5 +27,19 @@
   "trader.alreadyexists": "Handlowiec {0} już istnieje.",
   "inquiry.notfound": "Nie znaleziono zapytania {0}.",
   "inquiry.norecipients": "Zapytanie musi mieć co najmniej jednego odbiorcę.",
-  "inquiry.noproducts": "Zapytanie musi mieć co najmniej jeden produkt."
+  "inquiry.noproducts": "Zapytanie musi mieć co najmniej jeden produkt.",
+  "offer.notfound": "Nie znaleziono oferty {0}.",
+  "offer.noproducts": "Oferta musi mieć co najmniej jeden produkt.",
+  "offer.invalidtoken": "Token oferty jest nieprawidłowy.",
+  "inquirymail.subject": "Nowe zapytanie ofertowe od - {0}",
+  "inquirymail.greeting-text": "Cześć {0}!",
+  "inquirymail.main-text-1": "{0} {1} z firmy {2} przesyła do Ciebie zapytanie ofertowe za pośrednictwem platformy OfferExchange.net",
+  "inquirymail.main-text-2": "Jeśli masz jakieś pytania skontaktuj się mailowo z nadawcą: {0}",
+  "inquirymail.main-text-3": "Kliknij przycisk poniżej aby przejść do formularza ofertowego.",
+  "inquirymail.offer-button-text": "Złóż ofertę",
+  "inquirymail.copy-link-description": "Jeśli przycisk nie działa, skopiuj i wklej poniższy link w swojej przeglądarce",
+  "inquirymail.regards-text": "Pozdrawiamy,",
+  "inquirymail.team-text": "Zespół Offer Exchange",
+  "inquirymail.read-more-description": "Chcesz dowiedzieć się czym jest Offer Exchange?",
+  "inquirymail.read-more-link-text": "Czytaj tutaj"
 }

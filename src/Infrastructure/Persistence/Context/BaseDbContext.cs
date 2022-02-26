@@ -8,6 +8,7 @@ using FSH.WebApi.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace FSH.WebApi.Infrastructure.Persistence.Context;

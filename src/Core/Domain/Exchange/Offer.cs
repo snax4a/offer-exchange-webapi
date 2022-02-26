@@ -1,15 +1,16 @@
 namespace FSH.WebApi.Domain.Exchange;
 
-public class Offer : AuditableEntity, IAggregateRoot
+public class Offer : BaseEntity, IAggregateRoot
 {
-    // TODO: Add relation to user
     public string CurrencyCode { get; private set; } = default!;
     public decimal NetValue { get; private set; }
     public decimal GrossValue { get; private set; }
+    public DateTime? ExpirationDate { get; private set; }
     public DeliveryCost DeliveryCost { get; private set; } = default!;
     public string? Freebie { get; private set; }
     public bool HasFreebies { get; private set; }
     public bool HasReplacements { get; private set; }
+    public Guid UserId { get; private set; }
     public Guid InquiryId { get; private set; }
     public virtual Inquiry Inquiry { get; private set; } = default!;
     public Guid TraderId { get; private set; }
@@ -21,20 +22,26 @@ public class Offer : AuditableEntity, IAggregateRoot
     }
 
     public Offer(
+        Guid id,
         Guid inquiryId,
         Guid traderId,
+        Guid userId,
         string currencyCode,
         DeliveryCost deliveryCost,
         string? offerFreebie,
-        List<OfferProduct> offerProducts)
+        IList<OfferProduct> offerProducts)
     {
+        if (id == Guid.Empty) throw new ArgumentException("Cannot be empty Guid", nameof(id));
         if (inquiryId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(inquiryId));
         if (traderId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(traderId));
+        if (userId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(userId));
         if (string.IsNullOrWhiteSpace(currencyCode)) throw new ArgumentException("Must be valid ISO 4217", nameof(currencyCode));
         if (offerProducts.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(offerProducts));
 
+        Id = id;
         InquiryId = inquiryId;
         TraderId = traderId;
+        UserId = userId;
         CurrencyCode = currencyCode;
         NetValue = offerProducts.Sum(op => op.NetValue);
         GrossValue = offerProducts.Sum(op => op.GrossValue);

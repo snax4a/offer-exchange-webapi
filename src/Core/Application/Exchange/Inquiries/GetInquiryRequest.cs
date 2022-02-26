@@ -1,4 +1,6 @@
-﻿namespace FSH.WebApi.Application.Exchange.Inquiries;
+﻿using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
+
+namespace FSH.WebApi.Application.Exchange.Inquiries;
 
 public class GetInquiryRequest : IRequest<InquiryDetailsDto>
 {
@@ -7,22 +9,19 @@ public class GetInquiryRequest : IRequest<InquiryDetailsDto>
     public GetInquiryRequest(Guid id) => Id = id;
 }
 
-public class InquiryDetailsSpec : Specification<Inquiry, InquiryDetailsDto>, ISingleResultSpecification
-{
-    public InquiryDetailsSpec(Guid id, Guid userId) =>
-        Query
-            .Where(i => i.Id == id && i.CreatedBy == userId)
-            .Include(i => i.Products)
-            .Include(i => i.InquiryRecipients);
-}
-
 public class GetInquiryRequestHandler : IRequestHandler<GetInquiryRequest, InquiryDetailsDto>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IRepository<Inquiry> _repository;
     private readonly IStringLocalizer<GetInquiryRequestHandler> _localizer;
 
-    public GetInquiryRequestHandler(ICurrentUser currentUser, IRepository<Inquiry> repository, IStringLocalizer<GetInquiryRequestHandler> localizer) => (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    public GetInquiryRequestHandler(
+        ICurrentUser currentUser,
+        IRepository<Inquiry> repository,
+        IStringLocalizer<GetInquiryRequestHandler> localizer)
+    {
+        (_currentUser, _repository, _localizer) = (currentUser, repository, localizer);
+    }
 
     public async Task<InquiryDetailsDto> Handle(GetInquiryRequest request, CancellationToken cancellationToken)
     {

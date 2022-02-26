@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FSH.WebApi.Infrastructure.Persistence.Configuration;
 
+// TODO: add indexes on CreatedBy column
+
 public class GroupConfig : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
@@ -84,7 +86,9 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
     {
         builder.IsMultiTenant();
         builder.Property(op => op.CurrencyCode).HasMaxLength(3);
-        builder.Property(op => op.NetPrice).HasColumnType("decimal(3,2)");
+        builder.Property(op => op.VatRate).HasColumnType("decimal(3,2)").IsRequired(false);
+        builder.Property(op => op.Quantity).IsRequired(true);
+        builder.Property(op => op.NetPrice).HasColumnType("decimal(18,2)");
         builder.Property(op => op.ReplacementName).IsRequired(false).HasMaxLength(100);
         builder.Property(op => op.Freebie).HasMaxLength(2000).IsRequired(false);
 
@@ -119,7 +123,10 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
         builder.Property(o => o.CurrencyCode).HasMaxLength(3);
         builder.Property(o => o.NetValue).HasColumnType("decimal(18,2)");
         builder.Property(o => o.GrossValue).HasColumnType("decimal(18,2)");
+        builder.Property(o => o.ExpirationDate).IsRequired(false);
         builder.Property(o => o.Freebie).HasMaxLength(2000).IsRequired(false);
+
+        builder.HasIndex(o => o.UserId).IsUnique(false);
 
         // Configure DeliveryCost value object as owned entity
         builder.OwnsOne(o => o.DeliveryCost, deliveryCostBuilder =>
