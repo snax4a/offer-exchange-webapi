@@ -17,10 +17,6 @@ public class SearchOffersRequestHandler : IRequestHandler<SearchOffersRequest, P
     public async Task<PaginationResponse<OfferDto>> Handle(SearchOffersRequest request, CancellationToken cancellationToken)
     {
         var spec = new SearchOffersSpec(request, _currentUser.GetUserId());
-
-        var list = await _repository.ListAsync(spec, cancellationToken);
-        int count = await _repository.CountAsync(spec, cancellationToken);
-
-        return new PaginationResponse<OfferDto>(list, count, request.PageNumber, request.PageSize);
+        return await _repository.PaginatedListAsync(spec, request.PageNumber, request.PageSize, cancellationToken);
     }
 }
