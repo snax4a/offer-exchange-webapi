@@ -121,11 +121,15 @@ internal class TokenService : ITokenService
         {
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email),
-            new(FSHClaims.ComapnyName, user.CompanyName ?? string.Empty),
+            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.GivenName, user.FirstName),
+            new(ClaimTypes.Surname, user.LastName),
+            new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty),
+            new(FSHClaims.FullName, $"{user.FirstName} {user.LastName}"),
+            new(FSHClaims.ComapnyName, user.CompanyName),
             new(FSHClaims.IpAddress, ipAddress),
             new(FSHClaims.Tenant, _currentTenant!.Id),
-            new(FSHClaims.ImageUrl, user.ImageUrl ?? string.Empty),
-            new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
+            new(FSHClaims.ImageUrl, user.ImageUrl ?? string.Empty)
         };
 
     private string GenerateRefreshToken()

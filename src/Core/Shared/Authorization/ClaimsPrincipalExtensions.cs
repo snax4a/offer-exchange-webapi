@@ -10,8 +10,17 @@ public static class ClaimsPrincipalExtensions
     public static string? GetTenant(this ClaimsPrincipal principal)
         => principal.FindFirstValue(FSHClaims.Tenant);
 
+    public static string? GetUserName(this ClaimsPrincipal principal)
+        => principal?.FindFirst(ClaimTypes.Name)?.Value;
+
+    public static string? GetFirstName(this ClaimsPrincipal principal)
+        => principal?.FindFirst(ClaimTypes.GivenName)?.Value;
+
+    public static string? GetSurname(this ClaimsPrincipal principal)
+        => principal?.FindFirst(ClaimTypes.Surname)?.Value;
+
     public static string? GetCompanyName(this ClaimsPrincipal principal)
-        => principal?.FindFirst(FSHClaims.ComapnyName)?.Value;
+        => principal.FindFirstValue(FSHClaims.ComapnyName);
 
     public static string? GetPhoneNumber(this ClaimsPrincipal principal)
         => principal.FindFirstValue(ClaimTypes.MobilePhone);

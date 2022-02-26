@@ -4,6 +4,12 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
 {
     public CreateUserRequestValidator(IUserService userService, IStringLocalizer<CreateUserRequestValidator> localizer)
     {
+        RuleFor(u => u.FirstName).Cascade(CascadeMode.Stop).NotEmpty().MinimumLength(3).MaximumLength(60);
+        RuleFor(u => u.LastName).Cascade(CascadeMode.Stop).NotEmpty().MinimumLength(3).MaximumLength(60);
+        RuleFor(u => u.CompanyName).Cascade(CascadeMode.Stop).NotEmpty().MinimumLength(3).MaximumLength(100);
+        RuleFor(u => u.Password).Cascade(CascadeMode.Stop).NotEmpty().MinimumLength(6);
+        RuleFor(u => u.ConfirmPassword).Cascade(CascadeMode.Stop).NotEmpty().Equal(u => u.Password);
+
         RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()
@@ -21,16 +27,5 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
             .MustAsync(async (phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!))
                 .WithMessage((_, phone) => string.Format(localizer["Phone number {0} is already registered."], phone))
                 .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
-
-        RuleFor(p => p.CompanyName).Cascade(CascadeMode.Stop)
-            .NotEmpty();
-
-        RuleFor(p => p.Password).Cascade(CascadeMode.Stop)
-            .NotEmpty()
-            .MinimumLength(6);
-
-        RuleFor(p => p.ConfirmPassword).Cascade(CascadeMode.Stop)
-            .NotEmpty()
-            .Equal(p => p.Password);
     }
 }

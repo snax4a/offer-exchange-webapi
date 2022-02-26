@@ -15,6 +15,21 @@ public class ApplicationUserConfig : IEntityTypeConfiguration<ApplicationUser>
             .IsMultiTenant();
 
         builder
+            .Property(u => u.FirstName)
+            .HasMaxLength(60)
+            .IsRequired(true);
+
+        builder
+            .Property(u => u.LastName)
+            .HasMaxLength(60)
+            .IsRequired(true);
+
+        builder
+            .Property(u => u.CompanyName)
+            .HasMaxLength(100)
+            .IsRequired(true);
+
+        builder
             .Property(u => u.ObjectId)
                 .HasMaxLength(256);
     }

@@ -4,8 +4,9 @@ namespace FSH.WebApi.Infrastructure.Identity;
 
 public class ApplicationUser : IdentityUser
 {
-    // TODO: dodać imię i nazwisko i numer telefonu
-    public string? CompanyName { get; set; }
+    public string FirstName { get; set; } = default!;
+    public string LastName { get; set; } = default!;
+    public string CompanyName { get; set; } = default!;
     public string? ImageUrl { get; set; }
     public bool IsActive { get; set; }
     public string? RefreshToken { get; set; }

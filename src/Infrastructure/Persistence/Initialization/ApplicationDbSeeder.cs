@@ -96,6 +96,8 @@ internal class ApplicationDbSeeder
             string adminUserName = $"{_currentTenant.Id.Trim()}.{FSHRoles.Admin}".ToLowerInvariant();
             adminUser = new ApplicationUser
             {
+                FirstName = "John",
+                LastName = "Doe",
                 CompanyName = "CONETSO sp. z o.o.",
                 Email = _currentTenant.AdminEmail,
                 UserName = adminUserName,
