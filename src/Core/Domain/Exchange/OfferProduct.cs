@@ -16,6 +16,7 @@ public class OfferProduct : BaseEntity, IAggregateRoot
     public virtual Offer Offer { get; private set; } = default!;
     public Guid InquiryProductId { get; private set; }
     public virtual InquiryProduct InquiryProduct { get; private set; } = default!;
+    public ICollection<OrderProduct> Orders { get; private set; } = new List<OrderProduct>();
 
     public OfferProduct(
         Guid offerId,
