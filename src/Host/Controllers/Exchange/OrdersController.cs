@@ -11,4 +11,12 @@ public class OrdersController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpGet("{id:guid}")]
+    [MustHavePermission(FSHAction.View, FSHResource.Orders)]
+    [OpenApiOperation("Get order details.", "")]
+    public Task<OrderDetailsDto> GetAsync(Guid id)
+    {
+        return Mediator.Send(new GetOrderRequest(id));
+    }
 }
