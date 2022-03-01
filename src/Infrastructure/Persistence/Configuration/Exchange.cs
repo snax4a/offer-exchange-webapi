@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace FSH.WebApi.Infrastructure.Persistence.Configuration;
 
 // TODO: add indexes on CreatedBy column
+// TODO: add tenant to existing indexes
 
 public class GroupConfig : IEntityTypeConfiguration<Group>
 {

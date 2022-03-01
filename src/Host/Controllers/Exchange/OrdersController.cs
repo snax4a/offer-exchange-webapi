@@ -19,4 +19,12 @@ public class OrdersController : VersionedApiController
     {
         return Mediator.Send(new GetOrderRequest(id));
     }
+
+    [HttpPost]
+    [MustHavePermission(FSHAction.Create, FSHResource.Orders)]
+    [OpenApiOperation("Create a new order.", "")]
+    public Task<List<Guid>> CreateAsync(CreateOrderRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }
