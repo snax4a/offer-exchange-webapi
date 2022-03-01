@@ -25,6 +25,8 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<InquiryRecipient> InquiryRecipients => Set<InquiryRecipient>();
     public DbSet<Offer> Offers => Set<Offer>();
     public DbSet<OfferProduct> OfferProducts => Set<OfferProduct>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderProduct> OrderProducts => Set<OrderProduct>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -16,6 +16,7 @@ public class OfferProduct : BaseEntity, IAggregateRoot
     public virtual Offer Offer { get; private set; } = default!;
     public Guid InquiryProductId { get; private set; }
     public virtual InquiryProduct InquiryProduct { get; private set; } = default!;
+    public ICollection<OrderProduct> Orders { get; private set; } = new List<OrderProduct>();
 
     public OfferProduct(
         Guid offerId,
@@ -34,7 +35,6 @@ public class OfferProduct : BaseEntity, IAggregateRoot
         if (string.IsNullOrWhiteSpace(currencyCode)) throw new ArgumentException("Must be valid ISO 4217", nameof(currencyCode));
         if (netPrice <= 0) throw new ArgumentException("Must be a positive number", nameof(netPrice));
         if (quantity <= 0) throw new ArgumentException("Must be a positive number", nameof(quantity));
-        if (deliveryDate <= DateTime.UtcNow) throw new ArgumentException("Must be a future date", nameof(deliveryDate));
         if (isReplacement && string.IsNullOrWhiteSpace(replacementName)) throw new ArgumentNullException(nameof(replacementName));
 
         OfferId = offerId;

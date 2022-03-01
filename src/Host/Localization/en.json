@@ -26,6 +26,8 @@
   "offer.notfound": "Offer {0} not found.",
   "offer.noproducts": "Offer must have at least one product.",
   "offer.invalidtoken": "Offer token is invalid",
+  "order.notfound": "Order {0} not found.",
+  "order.noproducts": "Order must have at least one product.",
   "inquirymail.subject": "New request for quotation from - {0}",
   "inquirymail.main-text-1": "{0} {1} from company {2} sends you an inquiry via the platform OfferExchange.net",
   "inquirymail.main-text-2": "If you have any questions, please contact the sender by e-mail: {0}",

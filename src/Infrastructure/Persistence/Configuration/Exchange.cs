@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace FSH.WebApi.Infrastructure.Persistence.Configuration;
 
 // TODO: add indexes on CreatedBy column
+// TODO: add tenant to existing indexes
 
 public class GroupConfig : IEntityTypeConfiguration<Group>
 {
@@ -158,5 +159,56 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
             .HasOne(o => o.Trader)
             .WithMany(t => t.Offers)
             .HasForeignKey(o => o.TraderId);
+    }
+}
+
+public class OrderConfig : IEntityTypeConfiguration<Order>
+{
+    public void Configure(EntityTypeBuilder<Order> builder)
+    {
+        builder.IsMultiTenant();
+        builder.Property(o => o.CurrencyCode).HasMaxLength(3);
+        builder.Property(o => o.NetValue).HasColumnType("decimal(18,2)");
+        builder.Property(o => o.GrossValue).HasColumnType("decimal(18,2)");
+
+        // Configure DeliveryCost value object as owned entity
+        builder.OwnsOne(o => o.DeliveryCost, deliveryCostBuilder =>
+        {
+            deliveryCostBuilder
+                .Property(dc => dc.Type)
+                .HasColumnName("DeliveryCostType")
+                .IsRequired(true);
+
+            deliveryCostBuilder
+                .Property(dc => dc.GrossPrice)
+                .HasColumnType("decimal(18,2)")
+                .HasColumnName("DeliveryCostGrossPrice")
+                .IsRequired(false);
+
+            deliveryCostBuilder
+                .Property(dc => dc.Description)
+                .HasMaxLength(2000)
+                .HasColumnName("DeliveryCostDescription")
+                .IsRequired(false);
+        });
+    }
+}
+
+public class OrderProductConfig : IEntityTypeConfiguration<OrderProduct>
+{
+    public void Configure(EntityTypeBuilder<OrderProduct> builder)
+    {
+        builder.IsMultiTenant();
+        builder.HasKey(op => new { op.OrderId, op.OfferProductId });
+
+        builder
+            .HasOne(op => op.Order)
+            .WithMany(o => o.Products)
+            .HasForeignKey(op => op.OrderId);
+
+        builder
+            .HasOne(op => op.OfferProduct)
+            .WithMany(ofp => ofp.Orders)
+            .HasForeignKey(op => op.OfferProductId);
     }
 }

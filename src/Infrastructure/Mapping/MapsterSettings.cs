@@ -1,5 +1,6 @@
 ﻿using FSH.WebApi.Application.Exchange.Inquiries;
 using FSH.WebApi.Application.Exchange.Offers;
+using FSH.WebApi.Application.Exchange.Orders;
 using FSH.WebApi.Application.Exchange.Traders;
 using FSH.WebApi.Domain.Exchange;
 using Mapster;
@@ -24,5 +25,8 @@ public class MapsterSettings
 
         TypeAdapterConfig<Offer, OfferDetailsDto>.NewConfig()
             .Map(dest => dest.Products, src => src.OfferProducts);
+
+        TypeAdapterConfig<Order, OrderDetailsDto>.NewConfig()
+            .Map(dest => dest.Products, src => src.Products.Select(p => p.OfferProduct));
     }
 }
