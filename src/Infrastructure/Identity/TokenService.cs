@@ -121,7 +121,6 @@ internal class TokenService : ITokenService
         {
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Name, user.UserName),
             new(ClaimTypes.GivenName, user.FirstName),
             new(ClaimTypes.Surname, user.LastName),
             new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty),

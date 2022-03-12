@@ -3,7 +3,6 @@ namespace FSH.WebApi.Application.Identity.Users;
 public class UserDetailsDto
 {
     public Guid Id { get; set; }
-    public string? UserName { get; set; }
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string CompanyName { get; set; } = default!;
