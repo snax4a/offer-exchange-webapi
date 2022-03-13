@@ -1,7 +1,9 @@
 ﻿using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Identity.Users.Password;
+using FSH.WebApi.Infrastructure.Common;
 using FSH.WebApi.Infrastructure.Common.Settings;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 
 namespace FSH.WebApi.Infrastructure.Identity;
@@ -60,7 +62,8 @@ internal partial class UserService
         // For more information on how to enable account confirmation and password reset please
         // visit https://go.microsoft.com/fwlink/?LinkID=532713
         string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        return new Uri(string.Concat($"{corsSettings.React}", "/auth/reset-password/", token)).ToString();
+        string url = new Uri(string.Concat($"{corsSettings.React}", "/auth/reset-password/")).ToString();
+        return QueryHelpers.AddQueryString(url, QueryStringKeys.Token, token);
     }
 
     private string SendResetPasswordMail(ApplicationUser user, string passwordResetUrl)
