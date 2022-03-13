@@ -47,5 +47,8 @@
   "createusermail.subject": "Potwierdź Rejestrację",
   "createusermail.preheader-text": "Cieszymy się że do nas dołączyłeś! Najpierw potwierdź swój adres e-email.",
   "createusermail.main-text": "Cieszymy się, że do nas dołączyłeś. Aby dokończyć rejestrację konta musisz potwierdzić swój adres e-mail: {0}. Wystarczy nacisnąć przycisk poniżej.",
-  "createusermail.confirm-button-text": "Potwierdź Email"
+  "createusermail.confirm-button-text": "Potwierdź Email",
+  "resetpasswordmail.subject": "Zresetuj hasło do swojego konta",
+  "resetpasswordmail.main-text": "Otrzymaliśmy Twoją prośbę o zresetowanie hasła. Kliknij w przycisk poniżej aby przejść do formularza, w którym ustawisz nowe hasło do swojego konta.",
+  "resetpasswordmail.reset-button-text": "Resetuj hasło"
 }

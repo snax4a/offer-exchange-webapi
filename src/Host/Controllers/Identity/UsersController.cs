@@ -106,10 +106,12 @@ public class UsersController : VersionNeutralApiController
     [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
     public Task<string> ForgotPasswordAsync(ForgotPasswordRequest request)
     {
-        return _userService.ForgotPasswordAsync(request, GetOriginFromRequest());
+        return _userService.ForgotPasswordAsync(request);
     }
 
     [HttpPost("reset-password")]
+    [AllowAnonymous]
+    [TenantIdHeader]
     [OpenApiOperation("Reset a user's password.", "")]
     [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
     public Task<string> ResetPasswordAsync(ResetPasswordRequest request)

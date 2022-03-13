@@ -47,5 +47,8 @@
   "createusermail.subject": "Confirm Registration",
   "createusermail.preheader-text": "We're thrilled to have you here! First you need to confirm your e-mail address.",
   "createusermail.main-text": "We are thrilled that you joined us. To complete the account registration you need to confirm your e-mail address: {0}. Just press the button below.",
-  "createusermail.confirm-button-text": "Confirm Email"
+  "createusermail.confirm-button-text": "Confirm Email",
+  "resetpasswordmail.subject": "Reset your account password ",
+  "resetpasswordmail.main-text": "We have received your password reset request. Click the button below to go to the form where you can set a new password for your account.",
+  "resetpasswordmail.reset-button-text": "Reset password"
 }
