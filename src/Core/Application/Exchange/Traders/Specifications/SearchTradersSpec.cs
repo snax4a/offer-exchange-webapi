@@ -6,5 +6,6 @@ public class SearchTradersSpec : EntitiesByPaginationFilterSpec<Trader, TraderDe
             .Where(t => t.CreatedBy == userId)
             .Include(t => t.TraderGroups)
                 .ThenInclude(tg => tg.Group)
-            .OrderBy(t => new { t.FirstName, t.LastName }, !request.HasOrderBy());
+            .OrderBy(t => t.FirstName, !request.HasOrderBy())
+            .ThenBy(t => t.LastName, !request.HasOrderBy());
 }
