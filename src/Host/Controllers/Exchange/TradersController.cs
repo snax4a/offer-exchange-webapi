@@ -20,6 +20,14 @@ public class TradersController : VersionedApiController
         return Mediator.Send(new GetTraderRequest(id));
     }
 
+    [HttpPost("get-by-groups")]
+    [MustHavePermission(FSHAction.View, FSHResource.Traders)]
+    [OpenApiOperation("Get unique traders which belong to any of the given group.", "")]
+    public Task<List<TraderDto>> GetByGroupsAsync(GetTradersByGroupsRequest request)
+    {
+        return Mediator.Send(request);
+    }
+
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Traders)]
     [OpenApiOperation("Create a new trader.", "")]
