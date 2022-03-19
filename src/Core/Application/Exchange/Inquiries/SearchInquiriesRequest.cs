@@ -4,6 +4,7 @@ namespace FSH.WebApi.Application.Exchange.Inquiries;
 
 public class SearchInquiriesRequest : PaginationFilter, IRequest<PaginationResponse<InquiryDto>>
 {
+    public Guid? TraderId { get; set; }
 }
 
 public class SearchInquiriesRequestHandler : IRequestHandler<SearchInquiriesRequest, PaginationResponse<InquiryDto>>
