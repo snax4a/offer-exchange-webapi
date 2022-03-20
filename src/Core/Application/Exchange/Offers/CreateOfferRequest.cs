@@ -1,6 +1,5 @@
 using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 using FSH.WebApi.Application.Exchange.Offers.Specifications;
-using FSH.WebApi.Application.Exchange.Traders.Specifications;
 using MassTransit;
 
 namespace FSH.WebApi.Application.Exchange.Offers;

@@ -20,6 +20,15 @@ public class InquiriesController : VersionedApiController
         return Mediator.Send(new GetInquiryRequest(id));
     }
 
+    [HttpGet("get-by-offer-token/{offerToken}")]
+    [AllowAnonymous]
+    [TenantIdHeader]
+    [OpenApiOperation("Get inquiry details for offer form.", "")]
+    public Task<InquiryForOfferDto> GetByOfferTokenAsync(string offerToken)
+    {
+        return Mediator.Send(new GetInquiryForOfferRequest(offerToken));
+    }
+
     [HttpPost]
     [MustHavePermission(FSHAction.Create, FSHResource.Inquiries)]
     [OpenApiOperation("Create a new inquiry.", "")]

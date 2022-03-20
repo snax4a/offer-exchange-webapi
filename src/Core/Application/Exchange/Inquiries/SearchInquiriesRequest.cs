@@ -19,6 +19,7 @@ public class SearchInquiriesRequestHandler : IRequestHandler<SearchInquiriesRequ
 
     public async Task<PaginationResponse<InquiryDto>> Handle(SearchInquiriesRequest request, CancellationToken cancellationToken)
     {
+        // TODO: add offer and recipient count
         var spec = new SearchInquiriesSpec(request, _currentUser.GetUserId());
         return await _repository.PaginatedListAsync(spec, request.PageNumber, request.PageSize, cancellationToken);
     }

@@ -10,6 +10,7 @@ public class Inquiry : AuditableEntity, IAggregateRoot
     public ICollection<Offer> Offers { get; private set; } = new List<Offer>();
 
     public int OfferCount => Offers.Count;
+    public int RecipientCount => InquiryRecipients.Count;
 
     private Inquiry() // Required by ef
     {
