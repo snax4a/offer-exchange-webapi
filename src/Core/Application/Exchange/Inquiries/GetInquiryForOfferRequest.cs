@@ -1,6 +1,8 @@
 ﻿using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 using FSH.WebApi.Application.Exchange.Offers;
 using FSH.WebApi.Application.Exchange.Offers.Specifications;
+using FSH.WebApi.Application.Identity.Users;
+using Mapster;
 
 namespace FSH.WebApi.Application.Exchange.Inquiries;
 
@@ -15,16 +17,22 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
 {
     private readonly IReadRepository<Inquiry> _inquiryRepo;
     private readonly IReadRepository<Offer> _offerRepo;
+    private readonly IUserService _userService;
     private readonly IOfferTokenService _tokenService;
     private readonly IStringLocalizer<GetInquiryForOfferRequestHandler> _localizer;
 
     public GetInquiryForOfferRequestHandler(
         IReadRepository<Inquiry> inquiryRepo,
         IReadRepository<Offer> offerRepo,
+        IUserService userService,
         IOfferTokenService tokenService,
         IStringLocalizer<GetInquiryForOfferRequestHandler> localizer)
     {
-        (_inquiryRepo, _offerRepo, _tokenService, _localizer) = (inquiryRepo, offerRepo, tokenService, localizer);
+        _inquiryRepo = inquiryRepo;
+        _offerRepo = offerRepo;
+        _userService = userService;
+        _tokenService = tokenService;
+        _localizer = localizer;
     }
 
     public async Task<InquiryForOfferDto> Handle(GetInquiryForOfferRequest request, CancellationToken ct)
@@ -49,6 +57,8 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
         if (trader is null)
             throw new NotFoundException(string.Format(_localizer["trader.notfound"], traderId));
 
+        var user = await _userService.GetAsync(inquiry.CreatedBy.ToString(), ct);
+
         return new InquiryForOfferDto()
         {
             Id = inquiry.Id,
@@ -56,6 +66,7 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
             Title = inquiry.Title,
             CreatedOn = inquiry.CreatedOn,
             Trader = trader,
+            Creator = user.Adapt<UserDto>(),
             Products = inquiry.Products
         };
     }

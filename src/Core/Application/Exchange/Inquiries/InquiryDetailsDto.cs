@@ -9,6 +9,7 @@ public class InquiryDetailsDto : IDto
     public string Name { get; set; } = default!;
     public string Title { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
+    public Guid CreatedBy { get; set; }
     public int RecipientCount { get; set; }
     public int OfferCount { get; set; }
     public IList<InquiryProductDetailsDto> Products { get; set; } = default!;
