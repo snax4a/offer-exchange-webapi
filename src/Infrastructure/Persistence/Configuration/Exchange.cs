@@ -141,7 +141,7 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
                 .Property(dc => dc.GrossPrice)
                 .HasColumnType("decimal(18,2)")
                 .HasColumnName("DeliveryCostGrossPrice")
-                .IsRequired(false);
+                .IsRequired(true);
 
             deliveryCostBuilder
                 .Property(dc => dc.Description)
@@ -183,7 +183,7 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
                 .Property(dc => dc.GrossPrice)
                 .HasColumnType("decimal(18,2)")
                 .HasColumnName("DeliveryCostGrossPrice")
-                .IsRequired(false);
+                .IsRequired(true);
 
             deliveryCostBuilder
                 .Property(dc => dc.Description)

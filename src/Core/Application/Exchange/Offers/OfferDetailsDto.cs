@@ -9,7 +9,7 @@ public class OfferDetailsDto : IDto
     public decimal NetValue { get; set; }
     public decimal GrossValue { get; set; }
     public DeliveryCostType DeliveryCostType { get; set; }
-    public decimal? DeliveryCostGrossPrice { get; set; }
+    public decimal DeliveryCostGrossPrice { get; set; }
     public string? DeliveryCostDescription { get; set; }
     public string? Freebie { get; set; }
     public bool HasFreebies { get; set; }
