@@ -8,7 +8,7 @@ public class OfferProduct : BaseEntity, IAggregateRoot
     public decimal NetPrice { get; private set; }
     public decimal NetValue => Quantity * NetPrice;
     public decimal GrossValue => Quantity * NetPrice * (1 + VatRate ?? 0);
-    public DateTime DeliveryDate { get; private set; }
+    public DateOnly DeliveryDate { get; private set; }
     public bool IsReplacement { get; private set; }
     public string? ReplacementName { get; private set; }
     public string? Freebie { get; private set; }
@@ -25,7 +25,7 @@ public class OfferProduct : BaseEntity, IAggregateRoot
         decimal? vatRate,
         int quantity,
         decimal netPrice,
-        DateTime deliveryDate,
+        DateOnly deliveryDate,
         bool isReplacement,
         string? replacementName,
         string? freebie)

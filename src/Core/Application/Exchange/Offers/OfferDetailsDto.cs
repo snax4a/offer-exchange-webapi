@@ -11,6 +11,7 @@ public class OfferDetailsDto : IDto
     public DeliveryCostType DeliveryCostType { get; set; }
     public decimal DeliveryCostGrossPrice { get; set; }
     public string? DeliveryCostDescription { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public string? Freebie { get; set; }
     public bool HasFreebies { get; set; }
     public bool HasReplacements { get; set; }

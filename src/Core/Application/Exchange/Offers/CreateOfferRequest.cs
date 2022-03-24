@@ -9,7 +9,7 @@ public class CreateOfferRequest : IRequest<Guid>
     public string Token { get; set; } = default!;
     public string CurrencyCode { get; set; } = default!;
     public string? Freebie { get; set; }
-    public DateTime? ExpirationDate { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public DeliveryCostType DeliveryCostType { get; set; }
     public decimal DeliveryCostGrossPrice { get; set; }
     public string? DeliveryCostDescription { get; set; }
@@ -25,12 +25,12 @@ public class CreateOfferRequestValidator : CustomValidator<CreateOfferRequest>
             .Must(token => tokenService.ValidateToken(token))
             .WithMessage(localizer["offer.invalidtoken"]);
 
+        RuleFor(p => p.CurrencyCode).NotEmpty().Length(3);
         RuleFor(o => o.Freebie).MinimumLength(10).MaximumLength(1000);
-        RuleFor(o => o.ExpirationDate).GreaterThanOrEqualTo(DateTime.UtcNow);
+        RuleFor(o => o.ExpirationDate).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow));
 
         RuleFor(o => o.DeliveryCostType).NotEmpty();
-        RuleFor(o => o.DeliveryCostGrossPrice).NotEmpty();
-        RuleFor(o => o.DeliveryCostGrossPrice).GreaterThan(0).When(o => o.DeliveryCostType == DeliveryCostType.Fixed);
+        RuleFor(o => o.DeliveryCostGrossPrice).NotNull();
         RuleFor(o => o.DeliveryCostDescription)
             .NotEmpty()
             .MinimumLength(3)
@@ -98,7 +98,16 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
 
         var deliveryCost = new DeliveryCost(request.DeliveryCostType, request.DeliveryCostGrossPrice, request.DeliveryCostDescription);
 
-        var offer = new Offer(offerId, inquiryId, traderId, inquiry.CreatedBy, request.CurrencyCode, deliveryCost, request.Freebie, products);
+        var offer = new Offer(
+            offerId,
+            inquiryId,
+            traderId,
+            inquiry.CreatedBy,
+            request.ExpirationDate,
+            request.CurrencyCode,
+            deliveryCost,
+            request.Freebie,
+            products);
 
         await _offerRepo.AddAsync(offer, ct);
 

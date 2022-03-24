@@ -17,7 +17,7 @@ public class InquiryProductValidator : CustomValidator<InquiryProductDto>
     {
         RuleFor(p => p.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
         RuleFor(p => p.Quantity).NotEmpty().GreaterThan(0);
-        RuleFor(p => p.PreferredDeliveryDate).NotEmpty().GreaterThanOrEqualTo(DateTime.UtcNow);
+        RuleFor(p => p.PreferredDeliveryDate).NotEmpty().GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow));
     }
 }
 
