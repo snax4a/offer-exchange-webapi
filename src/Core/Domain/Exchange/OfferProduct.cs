@@ -7,7 +7,7 @@ public class OfferProduct : BaseEntity, IAggregateRoot
     public int Quantity { get; private set; }
     public decimal NetPrice { get; private set; }
     public decimal NetValue => Quantity * NetPrice;
-    public decimal GrossValue => Quantity * NetPrice * (1 + VatRate ?? 0);
+    public decimal GrossValue => Quantity * NetPrice * (1 + (VatRate ?? 0));
     public DateOnly DeliveryDate { get; private set; }
     public bool IsReplacement { get; private set; }
     public string? ReplacementName { get; private set; }
