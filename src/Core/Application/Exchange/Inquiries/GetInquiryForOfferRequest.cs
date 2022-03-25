@@ -40,12 +40,6 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
         // Decode inquiryId and traderId from offer token
         (Guid inquiryId, Guid traderId) = _tokenService.DecodeToken(request.OfferToken);
 
-        // Check if trader already placed offer to that inquiry
-        if (await _offerRepo.AnyAsync(new OfferByInquiryAndTraderSpec(inquiryId, traderId), ct))
-        {
-            throw new ConflictException("Offer already exists.");
-        }
-
         ISpecification<Inquiry, InquiryDetailsDto> spec = new InquiryDetailsSpec(inquiryId);
         var inquiry = await _inquiryRepo.GetBySpecAsync(spec, ct);
 
@@ -59,6 +53,9 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
 
         var user = await _userService.GetAsync(inquiry.CreatedBy.ToString(), ct);
 
+        ISpecification<Offer, OfferDetailsDto> offerSpec = new OfferByInquiryAndTraderSpec(inquiryId, traderId);
+        var offer = await _offerRepo.GetBySpecAsync(offerSpec, ct);
+
         return new InquiryForOfferDto()
         {
             Id = inquiry.Id,
@@ -67,7 +64,8 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
             CreatedOn = inquiry.CreatedOn,
             Trader = trader,
             Creator = user.Adapt<UserDto>(),
-            Products = inquiry.Products
+            Products = inquiry.Products,
+            Offer = offer
         };
     }
 }
