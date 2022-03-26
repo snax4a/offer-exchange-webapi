@@ -11,7 +11,7 @@ public class CreateOfferRequest : IRequest<Guid>
     public string? Freebie { get; set; }
     public DateOnly? ExpirationDate { get; set; }
     public DeliveryCostType DeliveryCostType { get; set; }
-    public decimal DeliveryCostGrossPrice { get; set; }
+    public long DeliveryCostGrossPrice { get; set; }
     public string? DeliveryCostDescription { get; set; }
     public IList<OfferProductDto> Products { get; set; } = default!;
 }
