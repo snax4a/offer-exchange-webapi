@@ -3,8 +3,8 @@ namespace FSH.WebApi.Domain.Exchange;
 public class Offer : BaseEntity, IAggregateRoot
 {
     public string CurrencyCode { get; private set; } = default!;
-    public decimal NetValue { get; private set; }
-    public decimal GrossValue { get; private set; }
+    public ulong NetValue { get; private set; }
+    public ulong GrossValue { get; private set; }
     public DateOnly? ExpirationDate { get; private set; }
     public DeliveryCost DeliveryCost { get; private set; } = default!;
     public string? Freebie { get; private set; }
@@ -46,8 +46,8 @@ public class Offer : BaseEntity, IAggregateRoot
         UserId = userId;
         ExpirationDate = expirationDate;
         CurrencyCode = currencyCode;
-        NetValue = offerProducts.Sum(op => op.NetValue);
-        GrossValue = offerProducts.Sum(op => op.GrossValue);
+        NetValue = offerProducts.Aggregate(0UL, (a, c) => a + c.NetValue);
+        GrossValue = offerProducts.Aggregate(0UL, (a, c) => a + c.GrossValue);
         DeliveryCost = deliveryCost;
         Freebie = offerFreebie;
         HasFreebies = offerProducts.Any(op => !string.IsNullOrWhiteSpace(op.Freebie));

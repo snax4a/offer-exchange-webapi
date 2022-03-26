@@ -3,11 +3,11 @@ namespace FSH.WebApi.Domain.Exchange;
 public class OfferProduct : BaseEntity, IAggregateRoot
 {
     public string CurrencyCode { get; private set; }
-    public decimal? VatRate { get; private set; }
-    public int Quantity { get; private set; }
-    public decimal NetPrice { get; private set; }
-    public decimal NetValue => Quantity * NetPrice;
-    public decimal GrossValue => Quantity * NetPrice * (1 + (VatRate ?? 0));
+    public ushort? VatRate { get; private set; }
+    public uint Quantity { get; private set; }
+    public ulong NetPrice { get; private set; }
+    public ulong NetValue => Quantity * NetPrice;
+    public ulong GrossValue => NetValue + ((VatRate ?? 0UL) * NetValue / 100UL);
     public DateOnly DeliveryDate { get; private set; }
     public bool IsReplacement { get; private set; }
     public string? ReplacementName { get; private set; }
@@ -22,9 +22,9 @@ public class OfferProduct : BaseEntity, IAggregateRoot
         Guid offerId,
         Guid inquiryProductId,
         string currencyCode,
-        decimal? vatRate,
-        int quantity,
-        decimal netPrice,
+        ushort? vatRate,
+        uint quantity,
+        ulong netPrice,
         DateOnly deliveryDate,
         bool isReplacement,
         string? replacementName,
