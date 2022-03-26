@@ -87,9 +87,9 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
     {
         builder.IsMultiTenant();
         builder.Property(op => op.CurrencyCode).HasMaxLength(3);
-        builder.Property(op => op.VatRate).HasColumnType("decimal(3,2)").IsRequired(false);
+        builder.Property(op => op.VatRate).IsRequired(false);
         builder.Property(op => op.Quantity).IsRequired(true);
-        builder.Property(op => op.NetPrice).HasColumnType("decimal(18,2)");
+        builder.Property(op => op.NetPrice).IsRequired(true);
         builder.Property(op => op.ReplacementName).IsRequired(false).HasMaxLength(100);
         builder.Property(op => op.Freebie).HasMaxLength(2000).IsRequired(false);
 
@@ -122,8 +122,8 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
     {
         builder.IsMultiTenant();
         builder.Property(o => o.CurrencyCode).HasMaxLength(3);
-        builder.Property(o => o.NetValue).HasColumnType("decimal(18,2)");
-        builder.Property(o => o.GrossValue).HasColumnType("decimal(18,2)");
+        builder.Property(o => o.NetValue).IsRequired(true);
+        builder.Property(o => o.GrossValue).IsRequired(true);
         builder.Property(o => o.ExpirationDate).IsRequired(false);
         builder.Property(o => o.Freebie).HasMaxLength(2000).IsRequired(false);
 
@@ -139,7 +139,6 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
 
             deliveryCostBuilder
                 .Property(dc => dc.GrossPrice)
-                .HasColumnType("decimal(18,2)")
                 .HasColumnName("DeliveryCostGrossPrice")
                 .IsRequired(true);
 
@@ -168,8 +167,8 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
     {
         builder.IsMultiTenant();
         builder.Property(o => o.CurrencyCode).HasMaxLength(3);
-        builder.Property(o => o.NetValue).HasColumnType("decimal(18,2)");
-        builder.Property(o => o.GrossValue).HasColumnType("decimal(18,2)");
+        builder.Property(o => o.NetValue).IsRequired(true);
+        builder.Property(o => o.GrossValue).IsRequired(true);
 
         // Configure DeliveryCost value object as owned entity
         builder.OwnsOne(o => o.DeliveryCost, deliveryCostBuilder =>
@@ -181,7 +180,6 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
 
             deliveryCostBuilder
                 .Property(dc => dc.GrossPrice)
-                .HasColumnType("decimal(18,2)")
                 .HasColumnName("DeliveryCostGrossPrice")
                 .IsRequired(true);
 

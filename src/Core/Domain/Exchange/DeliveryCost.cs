@@ -3,10 +3,10 @@ namespace FSH.WebApi.Domain.Exchange;
 public record DeliveryCost
 {
     public DeliveryCostType Type { get; private set; }
-    public decimal GrossPrice { get; private set; }
+    public ulong GrossPrice { get; private set; }
     public string? Description { get; private set; }
 
-    public DeliveryCost(DeliveryCostType type, decimal grossPrice, string? description)
+    public DeliveryCost(DeliveryCostType type, ulong grossPrice, string? description)
     {
         if (type is DeliveryCostType.Fixed && !string.IsNullOrWhiteSpace(description))
         {
