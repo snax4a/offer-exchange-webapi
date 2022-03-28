@@ -7,7 +7,7 @@ public class OfferProduct : BaseEntity, IAggregateRoot
     public int Quantity { get; private set; }
     public long NetPrice { get; private set; }
     public long NetValue => Quantity * NetPrice;
-    public long GrossValue => NetValue + ((VatRate ?? 0L) * NetValue / 100L);
+    public long GrossValue => NetValue + (long)Math.Round((VatRate ?? 0) * (decimal)NetValue / 100);
     public DateOnly DeliveryDate { get; private set; }
     public bool IsReplacement { get; private set; }
     public string? ReplacementName { get; private set; }
