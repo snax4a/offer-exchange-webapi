@@ -6,14 +6,16 @@ public class OfferDetailsDto : IDto
 {
     public Guid Id { get; set; }
     public string CurrencyCode { get; set; } = default!;
-    public decimal NetValue { get; set; }
-    public decimal GrossValue { get; set; }
+    public long NetValue { get; set; }
+    public long GrossValue { get; set; }
     public DeliveryCostType DeliveryCostType { get; set; }
-    public decimal? DeliveryCostGrossPrice { get; set; }
+    public long DeliveryCostGrossPrice { get; set; }
     public string? DeliveryCostDescription { get; set; }
+    public DateOnly? ExpirationDate { get; set; }
     public string? Freebie { get; set; }
     public bool HasFreebies { get; set; }
     public bool HasReplacements { get; set; }
     public TraderDto Trader { get; set; } = default!;
+    public Guid InquiryId { get; set; }
     public IList<OfferProductDto> Products { get; set; } = default!;
 }

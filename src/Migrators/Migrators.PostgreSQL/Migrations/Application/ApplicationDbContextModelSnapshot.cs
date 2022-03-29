@@ -33,13 +33,13 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -48,7 +48,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -80,13 +80,13 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -99,7 +99,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -136,19 +136,19 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -179,19 +179,19 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -231,13 +231,13 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("InquiryId")
                         .HasColumnType("uuid");
@@ -246,15 +246,15 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<DateTime>("PreferredDeliveryDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateOnly>("PreferredDeliveryDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -306,15 +306,15 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasMaxLength(3)
                         .HasColumnType("character varying(3)");
 
-                    b.Property<DateTime?>("ExpirationDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateOnly?>("ExpirationDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Freebie")
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
-                    b.Property<decimal>("GrossValue")
-                        .HasColumnType("numeric(18,2)");
+                    b.Property<long>("GrossValue")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("HasFreebies")
                         .HasColumnType("boolean");
@@ -325,8 +325,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<Guid>("InquiryId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("NetValue")
-                        .HasColumnType("numeric(18,2)");
+                    b.Property<long>("NetValue")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("TenantId")
                         .IsRequired()
@@ -363,8 +363,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasMaxLength(3)
                         .HasColumnType("character varying(3)");
 
-                    b.Property<DateTime>("DeliveryDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateOnly>("DeliveryDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Freebie")
                         .HasMaxLength(2000)
@@ -376,8 +376,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                     b.Property<bool>("IsReplacement")
                         .HasColumnType("boolean");
 
-                    b.Property<decimal>("NetPrice")
-                        .HasColumnType("numeric(18,2)");
+                    b.Property<long>("NetPrice")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("OfferId")
                         .HasColumnType("uuid");
@@ -394,8 +394,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<decimal?>("VatRate")
-                        .HasColumnType("numeric(3,2)");
+                    b.Property<short?>("VatRate")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
@@ -418,7 +418,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CurrencyCode")
                         .IsRequired()
@@ -429,19 +429,19 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal>("GrossValue")
-                        .HasColumnType("numeric(18,2)");
+                    b.Property<long>("GrossValue")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("LastModifiedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal>("NetValue")
-                        .HasColumnType("numeric(18,2)");
+                    b.Property<long>("NetValue")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -495,13 +495,13 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("DeletedBy")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -517,7 +517,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("LastModifiedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -568,7 +568,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NewValues")
                         .HasColumnType("text");
@@ -654,7 +654,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
@@ -745,7 +745,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                         .HasColumnType("text");
 
                     b.Property<DateTime>("RefreshTokenExpiryTime")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -959,8 +959,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                                 .HasColumnType("character varying(2000)")
                                 .HasColumnName("DeliveryCostDescription");
 
-                            b1.Property<decimal?>("GrossPrice")
-                                .HasColumnType("numeric(18,2)")
+                            b1.Property<long>("GrossPrice")
+                                .HasColumnType("bigint")
                                 .HasColumnName("DeliveryCostGrossPrice");
 
                             b1.Property<int>("Type")
@@ -1020,8 +1020,8 @@ namespace Migrators.PostgreSQL.Migrations.Application
                                 .HasColumnType("character varying(2000)")
                                 .HasColumnName("DeliveryCostDescription");
 
-                            b1.Property<decimal?>("GrossPrice")
-                                .HasColumnType("numeric(18,2)")
+                            b1.Property<long>("GrossPrice")
+                                .HasColumnType("bigint")
                                 .HasColumnName("DeliveryCostGrossPrice");
 
                             b1.Property<int>("Type")

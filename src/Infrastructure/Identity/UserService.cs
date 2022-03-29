@@ -12,12 +12,12 @@ using FSH.WebApi.Application.Common.Specification;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Identity;
 using FSH.WebApi.Infrastructure.Auth;
-using FSH.WebApi.Infrastructure.Mailing;
 using FSH.WebApi.Infrastructure.Persistence.Context;
 using FSH.WebApi.Shared.Authorization;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
@@ -25,6 +25,7 @@ namespace FSH.WebApi.Infrastructure.Identity;
 
 internal partial class UserService : IUserService
 {
+    private readonly IConfiguration _configuration;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
@@ -41,6 +42,7 @@ internal partial class UserService : IUserService
     private readonly ITenantInfo _currentTenant;
 
     public UserService(
+        IConfiguration configuration,
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
@@ -56,6 +58,7 @@ internal partial class UserService : IUserService
         ITenantInfo currentTenant,
         IOptions<SecuritySettings> securitySettings)
     {
+        _configuration = configuration;
         _signInManager = signInManager;
         _userManager = userManager;
         _roleManager = roleManager;

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using DateOnlyTimeOnly.AspNet.Converters;
 using FluentValidation.AspNetCore;
 using FSH.WebApi.Application;
 using FSH.WebApi.Host.Configurations;
@@ -27,6 +28,7 @@ try
         .AddJsonOptions(opt =>
         {
             opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            opt.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
         })
         .AddFluentValidation();
 

@@ -93,20 +93,20 @@ internal class ApplicationDbSeeder
         if (await _userManager.Users.FirstOrDefaultAsync(u => u.Email == _currentTenant.AdminEmail)
             is not ApplicationUser adminUser)
         {
-            string adminUserName = $"{_currentTenant.Id.Trim()}.{FSHRoles.Admin}".ToLowerInvariant();
             adminUser = new ApplicationUser
             {
                 FirstName = "John",
                 LastName = "Doe",
                 CompanyName = "CONETSO sp. z o.o.",
                 Email = _currentTenant.AdminEmail,
-                UserName = adminUserName,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 NormalizedEmail = _currentTenant.AdminEmail?.ToUpperInvariant(),
-                NormalizedUserName = adminUserName.ToUpperInvariant(),
                 IsActive = true
             };
+
+            // Identity requires username so we pass user id here
+            adminUser.UserName = adminUser.Id;
 
             _logger.LogInformation("Seeding Default Admin User for '{tenantId}' Tenant.", _currentTenant.Id);
             var password = new PasswordHasher<ApplicationUser>();

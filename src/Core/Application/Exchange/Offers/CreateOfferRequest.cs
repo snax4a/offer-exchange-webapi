@@ -1,6 +1,5 @@
 using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 using FSH.WebApi.Application.Exchange.Offers.Specifications;
-using FSH.WebApi.Application.Exchange.Traders.Specifications;
 using MassTransit;
 
 namespace FSH.WebApi.Application.Exchange.Offers;
@@ -10,8 +9,10 @@ public class CreateOfferRequest : IRequest<Guid>
     public string Token { get; set; } = default!;
     public string CurrencyCode { get; set; } = default!;
     public string? Freebie { get; set; }
-    public DateTime? ExpirationDate { get; set; }
-    public DeliveryCostDto DeliveryCost { get; set; } = default!;
+    public DateOnly? ExpirationDate { get; set; }
+    public DeliveryCostType DeliveryCostType { get; set; }
+    public long DeliveryCostGrossPrice { get; set; }
+    public string? DeliveryCostDescription { get; set; }
     public IList<OfferProductDto> Products { get; set; } = default!;
 }
 
@@ -24,10 +25,17 @@ public class CreateOfferRequestValidator : CustomValidator<CreateOfferRequest>
             .Must(token => tokenService.ValidateToken(token))
             .WithMessage(localizer["offer.invalidtoken"]);
 
+        RuleFor(p => p.CurrencyCode).NotEmpty().Length(3);
         RuleFor(o => o.Freebie).MinimumLength(10).MaximumLength(1000);
-        RuleFor(o => o.ExpirationDate).GreaterThanOrEqualTo(DateTime.UtcNow);
+        RuleFor(o => o.ExpirationDate).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow));
 
-        RuleFor(o => o.DeliveryCost).SetValidator(new DeliveryCostValidator());
+        RuleFor(o => o.DeliveryCostType).NotEmpty();
+        RuleFor(o => o.DeliveryCostGrossPrice).NotNull();
+        RuleFor(o => o.DeliveryCostDescription)
+            .NotEmpty()
+            .MinimumLength(3)
+            .MaximumLength(2000)
+            .When(o => o.DeliveryCostType == DeliveryCostType.Variable);
 
         RuleFor(o => o.Products)
             .Must(products => products.Count > 0)
@@ -77,7 +85,7 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
         {
             products.Add(new OfferProduct(
                 offerId,
-                product.InquiryProductId,
+                product.InquiryProduct.Id,
                 request.CurrencyCode,
                 product.VatRate,
                 product.Quantity,
@@ -88,9 +96,18 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
                 product.Freebie));
         }
 
-        var deliveryCost = new DeliveryCost(request.DeliveryCost.Type, request.DeliveryCost.GrossPrice, request.DeliveryCost.Description);
+        var deliveryCost = new DeliveryCost(request.DeliveryCostType, request.DeliveryCostGrossPrice, request.DeliveryCostDescription);
 
-        var offer = new Offer(offerId, inquiryId, traderId, inquiry.CreatedBy, request.CurrencyCode, deliveryCost, request.Freebie, products);
+        var offer = new Offer(
+            offerId,
+            inquiryId,
+            traderId,
+            inquiry.CreatedBy,
+            request.ExpirationDate,
+            request.CurrencyCode,
+            deliveryCost,
+            request.Freebie,
+            products);
 
         await _offerRepo.AddAsync(offer, ct);
 

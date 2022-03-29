@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using FSH.WebApi.Application.Common.Exceptions;
-using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Application.Exchange.Inquiries;
@@ -88,7 +87,6 @@ public class InquirySenderJob : IInquirySenderJob
         var corsSettings = _configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
         if (corsSettings.React is null) throw new InternalServerException("React cors setting is missing.");
         string token = _offerTokenService.GenerateToken(inquiryId, traderId);
-        token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
         var offerFormUri = new Uri(string.Concat($"{corsSettings.React}", "/create-offer/", token));
         return offerFormUri.ToString();
     }

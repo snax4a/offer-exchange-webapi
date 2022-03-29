@@ -110,10 +110,12 @@ internal partial class UserService
             FirstName = request.FirstName,
             LastName = request.LastName,
             CompanyName = request.CompanyName,
-            UserName = request.UserName,
             PhoneNumber = request.PhoneNumber,
             IsActive = true
         };
+
+        // Identity requires username so we pass user id here
+        user.UserName = user.Id;
 
         var result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
@@ -123,7 +125,7 @@ internal partial class UserService
 
         await _userManager.AddToRoleAsync(user, FSHRoles.Basic);
 
-        var messages = new List<string> { string.Format(_localizer["User {0} Registered."], user.UserName) };
+        var messages = new List<string> { string.Format(_localizer["User {0} Registered."], user.Email) };
 
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {

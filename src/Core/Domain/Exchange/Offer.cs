@@ -3,9 +3,9 @@ namespace FSH.WebApi.Domain.Exchange;
 public class Offer : BaseEntity, IAggregateRoot
 {
     public string CurrencyCode { get; private set; } = default!;
-    public decimal NetValue { get; private set; }
-    public decimal GrossValue { get; private set; }
-    public DateTime? ExpirationDate { get; private set; }
+    public long NetValue { get; private set; }
+    public long GrossValue { get; private set; }
+    public DateOnly? ExpirationDate { get; private set; }
     public DeliveryCost DeliveryCost { get; private set; } = default!;
     public string? Freebie { get; private set; }
     public bool HasFreebies { get; private set; }
@@ -26,6 +26,7 @@ public class Offer : BaseEntity, IAggregateRoot
         Guid inquiryId,
         Guid traderId,
         Guid userId,
+        DateOnly? expirationDate,
         string currencyCode,
         DeliveryCost deliveryCost,
         string? offerFreebie,
@@ -43,6 +44,7 @@ public class Offer : BaseEntity, IAggregateRoot
         InquiryId = inquiryId;
         TraderId = traderId;
         UserId = userId;
+        ExpirationDate = expirationDate;
         CurrencyCode = currencyCode;
         NetValue = offerProducts.Sum(op => op.NetValue);
         GrossValue = offerProducts.Sum(op => op.GrossValue);

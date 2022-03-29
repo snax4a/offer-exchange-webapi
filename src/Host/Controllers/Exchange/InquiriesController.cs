@@ -7,7 +7,7 @@ public class InquiriesController : VersionedApiController
     [HttpPost("search")]
     [MustHavePermission(FSHAction.Search, FSHResource.Inquiries)]
     [OpenApiOperation("Search inquiries using available filters.", "")]
-    public Task<PaginationResponse<InquiryDto>> SearchAsync(SearchInquiriesRequest request)
+    public Task<PaginationResponse<InquiryWithCountsDto>> SearchAsync(SearchInquiriesRequest request)
     {
         return Mediator.Send(request);
     }
@@ -18,6 +18,15 @@ public class InquiriesController : VersionedApiController
     public Task<InquiryDetailsDto> GetAsync(Guid id)
     {
         return Mediator.Send(new GetInquiryRequest(id));
+    }
+
+    [HttpGet("get-by-offer-token/{offerToken}")]
+    [AllowAnonymous]
+    [TenantIdHeader]
+    [OpenApiOperation("Get inquiry details for offer form.", "")]
+    public Task<InquiryForOfferDto> GetByOfferTokenAsync(string offerToken)
+    {
+        return Mediator.Send(new GetInquiryForOfferRequest(offerToken));
     }
 
     [HttpPost]

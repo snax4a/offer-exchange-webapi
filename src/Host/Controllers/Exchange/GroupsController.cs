@@ -15,9 +15,9 @@ public class GroupsController : VersionedApiController
     [HttpGet("{id:guid}")]
     [MustHavePermission(FSHAction.View, FSHResource.Groups)]
     [OpenApiOperation("Get group details.", "")]
-    public Task<GroupDto> GetAsync(Guid id)
+    public Task<GroupDetailsDto> GetAsync(Guid id)
     {
-        return Mediator.Send(new GetGroupRequest(id));
+        return Mediator.Send(new GetGroupDetailsRequest(id));
     }
 
     [HttpPost]

@@ -3,12 +3,12 @@ namespace FSH.WebApi.Domain.Exchange;
 public class OfferProduct : BaseEntity, IAggregateRoot
 {
     public string CurrencyCode { get; private set; }
-    public decimal? VatRate { get; private set; }
+    public short? VatRate { get; private set; }
     public int Quantity { get; private set; }
-    public decimal NetPrice { get; private set; }
-    public decimal NetValue => Quantity * NetPrice;
-    public decimal GrossValue => Quantity * NetPrice * (1 + VatRate ?? 0);
-    public DateTime DeliveryDate { get; private set; }
+    public long NetPrice { get; private set; }
+    public long NetValue => Quantity * NetPrice;
+    public long GrossValue => NetValue + (long)Math.Round((VatRate ?? 0) * (decimal)NetValue / 100);
+    public DateOnly DeliveryDate { get; private set; }
     public bool IsReplacement { get; private set; }
     public string? ReplacementName { get; private set; }
     public string? Freebie { get; private set; }
@@ -22,10 +22,10 @@ public class OfferProduct : BaseEntity, IAggregateRoot
         Guid offerId,
         Guid inquiryProductId,
         string currencyCode,
-        decimal? vatRate,
+        short? vatRate,
         int quantity,
-        decimal netPrice,
-        DateTime deliveryDate,
+        long netPrice,
+        DateOnly deliveryDate,
         bool isReplacement,
         string? replacementName,
         string? freebie)

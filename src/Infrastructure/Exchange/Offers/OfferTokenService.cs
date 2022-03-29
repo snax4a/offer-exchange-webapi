@@ -1,6 +1,8 @@
 using System.Text;
+using FSH.WebApi.Application.Exchange.Offers;
+using Microsoft.AspNetCore.WebUtilities;
 
-namespace FSH.WebApi.Application.Exchange.Offers;
+namespace FSH.WebApi.Infrastructure.Exchange.Offers;
 
 public class OfferTokenService : IOfferTokenService
 {
@@ -9,7 +11,7 @@ public class OfferTokenService : IOfferTokenService
     {
         string plainString = $"{inquiryId}.{traderId}";
         byte[] plainStringBytes = Encoding.UTF8.GetBytes(plainString);
-        return Convert.ToBase64String(plainStringBytes);
+        return WebEncoders.Base64UrlEncode(plainStringBytes);
     }
 
     // Checks if Guids from decoded token are not empty
@@ -22,7 +24,7 @@ public class OfferTokenService : IOfferTokenService
     // Decodes base64 string and tries to parse two Guids from it
     public (Guid InquiryId, Guid TraderId) DecodeToken(string token)
     {
-        byte[] stringBytes = Convert.FromBase64String(token);
+        byte[] stringBytes = WebEncoders.Base64UrlDecode(token);
         string decodedString = Encoding.UTF8.GetString(stringBytes);
         string[] guidStrings = decodedString.Split(".");
         Guid.TryParse(guidStrings[0], out Guid inquiryId);

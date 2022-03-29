@@ -4,6 +4,7 @@ namespace FSH.WebApi.Application.Exchange.Traders;
 
 public class SearchTradersRequest : PaginationFilter, IRequest<PaginationResponse<TraderDetailsDto>>
 {
+    public Guid? GroupId { get; set; }
 }
 
 public class SearchTradersRequestHandler : IRequestHandler<SearchTradersRequest, PaginationResponse<TraderDetailsDto>>

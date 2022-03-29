@@ -4,8 +4,8 @@ namespace FSH.WebApi.Domain.Exchange;
 
 public class Order : AuditableEntity, IAggregateRoot
 {
-    public decimal NetValue { get; private set; }
-    public decimal GrossValue { get; private set; }
+    public long NetValue { get; private set; }
+    public long GrossValue { get; private set; }
     public string CurrencyCode { get; private set; } = default!;
     public DeliveryCost DeliveryCost { get; private set; } = default!;
     public Guid TraderId { get; private set; }

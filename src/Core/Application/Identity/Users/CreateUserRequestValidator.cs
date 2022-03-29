@@ -17,12 +17,6 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
             .MustAsync(async (email, _) => !await userService.ExistsWithEmailAsync(email))
                 .WithMessage((_, email) => string.Format(localizer["Email {0} is already registered."], email));
 
-        RuleFor(u => u.UserName).Cascade(CascadeMode.Stop)
-            .NotEmpty()
-            .MinimumLength(6)
-            .MustAsync(async (name, _) => !await userService.ExistsWithNameAsync(name))
-                .WithMessage((_, name) => string.Format(localizer["Username {0} is already taken."], name));
-
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
             .MustAsync(async (phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!))
                 .WithMessage((_, phone) => string.Format(localizer["Phone number {0} is already registered."], phone))
