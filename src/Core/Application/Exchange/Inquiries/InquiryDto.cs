@@ -6,6 +6,4 @@ public class InquiryDto : IDto
     public int ReferenceNumber { get; set; }
     public string Name { get; set; } = default!;
     public DateTime CreatedOn { get; set; }
-    public int RecipientCount { get; set; }
-    public int OfferCount { get; set; }
 }

@@ -1,6 +1,6 @@
 namespace FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 
-public class SearchInquiriesSpec : EntitiesByPaginationFilterSpec<Inquiry, InquiryDto>
+public class SearchInquiriesSpec : EntitiesByPaginationFilterSpec<Inquiry, InquiryWithCountsDto>
 {
     public SearchInquiriesSpec(SearchInquiriesRequest request, Guid userId)
         : base(request) => Query

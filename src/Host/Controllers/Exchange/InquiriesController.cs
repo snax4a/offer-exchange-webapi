@@ -7,7 +7,7 @@ public class InquiriesController : VersionedApiController
     [HttpPost("search")]
     [MustHavePermission(FSHAction.Search, FSHResource.Inquiries)]
     [OpenApiOperation("Search inquiries using available filters.", "")]
-    public Task<PaginationResponse<InquiryDto>> SearchAsync(SearchInquiriesRequest request)
+    public Task<PaginationResponse<InquiryWithCountsDto>> SearchAsync(SearchInquiriesRequest request)
     {
         return Mediator.Send(request);
     }

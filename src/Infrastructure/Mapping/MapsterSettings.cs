@@ -27,6 +27,10 @@ public class MapsterSettings
         TypeAdapterConfig<Inquiry, InquiryDetailsDto>.NewConfig()
             .Map(dest => dest.Recipients, src => src.InquiryRecipients.Select(ir => ir.Trader));
 
+        TypeAdapterConfig<Inquiry, InquiryWithCountsDto>.NewConfig()
+            .Map(dest => dest.RecipientCount, src => src.InquiryRecipients.Count)
+            .Map(dest => dest.OfferCount, src => src.Offers.Count);
+
         TypeAdapterConfig<Offer, OfferDetailsDto>.NewConfig()
             .Map(dest => dest.Products, src => src.OfferProducts);
 
