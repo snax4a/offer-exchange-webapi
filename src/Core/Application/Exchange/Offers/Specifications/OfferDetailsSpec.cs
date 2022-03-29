@@ -5,5 +5,6 @@ public class OfferDetailsSpec : Specification<Offer, OfferDetailsDto>, ISingleRe
     public OfferDetailsSpec(Guid id, Guid userId) =>
         Query
             .Where(o => o.Id == id && o.UserId == userId)
-            .Include(o => o.OfferProducts);
+            .Include(o => o.OfferProducts)
+            .Include(o => o.Inquiry);
 }

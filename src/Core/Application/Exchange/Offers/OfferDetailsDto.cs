@@ -1,3 +1,4 @@
+using FSH.WebApi.Application.Exchange.Inquiries;
 using FSH.WebApi.Application.Exchange.Traders;
 
 namespace FSH.WebApi.Application.Exchange.Offers;
@@ -16,6 +17,6 @@ public class OfferDetailsDto : IDto
     public bool HasFreebies { get; set; }
     public bool HasReplacements { get; set; }
     public TraderDto Trader { get; set; } = default!;
-    public Guid InquiryId { get; set; }
+    public InquiryDto Inquiry { get; set; }
     public IList<OfferProductDto> Products { get; set; } = default!;
 }
