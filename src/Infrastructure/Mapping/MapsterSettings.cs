@@ -25,7 +25,9 @@ public class MapsterSettings
             .Map(dest => dest.Groups, src => src.TraderGroups.Select(tg => tg.Group));
 
         TypeAdapterConfig<Inquiry, InquiryDetailsDto>.NewConfig()
-            .Map(dest => dest.Recipients, src => src.InquiryRecipients.Select(ir => ir.Trader));
+            .Map(dest => dest.Recipients, src => src.InquiryRecipients.Select(ir => ir.Trader))
+            .Map(dest => dest.RecipientCount, src => src.InquiryRecipients.Count)
+            .Map(dest => dest.OfferCount, src => src.Offers.Count);
 
         TypeAdapterConfig<Inquiry, InquiryWithCountsDto>.NewConfig()
             .Map(dest => dest.RecipientCount, src => src.InquiryRecipients.Count)
