@@ -7,7 +7,7 @@ public class OffersController : VersionedApiController
     [HttpPost("search")]
     [MustHavePermission(FSHAction.Search, FSHResource.Offers)]
     [OpenApiOperation("Search offers using available filters.", "")]
-    public Task<PaginationResponse<OfferDto>> SearchAsync(SearchOffersRequest request)
+    public Task<PaginationResponse<OfferWithInquiryDto>> SearchAsync(SearchOffersRequest request)
     {
         return Mediator.Send(request);
     }
