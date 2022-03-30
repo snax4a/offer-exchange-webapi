@@ -17,6 +17,6 @@ public class OfferDetailsDto : IDto
     public bool HasFreebies { get; set; }
     public bool HasReplacements { get; set; }
     public TraderDto Trader { get; set; } = default!;
-    public InquiryDto Inquiry { get; set; }
+    public InquiryDto Inquiry { get; set; } = default!;
     public IList<OfferProductDto> Products { get; set; } = default!;
 }
