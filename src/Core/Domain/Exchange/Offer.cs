@@ -51,7 +51,7 @@ public class Offer : BaseEntity, IAggregateRoot
         GrossValue = offerProducts.Sum(op => op.GrossValue);
         DeliveryCost = deliveryCost;
         Freebie = offerFreebie;
-        HasFreebies = offerProducts.Any(op => !string.IsNullOrWhiteSpace(op.Freebie));
+        HasFreebies = !string.IsNullOrWhiteSpace(offerFreebie) || offerProducts.Any(op => !string.IsNullOrWhiteSpace(op.Freebie));
         HasReplacements = offerProducts.Any(op => op.IsReplacement);
         OfferProducts = offerProducts;
     }
