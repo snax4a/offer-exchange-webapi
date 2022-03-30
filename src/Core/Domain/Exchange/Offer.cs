@@ -10,6 +10,7 @@ public class Offer : BaseEntity, IAggregateRoot
     public string? Freebie { get; private set; }
     public bool HasFreebies { get; private set; }
     public bool HasReplacements { get; private set; }
+    public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
     public Guid UserId { get; private set; }
     public Guid InquiryId { get; private set; }
     public virtual Inquiry Inquiry { get; private set; } = default!;
