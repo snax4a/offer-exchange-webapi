@@ -1,4 +1,5 @@
-﻿using FSH.WebApi.Application.Exchange.Groups.Specifications;
+﻿using FSH.WebApi.Application.Exchange.Groups.DTOs;
+using FSH.WebApi.Application.Exchange.Groups.Specifications;
 
 namespace FSH.WebApi.Application.Exchange.Groups;
 

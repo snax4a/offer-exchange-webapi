@@ -1,4 +1,4 @@
-namespace FSH.WebApi.Application.Exchange.Groups;
+namespace FSH.WebApi.Application.Exchange.Groups.DTOs;
 
 public class GroupDto : IDto
 {

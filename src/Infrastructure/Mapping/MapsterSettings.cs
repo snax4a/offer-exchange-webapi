@@ -1,4 +1,4 @@
-﻿using FSH.WebApi.Application.Exchange.Groups;
+﻿using FSH.WebApi.Application.Exchange.Groups.DTOs;
 using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 using FSH.WebApi.Application.Exchange.Offers.DTOs;
 using FSH.WebApi.Application.Exchange.Orders;

@@ -1,4 +1,4 @@
-using FSH.WebApi.Application.Exchange.Groups;
+using FSH.WebApi.Application.Exchange.Groups.DTOs;
 
 namespace FSH.WebApi.Application.Exchange.Traders;
 
