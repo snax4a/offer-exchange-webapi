@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Offers.DTOs;
+
 namespace FSH.WebApi.Application.Exchange.Offers.Specifications;
 
 public class OfferDetailsSpec : Specification<Offer, OfferDetailsDto>, ISingleResultSpecification

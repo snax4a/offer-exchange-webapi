@@ -1,4 +1,4 @@
-using FSH.WebApi.Application.Exchange.Offers;
+using FSH.WebApi.Application.Exchange.Offers.DTOs;
 using FSH.WebApi.Application.Exchange.Traders;
 using FSH.WebApi.Application.Identity.Users;
 

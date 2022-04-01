@@ -1,4 +1,4 @@
-namespace FSH.WebApi.Application.Exchange.Offers;
+namespace FSH.WebApi.Application.Exchange.Offers.DTOs;
 
 public class OfferProductDetailsDto : OfferProductDto
 {

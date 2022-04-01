@@ -1,4 +1,4 @@
-using FSH.WebApi.Application.Exchange.Offers;
+using FSH.WebApi.Application.Exchange.Offers.DTOs;
 
 namespace FSH.WebApi.Application.Exchange.Orders;
 

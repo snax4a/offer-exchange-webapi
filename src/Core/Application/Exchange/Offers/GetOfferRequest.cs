@@ -1,4 +1,5 @@
-﻿using FSH.WebApi.Application.Exchange.Offers.Specifications;
+﻿using FSH.WebApi.Application.Exchange.Offers.DTOs;
+using FSH.WebApi.Application.Exchange.Offers.Specifications;
 
 namespace FSH.WebApi.Application.Exchange.Offers;
 

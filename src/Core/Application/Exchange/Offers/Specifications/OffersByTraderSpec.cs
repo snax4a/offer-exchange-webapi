@@ -1,4 +1,6 @@
-﻿namespace FSH.WebApi.Application.Exchange.Offers.Specifications;
+﻿using FSH.WebApi.Application.Exchange.Offers.DTOs;
+
+namespace FSH.WebApi.Application.Exchange.Offers.Specifications;
 
 public class OffersByTraderSpec : Specification<Offer>
 {
