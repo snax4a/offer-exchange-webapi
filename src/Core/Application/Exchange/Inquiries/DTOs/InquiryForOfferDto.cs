@@ -2,7 +2,7 @@ using FSH.WebApi.Application.Exchange.Offers;
 using FSH.WebApi.Application.Exchange.Traders;
 using FSH.WebApi.Application.Identity.Users;
 
-namespace FSH.WebApi.Application.Exchange.Inquiries;
+namespace FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 
 public class InquiryForOfferDto : IDto
 {

@@ -1,4 +1,4 @@
-using FSH.WebApi.Application.Exchange.Inquiries;
+using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 using FSH.WebApi.Application.Exchange.Traders;
 
 namespace FSH.WebApi.Application.Exchange.Offers;

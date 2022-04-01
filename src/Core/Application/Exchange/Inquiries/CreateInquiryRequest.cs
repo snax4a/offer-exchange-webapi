@@ -1,3 +1,4 @@
+using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 using MassTransit;
 

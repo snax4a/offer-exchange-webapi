@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
+
 namespace FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 
 public class InquiryDetailsSpec : Specification<Inquiry, InquiryDetailsDto>, ISingleResultSpecification

@@ -1,4 +1,5 @@
 ﻿using FSH.WebApi.Application.Exchange.Inquiries;
+using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 
 namespace FSH.WebApi.Host.Controllers.Exchange;
 

@@ -1,4 +1,4 @@
-namespace FSH.WebApi.Application.Exchange.Inquiries;
+namespace FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 
 public class InquiryWithCountsDto : InquiryDto
 {

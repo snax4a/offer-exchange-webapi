@@ -1,6 +1,6 @@
 using FSH.WebApi.Application.Exchange.Traders;
 
-namespace FSH.WebApi.Application.Exchange.Inquiries;
+namespace FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 
 public class InquiryDetailsDto : InquiryWithCountsDto
 {
