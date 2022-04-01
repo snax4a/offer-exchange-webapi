@@ -1,5 +1,5 @@
 using FSH.WebApi.Application.Exchange.Offers.DTOs;
-using FSH.WebApi.Application.Exchange.Traders;
+using FSH.WebApi.Application.Exchange.Traders.DTOs;
 using FSH.WebApi.Application.Identity.Users;
 
 namespace FSH.WebApi.Application.Exchange.Inquiries.DTOs;

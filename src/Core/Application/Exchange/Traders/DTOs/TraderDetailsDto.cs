@@ -1,6 +1,6 @@
 using FSH.WebApi.Application.Exchange.Groups.DTOs;
 
-namespace FSH.WebApi.Application.Exchange.Traders;
+namespace FSH.WebApi.Application.Exchange.Traders.DTOs;
 
 public class TraderDetailsDto : TraderDto
 {

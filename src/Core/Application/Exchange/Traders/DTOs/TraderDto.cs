@@ -1,4 +1,4 @@
-namespace FSH.WebApi.Application.Exchange.Traders;
+namespace FSH.WebApi.Application.Exchange.Traders.DTOs;
 
 public class TraderDto : IDto
 {

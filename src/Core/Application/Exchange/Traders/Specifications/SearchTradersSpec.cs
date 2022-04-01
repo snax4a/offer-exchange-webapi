@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Traders.DTOs;
+
 namespace FSH.WebApi.Application.Exchange.Traders.Specifications;
 public class SearchTradersSpec : EntitiesByPaginationFilterSpec<Trader, TraderDetailsDto>
 {

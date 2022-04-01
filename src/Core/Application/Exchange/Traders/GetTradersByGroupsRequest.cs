@@ -1,4 +1,5 @@
-﻿using FSH.WebApi.Application.Exchange.Traders.Specifications;
+﻿using FSH.WebApi.Application.Exchange.Traders.DTOs;
+using FSH.WebApi.Application.Exchange.Traders.Specifications;
 
 namespace FSH.WebApi.Application.Exchange.Traders;
 
