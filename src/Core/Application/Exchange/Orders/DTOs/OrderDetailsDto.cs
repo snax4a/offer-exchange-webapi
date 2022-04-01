@@ -1,6 +1,6 @@
 using FSH.WebApi.Application.Exchange.Offers.DTOs;
 
-namespace FSH.WebApi.Application.Exchange.Orders;
+namespace FSH.WebApi.Application.Exchange.Orders.DTOs;
 
 public class OrderDetailsDto : OrderDto
 {

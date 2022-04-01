@@ -1,4 +1,5 @@
 ﻿using FSH.WebApi.Application.Exchange.Orders;
+using FSH.WebApi.Application.Exchange.Orders.DTOs;
 
 namespace FSH.WebApi.Host.Controllers.Exchange;
 

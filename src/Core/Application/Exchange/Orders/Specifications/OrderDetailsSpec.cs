@@ -1,3 +1,5 @@
+using FSH.WebApi.Application.Exchange.Orders.DTOs;
+
 namespace FSH.WebApi.Application.Exchange.Orders.Specifications;
 
 public class OrderDetailsSpec : Specification<Order, OrderDetailsDto>, ISingleResultSpecification
