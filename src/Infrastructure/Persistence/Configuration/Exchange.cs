@@ -48,6 +48,17 @@ public class TraderGroupConfig : IEntityTypeConfiguration<TraderGroup>
     }
 }
 
+public class InquiryConfig : IEntityTypeConfiguration<Inquiry>
+{
+    public void Configure(EntityTypeBuilder<Inquiry> builder)
+    {
+        builder.IsMultiTenant();
+        builder.HasIndex(i => new { i.ReferenceNumber, i.CreatedBy }).IsUnique(true);
+        builder.Property(i => i.Name).HasMaxLength(60);
+        builder.Property(i => i.Title).HasMaxLength(100);
+    }
+}
+
 public class InquiryProductConfig : IEntityTypeConfiguration<InquiryProduct>
 {
     public void Configure(EntityTypeBuilder<InquiryProduct> builder)
@@ -56,9 +67,10 @@ public class InquiryProductConfig : IEntityTypeConfiguration<InquiryProduct>
         builder.Property(p => p.Name).HasMaxLength(100);
 
         builder
-            .HasOne(ip => ip.Inquiry)
+            .HasOne<Inquiry>()
             .WithMany(i => i.Products)
-            .HasForeignKey(ip => ip.InquiryId);
+            .HasForeignKey(ip => ip.InquiryId)
+            .IsRequired(true);
     }
 }
 
@@ -102,17 +114,6 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
             .HasOne(op => op.InquiryProduct)
             .WithMany(ip => ip.OfferProducts)
             .HasForeignKey(op => op.InquiryProductId);
-    }
-}
-
-public class InquiryConfig : IEntityTypeConfiguration<Inquiry>
-{
-    public void Configure(EntityTypeBuilder<Inquiry> builder)
-    {
-        builder.IsMultiTenant();
-        builder.HasIndex(i => new { i.ReferenceNumber, i.CreatedBy }).IsUnique(true);
-        builder.Property(i => i.Name).HasMaxLength(60);
-        builder.Property(i => i.Title).HasMaxLength(100);
     }
 }
 
