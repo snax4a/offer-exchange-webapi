@@ -80,22 +80,18 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
         }
 
         Guid offerId = NewId.Next().ToGuid();
-        List<OfferProduct> products = new();
 
-        foreach (OfferProductDto product in request.Products)
-        {
-            products.Add(new OfferProduct(
-                offerId,
-                product.InquiryProduct.Id,
-                request.CurrencyCode,
-                product.VatRate,
-                product.Quantity,
-                product.NetPrice,
-                product.DeliveryDate,
-                product.IsReplacement,
-                product.ReplacementName,
-                product.Freebie));
-        }
+        var products = request.Products.Select(product => new OfferProduct(
+            offerId,
+            product.InquiryProduct.Id,
+            request.CurrencyCode,
+            product.VatRate,
+            product.Quantity,
+            product.NetPrice,
+            product.DeliveryDate,
+            product.IsReplacement,
+            product.ReplacementName,
+            product.Freebie)).ToList();
 
         var deliveryCost = new DeliveryCost(request.DeliveryCostType, request.DeliveryCostGrossPrice, request.DeliveryCostDescription);
 
