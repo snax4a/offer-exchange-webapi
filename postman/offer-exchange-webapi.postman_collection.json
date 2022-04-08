@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "12e00597-47ae-4da7-b40d-4cbb458d9114",
-		"name": "dotnet.webapi.boilerplate",
+		"name": "offer-exchange-webapi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -41,7 +41,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"admin@root.com\",\r\n    \"password\":\"123Pa$$word!\"\r\n}",
+							"raw": "{\r\n    \"email\":\"test@test.com\",\r\n    \"password\":\"test12345\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -67,13 +67,18 @@
 						"header": [
 							{
 								"key": "tenant",
-								"value": "beta",
+								"value": "root",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "pl-PL",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Smith\",\r\n  \"email\": \"john@root.com\",\r\n  \"userName\": \"john.smith\",\r\n  \"password\": \"123Pa$$word!\",\r\n  \"confirmPassword\": \"123Pa$$word!\",\r\n  \"phoneNumber\": \"99999\"\r\n}",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"test12345\",\r\n    \"confirmPassword\": \"test12345\",\r\n    \"firstName\": \"Szymon\",\r\n    \"lastName\": \"Sus\",\r\n    \"companyName\": \"CONETSO sp. z o.o.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -81,12 +86,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/users",
+							"raw": "{{url}}/users/self-register",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"users"
+								"users",
+								"self-register"
 							]
 						}
 					},
@@ -236,11 +242,16 @@
 								"key": "tenant",
 								"value": "root",
 								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "pl",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"admin@root.com\"\r\n}",
+							"raw": "{\r\n    \"email\":\"sus.szymon3@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -341,6 +352,33 @@
 							"path": [
 								"tokens",
 								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123Pa$$word!\",\n    \"newPassword\": \"test12345\",\n    \"confirmNewPassword\": \"test12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/personal/change-password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"personal",
+								"change-password"
 							]
 						}
 					},
@@ -855,6 +893,783 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exchange",
+			"item": [
+				{
+					"name": "Groups",
+					"item": [
+						{
+							"name": "search-groups",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/groups/search",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"groups",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-group",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "beta",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Test 3\",\r\n    \"color\": \"RED\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/groups",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"groups"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-group",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/groups/c3571ec9-0a76-471f-ac24-88c7edf8bac7",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"groups",
+										"c3571ec9-0a76-471f-ac24-88c7edf8bac7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-group",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"30b4977c-9ae5-4c78-8640-7c304f48b6da\",\r\n    \"name\":\"Artykuły budowlane\",\r\n    \"color\": \"GREY\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/groups/30b4977c-9ae5-4c78-8640-7c304f48b6da",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"groups",
+										"30b4977c-9ae5-4c78-8640-7c304f48b6da"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-group-by-id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/groups/633adb1f-108f-4607-8d40-4b47809e9116",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"groups",
+										"633adb1f-108f-4607-8d40-4b47809e9116"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Traders",
+					"item": [
+						{
+							"name": "search-traders",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"advancedSearch\": {\r\n    \"fields\": [\"\"],\r\n    \"keyword\": \"\"\r\n  },\r\n  \"keyword\": \"\",\r\n  \"groupId\": null,\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/traders/search",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"traders",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-trader",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "beta",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "pl",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\":\"Test2\",\r\n    \"lastName\": \"Sus\",\r\n    \"email\": \"stest2@conetso.com\",\r\n    \"groupIds\": [\r\n        \"6849a369-6212-457b-a2d6-22aa0f923f71\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/traders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"traders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-trader",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/v1/traders/30137106-df7c-4a65-9914-b3e6817a4700",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"traders",
+										"30137106-df7c-4a65-9914-b3e6817a4700"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update-trader",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"74117afb-fc1b-4ae3-b9b9-fc0e816f3eee\",\r\n    \"firstName\":\"Wojciech\",\r\n    \"lastName\": \"Kasperski\",\r\n    \"email\": \"wojtek.k@onet.poczta.pl\",\r\n    \"groupIds\": [\r\n        \"6849a369-6212-457b-a2d6-22aa0f923f71\",\r\n        \"6b579800-399c-4fcb-8a87-2e1e7a87d3d9\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/traders/74117afb-fc1b-4ae3-b9b9-fc0e816f3eee",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"traders",
+										"74117afb-fc1b-4ae3-b9b9-fc0e816f3eee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-trader-by-id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/traders/74117afb-fc1b-4ae3-b9b9-fc0e816f3eee",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"traders",
+										"74117afb-fc1b-4ae3-b9b9-fc0e816f3eee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-traders-by-groups",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"groupIds\": [\r\n        \"73d20656-6133-42da-9936-2ebf814ae0e2\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/traders/get-by-groups",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"traders",
+										"get-by-groups"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Inquiries",
+					"item": [
+						{
+							"name": "search-inquiries",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 1,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/inquiries/search",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"inquiries",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-inquiry",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "beta",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "pl-PL",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Test inquiry 2\",\r\n    \"title\": \"Test inquiry 2 title\",\r\n    \"recipientIds\": [\r\n        \"47a0e858-01a9-44d8-9be9-02d1de277044\"\r\n    ],\r\n    \"products\": [\r\n        {\r\n            \"name\": \"Testowy produkt 2\",\r\n            \"quantity\": 5,\r\n            \"preferredDeliveryDate\": \"2022-03-29\"\r\n        },\r\n        {\r\n            \"name\": \"Testowy produkt 2\",\r\n            \"quantity\": 2,\r\n            \"preferredDeliveryDate\": \"2022-03-29\"\r\n        },\r\n        {\r\n            \"name\": \"Testowy produkt 4\",\r\n            \"quantity\": 1,\r\n            \"preferredDeliveryDate\": \"2022-03-29\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/inquiries",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"inquiries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-inquiry-by-id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/inquiries/91ac0000-fe87-aae9-5caa-08da0e4569b8",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"inquiries",
+										"91ac0000-fe87-aae9-5caa-08da0e4569b8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-inquiry-by-offer-token",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "root",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/inquiries/get-by-offer-token/MTEyMjAwMDAtNDgwMC1hY2RlLWY4MzAtMDhkYTA5YzE0MDBjLjg4YzFhZmVhLWRmOWQtNDJhNC05YjVlLTM1YWFkNGYzY2JmNQOTFhYzAwMDAtZmU4Ny1hYWU5LTFlODYtMDhkYTEyMmNlNTcyLjRiOGIxOTFhLTdmNjYtNGU4Mi04MDcxLTAzMTVkNjE1Zjg2MA",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"inquiries",
+										"get-by-offer-token",
+										"MTEyMjAwMDAtNDgwMC1hY2RlLWY4MzAtMDhkYTA5YzE0MDBjLjg4YzFhZmVhLWRmOWQtNDJhNC05YjVlLTM1YWFkNGYzY2JmNQOTFhYzAwMDAtZmU4Ny1hYWU5LTFlODYtMDhkYTEyMmNlNTcyLjRiOGIxOTFhLTdmNjYtNGU4Mi04MDcxLTAzMTVkNjE1Zjg2MA"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Offers",
+					"item": [
+						{
+							"name": "search-offers",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"CreatedOn desc\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/offers/search",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"offers",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-offer",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "root",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\": \"MTEyMjAwMDAtNDgwMC1hY2RlLWY4MzAtMDhkYTA5YzE0MDBjLjg4YzFhZmVhLWRmOWQtNDJhNC05YjVlLTM1YWFkNGYzY2JmNQ\",\r\n    \"currencyCode\": \"PLN\",\r\n    \"freebie\": null,\r\n    \"expirationDate\": \"2022-03-23\",\r\n    \"deliveryCostType\": \"Fixed\",\r\n    \"deliveryCostGrossPrice\": 0,\r\n    \"deliveryCostDescription\": null,\r\n    \"products\": [\r\n        {\r\n            \"currencyCode\": \"PLN\",\r\n            \"vatRate\": 0.23,\r\n            \"quantity\": 2,\r\n            \"netPrice\": 100.00,\r\n            \"deliveryDate\": \"2022-03-28\",\r\n            \"isReplacement\": false,\r\n            \"replacementName\": null,\r\n            \"freebie\": null,\r\n            \"inquiryProduct\": {\r\n                \"id\": \"c764eda0-5bf1-4168-b7e6-7024d01aa9d4\",\r\n                \"inquiryId\": \"11220000-4800-acde-f830-08da09c1400c\",\r\n                \"name\": \"test 1\",\r\n                \"quantity\": 1,\r\n                \"preferredDeliveryDate\": \"2022-03-29\"\r\n            }\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/offers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-offer-by-id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/v1/offers/91ac0000-fe87-aae9-48de-08da10bd08de",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"offers",
+										"91ac0000-fe87-aae9-48de-08da10bd08de"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Orders",
+					"item": [
+						{
+							"name": "search-orders",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyword\": \"\",\r\n  \"pageNumber\": 0,\r\n  \"pageSize\": 10,\r\n  \"orderBy\": [\r\n    \"id desc\"\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/orders/search",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"orders",
+										"search"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create-order",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "beta",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productIds\": [\r\n        \"91ac0000-fe87-aae9-bddc-08d9f6d77e13\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/v1/orders",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-order-by-id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/v1/orders/91ac0000-fe87-aae9-e3a6-08d9faf8ab5d",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"orders",
+										"91ac0000-fe87-aae9-e3a6-08d9faf8ab5d"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comparison",
+					"item": [
+						{
+							"name": "get-inquiry-product-offers",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "tenant",
+										"value": "root",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/v1/comparison/product/69ef4e12-dd82-4ebf-ac67-aaa8138123ca/offers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"v1",
+										"comparison",
+										"product",
+										"69ef4e12-dd82-4ebf-ac67-aaa8138123ca",
+										"offers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
