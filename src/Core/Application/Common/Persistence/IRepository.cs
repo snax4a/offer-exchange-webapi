@@ -12,10 +12,10 @@ public interface IRepository<T> : IRepositoryBase<T>
 }
 
 /// <summary>
-/// The read-only repository for an aggregate root.
+/// The read-only repository for any entity.
 /// </summary>
 public interface IReadRepository<T> : IReadRepositoryBase<T>
-    where T : class, IAggregateRoot
+    where T : class, IEntity
 {
 }
 

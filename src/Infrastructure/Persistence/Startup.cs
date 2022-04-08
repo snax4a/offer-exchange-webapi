@@ -1,5 +1,7 @@
+using Dapper;
 using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Domain.Common.Contracts;
+using FSH.WebApi.Domain.Exchange;
 using FSH.WebApi.Infrastructure.Common;
 using FSH.WebApi.Infrastructure.Persistence.ConnectionString;
 using FSH.WebApi.Infrastructure.Persistence.Context;
@@ -81,17 +83,14 @@ internal static class Startup
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Add Repositories
-        services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
+        services.AddScoped(typeof(IRepository<>), typeof(AggregateRootRepository<>));
+        services.AddScoped(typeof(IReadRepository<>), typeof(ApplicationDbRepository<>));
 
         foreach (var aggregateRootType in
             typeof(IAggregateRoot).Assembly.GetExportedTypes()
                 .Where(t => typeof(IAggregateRoot).IsAssignableFrom(t) && t.IsClass)
                 .ToList())
         {
-            // Add ReadRepositories.
-            services.AddScoped(typeof(IReadRepository<>).MakeGenericType(aggregateRootType), sp =>
-                sp.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)));
-
             // Decorate the repositories with EventAddingRepositoryDecorators and expose them as IRepositoryWithEvents.
             services.AddScoped(typeof(IRepositoryWithEvents<>).MakeGenericType(aggregateRootType), sp =>
                 Activator.CreateInstance(
