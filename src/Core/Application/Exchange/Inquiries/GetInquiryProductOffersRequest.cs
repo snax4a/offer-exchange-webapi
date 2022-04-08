@@ -16,15 +16,15 @@ public class GetInquiryProductOffersRequest : IRequest<InquiryProductOffersDto>
 public class GetInquiryProductOffersRequestHandler : IRequestHandler<GetInquiryProductOffersRequest, InquiryProductOffersDto>
 {
     private readonly ICurrentUser _currentUser;
-    private readonly IReadRepository<InquiryProduct> _testRepo;
+    private readonly IReadRepository<InquiryProduct> _repository;
 
-    public GetInquiryProductOffersRequestHandler(ICurrentUser currentUser, IReadRepository<InquiryProduct> productRepo)
-        => (_currentUser, _testRepo) = (currentUser, productRepo);
+    public GetInquiryProductOffersRequestHandler(ICurrentUser currentUser, IReadRepository<InquiryProduct> repository)
+        => (_currentUser, _repository) = (currentUser, repository);
 
     public async Task<InquiryProductOffersDto> Handle(GetInquiryProductOffersRequest request, CancellationToken ct)
     {
         var spec = new InquiryProductByIdAndUserWithOffersSpec(request.InquiryProductId, _currentUser.GetUserId());
-        var inquiryProduct = await _testRepo.GetBySpecAsync(spec, ct);
+        var inquiryProduct = await _repository.GetBySpecAsync(spec, ct);
 
         if (inquiryProduct is null || inquiryProduct.InquiryId != request.InquiryId)
             throw new NotFoundException(string.Format("Inquiry product with id: {0} not found.", request.InquiryId));
