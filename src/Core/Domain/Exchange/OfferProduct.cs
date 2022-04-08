@@ -1,8 +1,8 @@
 namespace FSH.WebApi.Domain.Exchange;
 
-public class OfferProduct : BaseEntity, IAggregateRoot
+public class OfferProduct : BaseEntity
 {
-    public string CurrencyCode { get; private set; }
+    public string CurrencyCode { get; private set; } = default!;
     public short? VatRate { get; private set; }
     public int Quantity { get; private set; }
     public long NetPrice { get; private set; }
@@ -17,6 +17,11 @@ public class OfferProduct : BaseEntity, IAggregateRoot
     public Guid InquiryProductId { get; private set; }
     public virtual InquiryProduct InquiryProduct { get; private set; } = default!;
     public ICollection<OrderProduct> Orders { get; private set; } = new List<OrderProduct>();
+
+    private OfferProduct()
+    {
+        // Required by ORM
+    }
 
     public OfferProduct(
         Guid offerId,

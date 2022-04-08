@@ -7,6 +7,11 @@ public class OrderProduct
     public Guid OfferProductId { get; private set; }
     public virtual OfferProduct OfferProduct { get; private set; } = default!;
 
+    public OrderProduct()
+    {
+        // Required by ORM
+    }
+
     public OrderProduct(Guid orderId, Guid offerProductId)
     {
         if (orderId == Guid.Empty) throw new ArgumentException("Cannot be empty Guid", nameof(orderId));

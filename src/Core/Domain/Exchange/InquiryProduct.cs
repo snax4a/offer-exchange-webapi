@@ -8,6 +8,11 @@ public class InquiryProduct : AuditableEntity
     public Guid InquiryId { get; private set; }
     public ICollection<OfferProduct> OfferProducts { get; private set; } = new List<OfferProduct>();
 
+    private InquiryProduct()
+    {
+        // Required by ORM
+    }
+
     public InquiryProduct(Guid inquiryId, string name, int quantity, DateOnly preferredDeliveryDate)
     {
         InquiryId = inquiryId;

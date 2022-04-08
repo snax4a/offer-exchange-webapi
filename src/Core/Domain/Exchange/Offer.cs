@@ -18,8 +18,9 @@ public class Offer : BaseEntity, IAggregateRoot
     public virtual Trader Trader { get; private set; } = default!;
     public ICollection<OfferProduct> OfferProducts { get; private set; } = new List<OfferProduct>();
 
-    private Offer() // Required by ef
+    private Offer()
     {
+        // Required by ORM
     }
 
     public Offer(

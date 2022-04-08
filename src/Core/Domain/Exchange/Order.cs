@@ -13,8 +13,9 @@ public class Order : AuditableEntity, IAggregateRoot
     public OrderStatus Status { get; private set; }
     public ICollection<OrderProduct> Products { get; private set; } = new List<OrderProduct>();
 
-    private Order() // Required by ef
+    private Order()
     {
+        // Required by ORM
     }
 
     public Order(Guid traderId, IList<OfferProduct> offerProducts)

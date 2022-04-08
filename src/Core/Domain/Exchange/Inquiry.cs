@@ -12,8 +12,9 @@ public class Inquiry : AuditableEntity, IAggregateRoot
     public int OfferCount => Offers.Count;
     public int RecipientCount => InquiryRecipients.Count;
 
-    private Inquiry() // Required by ef
+    private Inquiry()
     {
+        // Required by ORM
     }
 
     public Inquiry(
