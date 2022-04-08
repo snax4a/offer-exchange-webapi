@@ -8,10 +8,10 @@ using Mapster;
 namespace FSH.WebApi.Infrastructure.Persistence.Repository;
 
 // Inherited from Ardalis.Specification's RepositoryBase<T>
-public class AggregateRootRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T>
+public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T>
     where T : class, IAggregateRoot
 {
-    public AggregateRootRepository(ApplicationDbContext dbContext)
+    public EfRepository(ApplicationDbContext dbContext)
         : base(dbContext)
     {
     }

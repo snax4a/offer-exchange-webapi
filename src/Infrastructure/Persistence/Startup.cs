@@ -83,8 +83,8 @@ internal static class Startup
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Add Repositories
-        services.AddScoped(typeof(IRepository<>), typeof(AggregateRootRepository<>));
-        services.AddScoped(typeof(IReadRepository<>), typeof(ApplicationDbRepository<>));
+        services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+        services.AddScoped(typeof(IReadRepository<>), typeof(EfReadRepository<>));
 
         foreach (var aggregateRootType in
             typeof(IAggregateRoot).Assembly.GetExportedTypes()
