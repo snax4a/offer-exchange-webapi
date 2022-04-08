@@ -3,13 +3,13 @@ using FSH.WebApi.Shared.Multitenancy;
 
 namespace FSH.WebApi.Infrastructure.Multitenancy;
 
-public class FSHTenantInfo : ITenantInfo
+public class AppTenantInfo : ITenantInfo
 {
-    public FSHTenantInfo()
+    public AppTenantInfo()
     {
     }
 
-    public FSHTenantInfo(string id, string name, string? connectionString, string adminEmail, string? issuer = null)
+    public AppTenantInfo(string id, string name, string? connectionString, string adminEmail, string? issuer = null)
     {
         Id = id;
         Identifier = id;

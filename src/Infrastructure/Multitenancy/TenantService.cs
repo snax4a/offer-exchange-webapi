@@ -12,14 +12,14 @@ namespace FSH.WebApi.Infrastructure.Multitenancy;
 
 internal class TenantService : ITenantService
 {
-    private readonly IMultiTenantStore<FSHTenantInfo> _tenantStore;
+    private readonly IMultiTenantStore<AppTenantInfo> _tenantStore;
     private readonly IConnectionStringSecurer _csSecurer;
     private readonly IDatabaseInitializer _dbInitializer;
     private readonly IStringLocalizer<TenantService> _localizer;
     private readonly DatabaseSettings _dbSettings;
 
     public TenantService(
-        IMultiTenantStore<FSHTenantInfo> tenantStore,
+        IMultiTenantStore<AppTenantInfo> tenantStore,
         IConnectionStringSecurer csSecurer,
         IDatabaseInitializer dbInitializer,
         IStringLocalizer<TenantService> localizer,
@@ -51,9 +51,9 @@ internal class TenantService : ITenantService
 
     public async Task<string> CreateAsync(CreateTenantRequest request, CancellationToken cancellationToken)
     {
-        if(request.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim()) request.ConnectionString = string.Empty;
+        if (request.ConnectionString?.Trim() == _dbSettings.ConnectionString?.Trim()) request.ConnectionString = string.Empty;
 
-        var tenant = new FSHTenantInfo(request.Id, request.Name, request.ConnectionString, request.AdminEmail, request.Issuer);
+        var tenant = new AppTenantInfo(request.Id, request.Name, request.ConnectionString, request.AdminEmail, request.Issuer);
         await _tenantStore.TryAddAsync(tenant);
 
         // TODO: run this in a hangfire job? will then have to send mail when it's ready or not
@@ -113,7 +113,7 @@ internal class TenantService : ITenantService
         return $"Tenant {id}'s Subscription Upgraded. Now Valid till {tenant.ValidUpto}.";
     }
 
-    private async Task<FSHTenantInfo> GetTenantInfoAsync(string id) =>
+    private async Task<AppTenantInfo> GetTenantInfoAsync(string id) =>
         await _tenantStore.TryGetAsync(id)
-            ?? throw new NotFoundException(string.Format(_localizer["entity.notfound"], typeof(FSHTenantInfo).Name, id));
+            ?? throw new NotFoundException(string.Format(_localizer["entity.notfound"], typeof(AppTenantInfo).Name, id));
 }

@@ -6,7 +6,7 @@ namespace FSH.WebApi.Host.Controllers.Exchange;
 public class OffersController : VersionedApiController
 {
     [HttpPost("search")]
-    [MustHavePermission(FSHAction.Search, FSHResource.Offers)]
+    [MustHavePermission(ResourceAction.Search, Resource.Offers)]
     [OpenApiOperation("Search offers using available filters.", "")]
     public Task<PaginationResponse<OfferWithInquiryDto>> SearchAsync(SearchOffersRequest request)
     {
@@ -14,7 +14,7 @@ public class OffersController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Offers)]
+    [MustHavePermission(ResourceAction.View, Resource.Offers)]
     [OpenApiOperation("Get offer details.", "")]
     public Task<OfferDetailsDto> GetAsync(Guid id)
     {

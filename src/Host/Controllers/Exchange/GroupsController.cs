@@ -6,7 +6,7 @@ namespace FSH.WebApi.Host.Controllers.Exchange;
 public class GroupsController : VersionedApiController
 {
     [HttpPost("search")]
-    [MustHavePermission(FSHAction.Search, FSHResource.Groups)]
+    [MustHavePermission(ResourceAction.Search, Resource.Groups)]
     [OpenApiOperation("Search groups using available filters.", "")]
     public Task<PaginationResponse<GroupDto>> SearchAsync(SearchGroupsRequest request)
     {
@@ -14,7 +14,7 @@ public class GroupsController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Groups)]
+    [MustHavePermission(ResourceAction.View, Resource.Groups)]
     [OpenApiOperation("Get group details.", "")]
     public Task<GroupDetailsDto> GetAsync(Guid id)
     {
@@ -22,7 +22,7 @@ public class GroupsController : VersionedApiController
     }
 
     [HttpPost]
-    [MustHavePermission(FSHAction.Create, FSHResource.Groups)]
+    [MustHavePermission(ResourceAction.Create, Resource.Groups)]
     [OpenApiOperation("Create a new group.", "")]
     public Task<Guid> CreateAsync(CreateGroupRequest request)
     {
@@ -30,7 +30,7 @@ public class GroupsController : VersionedApiController
     }
 
     [HttpPut("{id:guid}")]
-    [MustHavePermission(FSHAction.Update, FSHResource.Groups)]
+    [MustHavePermission(ResourceAction.Update, Resource.Groups)]
     [OpenApiOperation("Update group.", "")]
     public async Task<ActionResult<Guid>> UpdateAsync(UpdateGroupRequest request, Guid id)
     {
@@ -40,7 +40,7 @@ public class GroupsController : VersionedApiController
     }
 
     [HttpDelete("{id:guid}")]
-    [MustHavePermission(FSHAction.Delete, FSHResource.Groups)]
+    [MustHavePermission(ResourceAction.Delete, Resource.Groups)]
     [OpenApiOperation("Delete group.", "")]
     public Task<Guid> DeleteAsync(Guid id)
     {

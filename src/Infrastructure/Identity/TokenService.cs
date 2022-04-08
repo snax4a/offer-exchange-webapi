@@ -23,13 +23,13 @@ internal class TokenService : ITokenService
     private readonly IStringLocalizer<TokenService> _localizer;
     private readonly SecuritySettings _securitySettings;
     private readonly JwtSettings _jwtSettings;
-    private readonly FSHTenantInfo? _currentTenant;
+    private readonly AppTenantInfo? _currentTenant;
 
     public TokenService(
         UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
         IStringLocalizer<TokenService> localizer,
-        FSHTenantInfo? currentTenant,
+        AppTenantInfo? currentTenant,
         IOptions<SecuritySettings> securitySettings)
     {
         _userManager = userManager;
@@ -124,11 +124,11 @@ internal class TokenService : ITokenService
             new(ClaimTypes.GivenName, user.FirstName),
             new(ClaimTypes.Surname, user.LastName),
             new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty),
-            new(FSHClaims.FullName, $"{user.FirstName} {user.LastName}"),
-            new(FSHClaims.ComapnyName, user.CompanyName),
-            new(FSHClaims.IpAddress, ipAddress),
-            new(FSHClaims.Tenant, _currentTenant!.Id),
-            new(FSHClaims.ImageUrl, user.ImageUrl ?? string.Empty)
+            new(AppClaims.FullName, $"{user.FirstName} {user.LastName}"),
+            new(AppClaims.ComapnyName, user.CompanyName),
+            new(AppClaims.IpAddress, ipAddress),
+            new(AppClaims.Tenant, _currentTenant!.Id),
+            new(AppClaims.ImageUrl, user.ImageUrl ?? string.Empty)
         };
 
     private string GenerateRefreshToken()

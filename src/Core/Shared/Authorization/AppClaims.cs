@@ -1,6 +1,6 @@
 ﻿namespace FSH.WebApi.Shared.Authorization;
 
-public static class FSHClaims
+public static class AppClaims
 {
     public const string Tenant = "tenant";
     public const string FullName = "fullName";

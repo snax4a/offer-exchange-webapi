@@ -80,7 +80,7 @@ internal partial class UserService
                 ObjectId = principal.GetObjectId(),
                 FirstName = principal.FindFirstValue(ClaimTypes.GivenName),
                 LastName = principal.FindFirstValue(ClaimTypes.Surname),
-                CompanyName = principal.FindFirstValue(FSHClaims.ComapnyName),
+                CompanyName = principal.FindFirstValue(AppClaims.ComapnyName),
                 Email = email,
                 NormalizedEmail = email.ToUpperInvariant(),
                 UserName = username,
@@ -123,7 +123,7 @@ internal partial class UserService
             throw new InternalServerException(_localizer["Validation Errors Occurred."], result.GetErrors(_localizer));
         }
 
-        await _userManager.AddToRoleAsync(user, FSHRoles.Basic);
+        await _userManager.AddToRoleAsync(user, AppRoles.Basic);
 
         var messages = new List<string> { string.Format(_localizer["User {0} Registered."], user.Email) };
 

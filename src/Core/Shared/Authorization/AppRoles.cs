@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace FSH.WebApi.Shared.Authorization;
 
-public static class FSHRoles
+public static class AppRoles
 {
     public const string Admin = nameof(Admin);
     public const string Basic = nameof(Basic);

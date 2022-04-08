@@ -8,7 +8,7 @@ using FSH.WebApi.Infrastructure;
 using FSH.WebApi.Infrastructure.Common;
 using Serilog;
 
-[assembly: ApiConventionType(typeof(FSHApiConventions))]
+[assembly: ApiConventionType(typeof(ApiConventions))]
 
 StaticLogger.EnsureInitialized();
 Log.Information("Server Booting Up...");

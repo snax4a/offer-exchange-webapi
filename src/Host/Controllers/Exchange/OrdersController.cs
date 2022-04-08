@@ -6,7 +6,7 @@ namespace FSH.WebApi.Host.Controllers.Exchange;
 public class OrdersController : VersionedApiController
 {
     [HttpPost("search")]
-    [MustHavePermission(FSHAction.Search, FSHResource.Orders)]
+    [MustHavePermission(ResourceAction.Search, Resource.Orders)]
     [OpenApiOperation("Search orders using available filters.", "")]
     public Task<PaginationResponse<OrderDto>> SearchAsync(SearchOrdersRequest request)
     {
@@ -14,7 +14,7 @@ public class OrdersController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Orders)]
+    [MustHavePermission(ResourceAction.View, Resource.Orders)]
     [OpenApiOperation("Get order details.", "")]
     public Task<OrderDetailsDto> GetAsync(Guid id)
     {
@@ -22,7 +22,7 @@ public class OrdersController : VersionedApiController
     }
 
     [HttpPost]
-    [MustHavePermission(FSHAction.Create, FSHResource.Orders)]
+    [MustHavePermission(ResourceAction.Create, Resource.Orders)]
     [OpenApiOperation("Create a new order.", "")]
     public Task<List<Guid>> CreateAsync(CreateOrderRequest request)
     {

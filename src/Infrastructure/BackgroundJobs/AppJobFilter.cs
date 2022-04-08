@@ -9,13 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FSH.WebApi.Infrastructure.BackgroundJobs;
 
-public class FSHJobFilter : IClientFilter
+public class AppJobFilter : IClientFilter
 {
     private static readonly ILog Logger = LogProvider.GetCurrentClassLogger();
 
     private readonly IServiceProvider _services;
 
-    public FSHJobFilter(IServiceProvider services) => _services = services;
+    public AppJobFilter(IServiceProvider services) => _services = services;
 
     public void OnCreating(CreatingContext context)
     {

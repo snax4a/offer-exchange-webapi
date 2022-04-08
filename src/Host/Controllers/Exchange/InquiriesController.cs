@@ -6,7 +6,7 @@ namespace FSH.WebApi.Host.Controllers.Exchange;
 public class InquiriesController : VersionedApiController
 {
     [HttpPost("search")]
-    [MustHavePermission(FSHAction.Search, FSHResource.Inquiries)]
+    [MustHavePermission(ResourceAction.Search, Resource.Inquiries)]
     [OpenApiOperation("Search inquiries using available filters.", "")]
     public Task<PaginationResponse<InquiryWithCountsDto>> SearchAsync(SearchInquiriesRequest request)
     {
@@ -14,7 +14,7 @@ public class InquiriesController : VersionedApiController
     }
 
     [HttpGet("{id:guid}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Inquiries)]
+    [MustHavePermission(ResourceAction.View, Resource.Inquiries)]
     [OpenApiOperation("Get inquiry details.", "")]
     public Task<InquiryDetailsDto> GetAsync(Guid id)
     {
@@ -31,7 +31,7 @@ public class InquiriesController : VersionedApiController
     }
 
     [HttpPost]
-    [MustHavePermission(FSHAction.Create, FSHResource.Inquiries)]
+    [MustHavePermission(ResourceAction.Create, Resource.Inquiries)]
     [OpenApiOperation("Create a new inquiry.", "")]
     public Task<Guid> CreateAsync(CreateInquiryRequest request)
     {

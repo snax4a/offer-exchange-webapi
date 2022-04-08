@@ -6,7 +6,7 @@ namespace FSH.WebApi.Host.Controllers.Comparison;
 public class ComparisonController : VersionedApiController
 {
     [HttpGet("product/{inquiryProductId:guid}/offers")]
-    [MustHavePermission(FSHAction.View, FSHResource.Inquiries)]
+    [MustHavePermission(ResourceAction.View, Resource.Inquiries)]
     [OpenApiOperation("Get inquiry product offers.", "")]
     public Task<ProductOfferListDto> GetProductOffersAsync(Guid inquiryProductId)
     {

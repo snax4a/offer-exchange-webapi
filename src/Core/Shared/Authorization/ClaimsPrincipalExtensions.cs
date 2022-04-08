@@ -8,7 +8,7 @@ public static class ClaimsPrincipalExtensions
         => principal.FindFirstValue(ClaimTypes.Email);
 
     public static string? GetTenant(this ClaimsPrincipal principal)
-        => principal.FindFirstValue(FSHClaims.Tenant);
+        => principal.FindFirstValue(AppClaims.Tenant);
 
     public static string? GetUserName(this ClaimsPrincipal principal)
         => principal?.FindFirst(ClaimTypes.Name)?.Value;
@@ -20,7 +20,7 @@ public static class ClaimsPrincipalExtensions
         => principal?.FindFirst(ClaimTypes.Surname)?.Value;
 
     public static string? GetCompanyName(this ClaimsPrincipal principal)
-        => principal.FindFirstValue(FSHClaims.ComapnyName);
+        => principal.FindFirstValue(AppClaims.ComapnyName);
 
     public static string? GetPhoneNumber(this ClaimsPrincipal principal)
         => principal.FindFirstValue(ClaimTypes.MobilePhone);
@@ -29,11 +29,11 @@ public static class ClaimsPrincipalExtensions
        => principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
     public static string? GetImageUrl(this ClaimsPrincipal principal)
-       => principal.FindFirstValue(FSHClaims.ImageUrl);
+       => principal.FindFirstValue(AppClaims.ImageUrl);
 
     public static DateTimeOffset GetExpiration(this ClaimsPrincipal principal) =>
         DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(
-            principal.FindFirstValue(FSHClaims.Expiration)));
+            principal.FindFirstValue(AppClaims.Expiration)));
 
     private static string? FindFirstValue(this ClaimsPrincipal principal, string claimType) =>
         principal is null
