@@ -1,4 +1,4 @@
-namespace FSH.WebApi.Application.Exchange.Inquiries.Specifications;
+namespace FSH.WebApi.Application.Comparison.Specifications;
 
 public class InquiryProductByIdAndUserWithOffersSpec : Specification<InquiryProduct>, ISingleResultSpecification
 {

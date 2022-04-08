@@ -1,6 +1,6 @@
-namespace FSH.WebApi.Application.Exchange.Inquiries.DTOs;
+namespace FSH.WebApi.Application.Comparison.DTOs;
 
-public class OfferProductDto : IDto
+public class ProductOfferDto : IDto
 {
     public Guid Id { get; private set; }
     public Guid OfferId { get; private set; }
