@@ -37,4 +37,12 @@ public class InquiriesController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpGet("{inquiryId:guid}/product/{productId:guid}/offers")]
+    [MustHavePermission(FSHAction.View, FSHResource.Inquiries)]
+    [OpenApiOperation("Get inquiry product offers.", "")]
+    public Task<InquiryProductOffersDto> GetProductOffersAsync(Guid inquiryId, Guid productId)
+    {
+        return Mediator.Send(new GetInquiryProductOffersRequest(inquiryId, productId));
+    }
 }
