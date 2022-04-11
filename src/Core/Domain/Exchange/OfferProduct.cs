@@ -6,8 +6,8 @@ public class OfferProduct : BaseEntity
     public short? VatRate { get; private set; }
     public int Quantity { get; private set; }
     public long NetPrice { get; private set; }
-    public long NetValue => Quantity * NetPrice;
-    public long GrossValue => NetValue + (long)Math.Round((VatRate ?? 0) * (decimal)NetValue / 100);
+    public long NetValue { get; private set; }
+    public long GrossValue { get; private set; }
     public DateOnly DeliveryDate { get; private set; }
     public bool IsReplacement { get; private set; }
     public string? ReplacementName { get; private set; }
@@ -48,9 +48,16 @@ public class OfferProduct : BaseEntity
         VatRate = vatRate;
         Quantity = quantity;
         NetPrice = netPrice;
+        NetValue = quantity * netPrice;
+        GrossValue = NetValue + CalculateVAT(NetValue, VatRate ?? 0);
         DeliveryDate = deliveryDate;
         IsReplacement = isReplacement;
         ReplacementName = replacementName;
         Freebie = freebie;
+    }
+
+    private long CalculateVAT(long value, short vatRate)
+    {
+        return (long)Math.Round(vatRate * value / 100m, 0, MidpointRounding.AwayFromZero);
     }
 }

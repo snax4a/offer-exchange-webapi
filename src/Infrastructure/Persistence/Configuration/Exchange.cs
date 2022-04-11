@@ -102,6 +102,8 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
         builder.Property(op => op.VatRate).IsRequired(false);
         builder.Property(op => op.Quantity).IsRequired(true);
         builder.Property(op => op.NetPrice).IsRequired(true);
+        builder.Property(op => op.NetValue).IsRequired(true);
+        builder.Property(op => op.GrossValue).IsRequired(true);
         builder.Property(op => op.ReplacementName).IsRequired(false).HasMaxLength(100);
         builder.Property(op => op.Freebie).HasMaxLength(2000).IsRequired(false);
 
