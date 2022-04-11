@@ -41,7 +41,7 @@ public class ComparisonRepository : IComparisonRepository
                 ip.""Id"" = @Id
                 AND ip.""CreatedBy"" = @UserId
                 AND ip.""TenantId"" = @Tenant
-                AND o.""ExpirationDate"" IS NULL OR o.""ExpirationDate"" >= NOW()::DATE
+                AND (o.""ExpirationDate"" IS NULL OR o.""ExpirationDate"" >= NOW()::DATE)
         ";
 
         var parameters = new
