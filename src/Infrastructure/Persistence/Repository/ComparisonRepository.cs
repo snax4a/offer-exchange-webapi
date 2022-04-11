@@ -11,8 +11,8 @@ public class ComparisonRepository : IComparisonRepository
 
     public ComparisonRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    // Gets inquiry product offer list which have not expired
-    public Task<IEnumerable<InquiryProductOfferDto>> GetInquiryProductOffersAsync(Guid productId, Guid userId, CancellationToken ct)
+    // Finds all active offers for inquiry product
+    public Task<IEnumerable<InquiryProductOfferDto>> GetOffersForInquiryProductAsync(Guid productId, Guid userId, CancellationToken ct)
     {
         const string sql = @"
             SELECT

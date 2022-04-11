@@ -20,6 +20,6 @@ public class GetProductOffersRequestHandler : IRequestHandler<GetProductOffersRe
 
     public async Task<IEnumerable<InquiryProductOfferDto>> Handle(GetProductOffersRequest request, CancellationToken ct)
     {
-        return await _repository.GetInquiryProductOffersAsync(request.InquiryProductId, _currentUser.GetUserId(), ct);
+        return await _repository.GetOffersForInquiryProductAsync(request.InquiryProductId, _currentUser.GetUserId(), ct);
     }
 }
