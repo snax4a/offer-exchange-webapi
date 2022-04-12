@@ -12,4 +12,12 @@ public class ComparisonController : VersionedApiController
     {
         return Mediator.Send(new GetProductOffersRequest(inquiryProductId));
     }
+
+    [HttpPost("get-best-offers")]
+    [MustHavePermission(ResourceAction.View, Resource.Inquiries)]
+    [OpenApiOperation("Get list of the best offers for all inquiry products.", "")]
+    public Task<IEnumerable<InquiryProductOfferDto>> PrepareOrdersForInquiryAsync(GetTheBestOffersForInquiryRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }

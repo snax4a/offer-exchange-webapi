@@ -12,14 +12,12 @@ public class GetProductOffersRequest : IRequest<IEnumerable<InquiryProductOfferD
 
 public class GetProductOffersRequestHandler : IRequestHandler<GetProductOffersRequest, IEnumerable<InquiryProductOfferDto>>
 {
-    private readonly ICurrentUser _currentUser;
     private readonly IComparisonRepository _repository;
 
-    public GetProductOffersRequestHandler(ICurrentUser currentUser, IComparisonRepository repository)
-        => (_currentUser, _repository) = (currentUser, repository);
+    public GetProductOffersRequestHandler(IComparisonRepository repository) => _repository = repository;
 
     public async Task<IEnumerable<InquiryProductOfferDto>> Handle(GetProductOffersRequest request, CancellationToken ct)
     {
-        return await _repository.GetOffersForInquiryProductAsync(request.InquiryProductId, _currentUser.GetUserId(), ct);
+        return await _repository.GetOffersForInquiryProductAsync(request.InquiryProductId, ct);
     }
 }
