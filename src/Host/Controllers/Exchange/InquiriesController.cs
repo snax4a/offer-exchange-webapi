@@ -21,6 +21,14 @@ public class InquiriesController : VersionedApiController
         return Mediator.Send(new GetInquiryRequest(id));
     }
 
+    [HttpGet("{id:guid}/products")]
+    [MustHavePermission(ResourceAction.View, Resource.Inquiries)]
+    [OpenApiOperation("Get inquiry products.", "")]
+    public Task<IEnumerable<InquiryProductDetailsDto>> GetProductsAsync(Guid id)
+    {
+        return Mediator.Send(new GetInquiryProductsRequest(id));
+    }
+
     [HttpGet("get-by-offer-token/{offerToken}")]
     [AllowAnonymous]
     [TenantIdHeader]
