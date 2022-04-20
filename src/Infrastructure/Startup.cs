@@ -40,10 +40,10 @@ public static class Startup
             .AddLocalization(config)
             .AddMailing(config)
             .AddMediatR(Assembly.GetExecutingAssembly())
-            .AddMultitenancy(config)
+            .AddMultitenancy()
             .AddNotifications(config)
             .AddOpenApiDocumentation(config)
-            .AddPersistence(config)
+            .AddPersistence()
             .AddRequestLogging(config)
             .AddRouting(options => options.LowercaseUrls = true)
             .AddServices();

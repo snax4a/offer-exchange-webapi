@@ -44,7 +44,6 @@ internal class TokenService : ITokenService
             || await _userManager.FindByEmailAsync(request.Email.Trim().Normalize()) is not { } user
             || !await _userManager.CheckPasswordAsync(user, request.Password))
         {
-
             throw new UnauthorizedException(_localizer["auth.failed."]);
         }
 

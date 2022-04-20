@@ -18,7 +18,7 @@ internal static class Startup
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(Startup));
 
-    internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
+    internal static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddOptions<DatabaseSettings>()
             .BindConfiguration(nameof(DatabaseSettings))
