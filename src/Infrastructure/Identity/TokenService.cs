@@ -6,7 +6,6 @@ using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Identity.Tokens;
 using FSH.WebApi.Infrastructure.Auth;
 using FSH.WebApi.Infrastructure.Auth.Jwt;
-using FSH.WebApi.Infrastructure.Mailing;
 using FSH.WebApi.Infrastructure.Multitenancy;
 using FSH.WebApi.Shared.Authorization;
 using FSH.WebApi.Shared.Multitenancy;
@@ -41,20 +40,17 @@ internal class TokenService : ITokenService
 
     public async Task<TokenResponse> GetTokenAsync(TokenRequest request, string ipAddress, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(_currentTenant?.Id))
+        if (string.IsNullOrWhiteSpace(_currentTenant?.Id)
+            || await _userManager.FindByEmailAsync(request.Email.Trim().Normalize()) is not { } user
+            || !await _userManager.CheckPasswordAsync(user, request.Password))
         {
-            throw new UnauthorizedException(_localizer["tenant.invalid"]);
-        }
 
-        var user = await _userManager.FindByEmailAsync(request.Email.Trim().Normalize());
-        if (user is null)
-        {
-            throw new UnauthorizedException(_localizer["auth.failed"]);
+            throw new UnauthorizedException(_localizer["auth.failed."]);
         }
 
         if (!user.IsActive)
         {
-            throw new UnauthorizedException(_localizer["identity.usernotactive"]);
+            throw new UnauthorizedException(_localizer["User Not Active. Please contact the administrator."]);
         }
 
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
@@ -73,11 +69,6 @@ internal class TokenService : ITokenService
             {
                 throw new UnauthorizedException(_localizer["tenant.expired"]);
             }
-        }
-
-        if (!await _userManager.CheckPasswordAsync(user, request.Password))
-        {
-            throw new UnauthorizedException(_localizer["identity.invalidcredentials"]);
         }
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
@@ -151,11 +142,6 @@ internal class TokenService : ITokenService
 
     private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
     {
-        if (string.IsNullOrEmpty(_jwtSettings.Key))
-        {
-            throw new InvalidOperationException("No Key defined in JwtSettings config.");
-        }
-
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -181,11 +167,6 @@ internal class TokenService : ITokenService
 
     private SigningCredentials GetSigningCredentials()
     {
-        if (string.IsNullOrEmpty(_jwtSettings.Key))
-        {
-            throw new InvalidOperationException("No Key defined in JwtSettings config.");
-        }
-
         byte[] secret = Encoding.UTF8.GetBytes(_jwtSettings.Key);
         return new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256);
     }
