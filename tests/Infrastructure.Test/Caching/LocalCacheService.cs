@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using FSH.WebApi.Infrastructure.Caching;
 
 namespace Infrastructure.Test.Caching;
 
-public class LocalCacheService : CacheService<FSH.WebApi.Infrastructure.Caching.LocalCacheService>
+public class LocalCacheServiceTests : CacheServiceTests
 {
-    protected override FSH.WebApi.Infrastructure.Caching.LocalCacheService CreateCacheService() =>
-        new(
-            new MemoryCache(new MemoryCacheOptions()),
-            NullLogger<FSH.WebApi.Infrastructure.Caching.LocalCacheService>.Instance);
+    public LocalCacheServiceTests(LocalCacheService cacheService)
+        : base(cacheService)
+    {
+    }
 }
