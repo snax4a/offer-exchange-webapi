@@ -1,6 +1,6 @@
 namespace FSH.WebApi.Domain.Exchange;
 
-public class Offer : BaseEntity, IAggregateRoot
+public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
 {
     public string CurrencyCode { get; private set; } = default!;
     public long NetValue { get; private set; }

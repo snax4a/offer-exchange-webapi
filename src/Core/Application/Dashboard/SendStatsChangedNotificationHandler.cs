@@ -1,14 +1,9 @@
-using FSH.WebApi.Domain.Common.Events;
 using FSH.WebApi.Domain.Identity;
 using FSH.WebApi.Shared.Events;
 
 namespace FSH.WebApi.Application.Dashboard;
 
 public class SendStatsChangedNotificationHandler :
-    IEventNotificationHandler<EntityCreatedEvent<Brand>>,
-    IEventNotificationHandler<EntityDeletedEvent<Brand>>,
-    IEventNotificationHandler<EntityCreatedEvent<Product>>,
-    IEventNotificationHandler<EntityDeletedEvent<Product>>,
     IEventNotificationHandler<ApplicationRoleCreatedEvent>,
     IEventNotificationHandler<ApplicationRoleDeletedEvent>,
     IEventNotificationHandler<ApplicationUserCreatedEvent>
@@ -19,14 +14,6 @@ public class SendStatsChangedNotificationHandler :
     public SendStatsChangedNotificationHandler(ILogger<SendStatsChangedNotificationHandler> logger, INotificationSender notifications) =>
         (_logger, _notifications) = (logger, notifications);
 
-    public Task Handle(EventNotification<EntityCreatedEvent<Brand>> notification, CancellationToken cancellationToken) =>
-        SendStatsChangedNotification(notification.Event, cancellationToken);
-    public Task Handle(EventNotification<EntityDeletedEvent<Brand>> notification, CancellationToken cancellationToken) =>
-        SendStatsChangedNotification(notification.Event, cancellationToken);
-    public Task Handle(EventNotification<EntityCreatedEvent<Product>> notification, CancellationToken cancellationToken) =>
-        SendStatsChangedNotification(notification.Event, cancellationToken);
-    public Task Handle(EventNotification<EntityDeletedEvent<Product>> notification, CancellationToken cancellationToken) =>
-        SendStatsChangedNotification(notification.Event, cancellationToken);
     public Task Handle(EventNotification<ApplicationRoleCreatedEvent> notification, CancellationToken cancellationToken) =>
         SendStatsChangedNotification(notification.Event, cancellationToken);
     public Task Handle(EventNotification<ApplicationRoleDeletedEvent> notification, CancellationToken cancellationToken) =>

@@ -1,7 +1,4 @@
-﻿using FSH.WebApi.Application.Identity.Roles;
-using FSH.WebApi.Application.Identity.Users;
-
-namespace FSH.WebApi.Application.Dashboard;
+﻿namespace FSH.WebApi.Application.Dashboard;
 
 public class GetStatsRequest : IRequest<StatsDto>
 {
@@ -9,18 +6,18 @@ public class GetStatsRequest : IRequest<StatsDto>
 
 public class GetStatsRequestHandler : IRequestHandler<GetStatsRequest, StatsDto>
 {
-    private readonly IUserService _userService;
-    private readonly IRoleService _roleService;
-    private readonly IReadRepository<Brand> _brandRepo;
-    private readonly IReadRepository<Product> _productRepo;
+    private readonly IReadRepository<Group> _groupRepo;
+    private readonly IReadRepository<Trader> _traderRepo;
+    private readonly IReadRepository<Offer> _offerRepo;
+    private readonly IReadRepository<Inquiry> _inquiryRepo;
     private readonly IStringLocalizer<GetStatsRequestHandler> _localizer;
 
-    public GetStatsRequestHandler(IUserService userService, IRoleService roleService, IReadRepository<Brand> brandRepo, IReadRepository<Product> productRepo, IStringLocalizer<GetStatsRequestHandler> localizer)
+    public GetStatsRequestHandler(IReadRepository<Group> groupRepo, IReadRepository<Trader> traderRepo, IReadRepository<Offer> offerRepo, IReadRepository<Inquiry> inquiryRepo, IStringLocalizer<GetStatsRequestHandler> localizer)
     {
-        _userService = userService;
-        _roleService = roleService;
-        _brandRepo = brandRepo;
-        _productRepo = productRepo;
+        _groupRepo = groupRepo;
+        _traderRepo = traderRepo;
+        _offerRepo = offerRepo;
+        _inquiryRepo = inquiryRepo;
         _localizer = localizer;
     }
 
@@ -28,30 +25,30 @@ public class GetStatsRequestHandler : IRequestHandler<GetStatsRequest, StatsDto>
     {
         var stats = new StatsDto
         {
-            ProductCount = await _productRepo.CountAsync(cancellationToken),
-            BrandCount = await _brandRepo.CountAsync(cancellationToken),
-            UserCount = await _userService.GetCountAsync(cancellationToken),
-            RoleCount = await _roleService.GetCountAsync(cancellationToken)
+            GroupCount = await _groupRepo.CountAsync(cancellationToken),
+            TraderCount = await _traderRepo.CountAsync(cancellationToken),
+            InquiryCount = await _inquiryRepo.CountAsync(cancellationToken),
+            OfferCount = await _offerRepo.CountAsync(cancellationToken)
         };
 
         int selectedYear = DateTime.UtcNow.Year;
-        double[] productsFigure = new double[13];
-        double[] brandsFigure = new double[13];
+        double[] inquiriesFigure = new double[13];
+        double[] offersFigure = new double[13];
         for (int i = 1; i <= 12; i++)
         {
             int month = i;
             var filterStartDate = new DateTime(selectedYear, month, 01).ToUniversalTime();
             var filterEndDate = new DateTime(selectedYear, month, DateTime.DaysInMonth(selectedYear, month), 23, 59, 59).ToUniversalTime(); // Monthly Based
 
-            var brandSpec = new AuditableEntitiesByCreatedOnBetweenSpec<Brand>(filterStartDate, filterEndDate);
-            var productSpec = new AuditableEntitiesByCreatedOnBetweenSpec<Product>(filterStartDate, filterEndDate);
+            var inquirySpec = new EntitiesByCreatedOnBetweenSpec<Inquiry>(filterStartDate, filterEndDate);
+            var offerSpec = new EntitiesByCreatedOnBetweenSpec<Offer>(filterStartDate, filterEndDate);
 
-            brandsFigure[i - 1] = await _brandRepo.CountAsync(brandSpec, cancellationToken);
-            productsFigure[i - 1] = await _productRepo.CountAsync(productSpec, cancellationToken);
+            inquiriesFigure[i - 1] = await _inquiryRepo.CountAsync(inquirySpec, cancellationToken);
+            offersFigure[i - 1] = await _offerRepo.CountAsync(offerSpec, cancellationToken);
         }
 
-        stats.DataEnterBarChart.Add(new ChartSeries { Name = _localizer["Products"], Data = productsFigure });
-        stats.DataEnterBarChart.Add(new ChartSeries { Name = _localizer["Brands"], Data = brandsFigure });
+        stats.DataEnterBarChart.Add(new ChartSeries { Name = _localizer["Inquiries"], Data = inquiriesFigure });
+        stats.DataEnterBarChart.Add(new ChartSeries { Name = _localizer["Offers"], Data = offersFigure });
 
         return stats;
     }
