@@ -5,16 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FSH.WebApi.Infrastructure.Persistence.Configuration;
 
-// TODO: add indexes on CreatedBy column
-// TODO: add tenant to existing indexes
-
 public class GroupConfig : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
-        builder.IsMultiTenant();
         builder.Property(g => g.Name).HasMaxLength(32);
         builder.HasIndex(g => new { g.Name, g.CreatedBy });
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -22,10 +19,11 @@ public class TraderConfig : IEntityTypeConfiguration<Trader>
 {
     public void Configure(EntityTypeBuilder<Trader> builder)
     {
-        builder.IsMultiTenant();
         builder.Property(t => t.FirstName).HasMaxLength(20);
         builder.Property(t => t.LastName).HasMaxLength(20);
         builder.Property(t => t.Email).HasMaxLength(60);
+        builder.HasIndex(t => t.CreatedBy);
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -33,7 +31,6 @@ public class TraderGroupConfig : IEntityTypeConfiguration<TraderGroup>
 {
     public void Configure(EntityTypeBuilder<TraderGroup> builder)
     {
-        builder.IsMultiTenant();
         builder.HasKey(tg => new { tg.TraderId, tg.GroupId });
 
         builder
@@ -45,6 +42,8 @@ public class TraderGroupConfig : IEntityTypeConfiguration<TraderGroup>
             .HasOne(tg => tg.Group)
             .WithMany(g => g.TraderGroups)
             .HasForeignKey(tg => tg.GroupId);
+
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -52,10 +51,10 @@ public class InquiryConfig : IEntityTypeConfiguration<Inquiry>
 {
     public void Configure(EntityTypeBuilder<Inquiry> builder)
     {
-        builder.IsMultiTenant();
-        builder.HasIndex(i => new { i.ReferenceNumber, i.CreatedBy }).IsUnique(true);
         builder.Property(i => i.Name).HasMaxLength(60);
         builder.Property(i => i.Title).HasMaxLength(100);
+        builder.HasIndex(i => new { i.ReferenceNumber, i.CreatedBy }).IsUnique(true);
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -63,7 +62,6 @@ public class InquiryProductConfig : IEntityTypeConfiguration<InquiryProduct>
 {
     public void Configure(EntityTypeBuilder<InquiryProduct> builder)
     {
-        builder.IsMultiTenant();
         builder.Property(p => p.Name).HasMaxLength(100);
 
         builder
@@ -71,6 +69,9 @@ public class InquiryProductConfig : IEntityTypeConfiguration<InquiryProduct>
             .WithMany(i => i.Products)
             .HasForeignKey(ip => ip.InquiryId)
             .IsRequired(true);
+
+        builder.HasIndex(ip => ip.CreatedBy);
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -78,7 +79,6 @@ public class InquiryRecipientConfig : IEntityTypeConfiguration<InquiryRecipient>
 {
     public void Configure(EntityTypeBuilder<InquiryRecipient> builder)
     {
-        builder.IsMultiTenant();
         builder.HasKey(ir => new { ir.InquiryId, ir.TraderId });
 
         builder
@@ -90,6 +90,8 @@ public class InquiryRecipientConfig : IEntityTypeConfiguration<InquiryRecipient>
             .HasOne(ir => ir.Trader)
             .WithMany(t => t.InquiryRecipients)
             .HasForeignKey(ir => ir.TraderId);
+
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -97,7 +99,6 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
 {
     public void Configure(EntityTypeBuilder<OfferProduct> builder)
     {
-        builder.IsMultiTenant();
         builder.Property(op => op.CurrencyCode).HasMaxLength(3);
         builder.Property(op => op.VatRate).IsRequired(false);
         builder.Property(op => op.Quantity).IsRequired(true);
@@ -116,6 +117,8 @@ public class OfferProductConfig : IEntityTypeConfiguration<OfferProduct>
             .HasOne(op => op.InquiryProduct)
             .WithMany(ip => ip.OfferProducts)
             .HasForeignKey(op => op.InquiryProductId);
+
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -123,15 +126,12 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
 {
     public void Configure(EntityTypeBuilder<Offer> builder)
     {
-        builder.IsMultiTenant();
         builder.Property(o => o.CurrencyCode).HasMaxLength(3);
         builder.Property(o => o.NetValue).IsRequired(true);
         builder.Property(o => o.GrossValue).IsRequired(true);
         builder.Property(o => o.ExpirationDate).IsRequired(false);
         builder.Property(o => o.Freebie).HasMaxLength(2000).IsRequired(false);
         builder.Property(o => o.CreatedOn).IsRequired(true);
-
-        builder.HasIndex(o => o.UserId).IsUnique(false);
 
         // Configure DeliveryCost value object as owned entity
         builder.OwnsOne(o => o.DeliveryCost, deliveryCostBuilder =>
@@ -153,6 +153,7 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
                 .IsRequired(false);
         });
 
+        // Relations
         builder
             .HasOne(o => o.Inquiry)
             .WithMany(i => i.Offers)
@@ -162,6 +163,11 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
             .HasOne(o => o.Trader)
             .WithMany(t => t.Offers)
             .HasForeignKey(o => o.TraderId);
+
+        // Indexes
+        builder.HasIndex(o => o.CreatedOn);
+        builder.HasIndex(o => o.UserId).IsUnique(false);
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -169,7 +175,6 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.IsMultiTenant();
         builder.Property(o => o.CurrencyCode).HasMaxLength(3);
         builder.Property(o => o.NetValue).IsRequired(true);
         builder.Property(o => o.GrossValue).IsRequired(true);
@@ -193,6 +198,9 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
                 .HasColumnName("DeliveryCostDescription")
                 .IsRequired(false);
         });
+
+        builder.HasIndex(o => o.CreatedBy);
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
 
@@ -200,7 +208,6 @@ public class OrderProductConfig : IEntityTypeConfiguration<OrderProduct>
 {
     public void Configure(EntityTypeBuilder<OrderProduct> builder)
     {
-        builder.IsMultiTenant();
         builder.HasKey(op => new { op.OrderId, op.OfferProductId });
 
         builder
@@ -212,5 +219,7 @@ public class OrderProductConfig : IEntityTypeConfiguration<OrderProduct>
             .HasOne(op => op.OfferProduct)
             .WithMany(ofp => ofp.Orders)
             .HasForeignKey(op => op.OfferProductId);
+
+        builder.IsMultiTenant().AdjustIndexes();
     }
 }
