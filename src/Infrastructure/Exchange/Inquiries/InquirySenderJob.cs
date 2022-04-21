@@ -8,15 +8,13 @@ using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Exchange;
 using FSH.WebApi.Infrastructure.Common;
 using FSH.WebApi.Infrastructure.Common.Settings;
-using FSH.WebApi.Infrastructure.Exchange.Inquiries;
 using Hangfire;
 using Hangfire.Server;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
-namespace FSH.WebApi.Infrastructure.Catalog;
+namespace FSH.WebApi.Infrastructure.Exchange.Inquiries;
 
 public class InquirySenderJob : IInquirySenderJob
 {

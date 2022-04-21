@@ -37,10 +37,10 @@ public class ComparisonRepository : IComparisonRepository
                 t.""FirstName"" || ' ' || t.""LastName"" AS ""TraderFullName"",
                 t.""Email"" AS ""TraderEmail""
             FROM
-                ""Catalog"".""InquiryProducts"" AS ip
-                INNER JOIN ""Catalog"".""OfferProducts"" AS op ON ip.""Id"" = op.""InquiryProductId""
-                INNER JOIN ""Catalog"".""Offers"" AS o ON op.""OfferId"" = o.""Id""
-                INNER JOIN ""Catalog"".""Traders"" AS t ON o.""TraderId"" = t.""Id""
+                ""OfferExchange"".""InquiryProducts"" AS ip
+                INNER JOIN ""OfferExchange"".""OfferProducts"" AS op ON ip.""Id"" = op.""InquiryProductId""
+                INNER JOIN ""OfferExchange"".""Offers"" AS o ON op.""OfferId"" = o.""Id""
+                INNER JOIN ""OfferExchange"".""Traders"" AS t ON o.""TraderId"" = t.""Id""
             WHERE
                 ip.""Id"" = @Id
                 AND ip.""CreatedBy"" = @UserId
@@ -88,10 +88,10 @@ public class ComparisonRepository : IComparisonRepository
                 t.""FirstName"" || ' ' || t.""LastName"" AS ""TraderFullName"",
                 t.""Email"" AS ""TraderEmail""
             FROM
-                ""Catalog"".""InquiryProducts"" AS ip
-                INNER JOIN ""Catalog"".""OfferProducts"" AS op ON ip.""Id"" = op.""InquiryProductId""
-                INNER JOIN ""Catalog"".""Offers"" AS o ON op.""OfferId"" = o.""Id""
-                INNER JOIN ""Catalog"".""Traders"" AS t ON o.""TraderId"" = t.""Id""
+                ""OfferExchange"".""InquiryProducts"" AS ip
+                INNER JOIN ""OfferExchange"".""OfferProducts"" AS op ON ip.""Id"" = op.""InquiryProductId""
+                INNER JOIN ""OfferExchange"".""Offers"" AS o ON op.""OfferId"" = o.""Id""
+                INNER JOIN ""OfferExchange"".""Traders"" AS t ON o.""TraderId"" = t.""Id""
             WHERE
                 ip.""InquiryId"" = @InquiryId
                 AND ip.""CreatedBy"" = @UserId
@@ -103,7 +103,7 @@ public class ComparisonRepository : IComparisonRepository
         // This subquery is used to find id of best product offer
         string subQuery = @"
             SELECT ""Id""
-            FROM ""Catalog"".""OfferProducts""
+            FROM ""OfferExchange"".""OfferProducts""
             WHERE ""InquiryProductId"" = ip.""Id""
         ";
 
@@ -159,10 +159,10 @@ public class ComparisonRepository : IComparisonRepository
                 t.""FirstName"" || ' ' || t.""LastName"" AS ""TraderFullName"",
                 t.""Email"" AS ""TraderEmail""
             FROM
-                ""Catalog"".""InquiryProducts"" AS ip
-                INNER JOIN ""Catalog"".""OfferProducts"" AS op ON ip.""Id"" = op.""InquiryProductId""
-                INNER JOIN ""Catalog"".""Offers"" AS o ON op.""OfferId"" = o.""Id""
-                INNER JOIN ""Catalog"".""Traders"" AS t ON o.""TraderId"" = t.""Id""
+                ""OfferExchange"".""InquiryProducts"" AS ip
+                INNER JOIN ""OfferExchange"".""OfferProducts"" AS op ON ip.""Id"" = op.""InquiryProductId""
+                INNER JOIN ""OfferExchange"".""Offers"" AS o ON op.""OfferId"" = o.""Id""
+                INNER JOIN ""OfferExchange"".""Traders"" AS t ON o.""TraderId"" = t.""Id""
             WHERE
                 ip.""InquiryId"" = @InquiryId
                 AND ip.""Id"" = ANY(@ProductIds)
@@ -175,7 +175,7 @@ public class ComparisonRepository : IComparisonRepository
         // This subquery is used to find id of best product offer
         string subQuery = @"
             SELECT ""Id""
-            FROM ""Catalog"".""OfferProducts""
+            FROM ""OfferExchange"".""OfferProducts""
             WHERE ""InquiryProductId"" = ip.""Id""
         ";
 

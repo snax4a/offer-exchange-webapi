@@ -29,6 +29,6 @@ public class ApplicationDbContext : BaseDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.HasDefaultSchema(SchemaNames.Catalog);
+        modelBuilder.HasDefaultSchema(SchemaNames.OfferExchange);
     }
 }
