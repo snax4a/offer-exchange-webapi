@@ -5,7 +5,12 @@ namespace FSH.WebApi.Application.Common.Persistence;
 
 public interface IComparisonRepository : ITransientService
 {
-    Task<IEnumerable<InquiryProductOfferDto>> GetOffersForInquiryProductAsync(Guid productId, CancellationToken ct);
+    Task<IEnumerable<InquiryProductOfferDto>> GetOffersForInquiryProductAsync(
+        Guid productId,
+        bool withReplacements,
+        bool onlyWithFreebies,
+        ProductOffersOrder orderBy,
+        CancellationToken ct);
     Task<IEnumerable<InquiryProductOfferDto>> GetTheBestOffersForAllProductsFromInquiryAsync(
         Guid inquiryId,
         bool withReplacements,

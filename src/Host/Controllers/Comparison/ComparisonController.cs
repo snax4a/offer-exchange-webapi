@@ -8,9 +8,17 @@ public class ComparisonController : VersionedApiController
     [HttpGet("product/{inquiryProductId:guid}/offers")]
     [MustHavePermission(ResourceAction.View, Resource.Inquiries)]
     [OpenApiOperation("Get inquiry product offers.", "")]
-    public Task<IEnumerable<InquiryProductOfferDto>> GetProductOffersAsync(Guid inquiryProductId)
+    public Task<IEnumerable<InquiryProductOfferDto>> GetProductOffersAsync(
+        Guid inquiryProductId,
+        [FromQuery] bool withReplacements,
+        [FromQuery] bool onlyWithFreebies,
+        [FromQuery] ProductOffersOrder orderBy)
     {
-        return Mediator.Send(new GetProductOffersRequest(inquiryProductId));
+        return Mediator.Send(new GetProductOffersRequest(
+            inquiryProductId,
+            withReplacements,
+            onlyWithFreebies,
+            orderBy));
     }
 
     [HttpPost("get-best-offers")]

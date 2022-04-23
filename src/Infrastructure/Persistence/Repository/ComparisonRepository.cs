@@ -16,9 +16,14 @@ public class ComparisonRepository : IComparisonRepository
         (_currentUser, _dbContext) = (currentUser, dbContext);
 
     // Finds all active offers for inquiry product
-    public Task<IEnumerable<InquiryProductOfferDto>> GetOffersForInquiryProductAsync(Guid productId, CancellationToken ct)
+    public Task<IEnumerable<InquiryProductOfferDto>> GetOffersForInquiryProductAsync(
+        Guid productId,
+        bool withReplacements,
+        bool onlyWithFreebies,
+        ProductOffersOrder orderBy,
+        CancellationToken ct)
     {
-        const string sql = @"
+        string sql = @"
             SELECT
                 ip.""Name"" AS ""ProductName"",
                 ip.""Quantity"",
@@ -47,6 +52,21 @@ public class ComparisonRepository : IComparisonRepository
                 AND ip.""TenantId"" = @Tenant
                 AND (o.""ExpirationDate"" IS NULL OR o.""ExpirationDate"" >= NOW()::DATE)
         ";
+
+        if (!withReplacements)
+            sql += @" AND op.""IsReplacement"" = false"; // don't take replacements
+
+        if (onlyWithFreebies)
+            sql += @" AND op.""Freebie"" IS NOT NULL"; // take offers with freebie
+
+        if (orderBy == ProductOffersOrder.PriceAsc)
+            sql += @" ORDER BY op.""NetPrice"" ASC"; // order by net price asc
+
+        if (orderBy == ProductOffersOrder.PriceDesc)
+            sql += @" ORDER BY op.""NetPrice"" DESC"; // order by net price desc
+
+        if (orderBy == ProductOffersOrder.DeliveryDateAsc)
+            sql += @" ORDER BY op.""DeliveryDate"" ASC"; // order by delivery date asc
 
         var parameters = new
         {
