@@ -179,26 +179,6 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
         builder.Property(o => o.NetValue).IsRequired(true);
         builder.Property(o => o.GrossValue).IsRequired(true);
 
-        // Configure DeliveryCost value object as owned entity
-        builder.OwnsOne(o => o.DeliveryCost, deliveryCostBuilder =>
-        {
-            deliveryCostBuilder
-                .Property(dc => dc.Type)
-                .HasColumnName("DeliveryCostType")
-                .IsRequired(true);
-
-            deliveryCostBuilder
-                .Property(dc => dc.GrossPrice)
-                .HasColumnName("DeliveryCostGrossPrice")
-                .IsRequired(true);
-
-            deliveryCostBuilder
-                .Property(dc => dc.Description)
-                .HasMaxLength(2000)
-                .HasColumnName("DeliveryCostDescription")
-                .IsRequired(false);
-        });
-
         builder.HasIndex(o => o.CreatedBy);
         builder.IsMultiTenant().AdjustIndexes();
     }

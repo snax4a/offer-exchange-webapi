@@ -7,7 +7,6 @@ public class Order : AuditableEntity, IAggregateRoot
     public long NetValue { get; private set; }
     public long GrossValue { get; private set; }
     public string CurrencyCode { get; private set; } = default!;
-    public DeliveryCost DeliveryCost { get; private set; } = default!;
     public Guid TraderId { get; private set; }
     public virtual Trader Trader { get; private set; } = default!;
     public OrderStatus Status { get; private set; }
@@ -29,9 +28,6 @@ public class Order : AuditableEntity, IAggregateRoot
         CurrencyCode = offerProducts[0].CurrencyCode;
         Status = OrderStatus.Waiting;
         TraderId = traderId;
-
-        // TODO: Rethink whole delivery cost business logic, hardcode it for now
-        DeliveryCost = new DeliveryCost(DeliveryCostType.Fixed, 0, null);
 
         foreach (OfferProduct product in offerProducts)
         {

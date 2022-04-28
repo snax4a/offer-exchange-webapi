@@ -5,6 +5,8 @@ namespace FSH.WebApi.Application.Exchange.Orders;
 
 public class SearchOrdersRequest : PaginationFilter, IRequest<PaginationResponse<OrderDto>>
 {
+    public OrderStatus? Status { get; set; }
+    public Guid? TraderId { get; set; }
 }
 
 public class SearchOrdersRequestHandler : IRequestHandler<SearchOrdersRequest, PaginationResponse<OrderDto>>

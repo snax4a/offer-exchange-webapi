@@ -8,8 +8,7 @@ public class OrderDto : IDto
     public string CurrencyCode { get; set; } = default!;
     public decimal NetValue { get; set; }
     public decimal GrossValue { get; set; }
-    public DeliveryCostType DeliveryCostType { get; set; }
-    public decimal DeliveryCostGrossPrice { get; set; }
-    public string? DeliveryCostDescription { get; set; }
+    public OrderStatus Status { get; set; }
+    public DateTime CreatedOn { get; set; }
     public TraderDto Trader { get; set; } = default!;
 }
