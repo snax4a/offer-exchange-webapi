@@ -116,25 +116,26 @@ public class ComparisonRepository : IComparisonRepository
                 ip.""InquiryId"" = @InquiryId
                 AND ip.""CreatedBy"" = @UserId
                 AND ip.""TenantId"" = @Tenant
-                AND(o.""ExpirationDate"" IS NULL OR o.""ExpirationDate"" >= NOW()::DATE)
                 AND op.""Id"" = (@SubQuery)
         ";
 
         // This subquery is used to find id of best product offer
         string subQuery = @"
-            SELECT ""Id""
-            FROM ""OfferExchange"".""OfferProducts""
-            WHERE ""InquiryProductId"" = ip.""Id""
+            SELECT subOp.""Id""
+            FROM ""OfferExchange"".""OfferProducts"" AS subOp
+            INNER JOIN ""OfferExchange"".""Offers"" AS subO ON subOp.""OfferId"" = subO.""Id""
+            WHERE subOp. ""InquiryProductId"" = ip.""Id""
+            AND(subO.""ExpirationDate"" IS NULL OR subO.""ExpirationDate"" >= NOW()::DATE)
         ";
 
         if (!withReplacements)
-            subQuery += @" AND op.""IsReplacement"" = false"; // don't take replacements
+            subQuery += @" AND subOp.""IsReplacement"" = false"; // don't take replacements
 
         if (decisiveParameter == ComparisonDecisiveParameter.LowestPrice)
-            subQuery += @" ORDER BY ""NetPrice"" ASC LIMIT 1"; // choose offer with lowest price
+            subQuery += @" ORDER BY subOp.""NetPrice"", subOp.""DeliveryDate"" ASC LIMIT 1"; // choose offer with lowest price
 
         if (decisiveParameter == ComparisonDecisiveParameter.NearestDeliveryDate)
-            subQuery += @" ORDER BY ""DeliveryDate"" ASC LIMIT 1"; // choose offer with nearest delivery date
+            subQuery += @" ORDER BY subOp.""DeliveryDate"", subOp.""NetPrice"" ASC LIMIT 1"; // choose offer with nearest delivery date
 
         sql = sql.Replace("@SubQuery", subQuery);
 
@@ -188,25 +189,26 @@ public class ComparisonRepository : IComparisonRepository
                 AND ip.""Id"" = ANY(@ProductIds)
                 AND ip.""CreatedBy"" = @UserId
                 AND ip.""TenantId"" = @Tenant
-                AND(o.""ExpirationDate"" IS NULL OR o.""ExpirationDate"" >= NOW()::DATE)
                 AND op.""Id"" = (@SubQuery)
         ";
 
         // This subquery is used to find id of best product offer
         string subQuery = @"
-            SELECT ""Id""
-            FROM ""OfferExchange"".""OfferProducts""
-            WHERE ""InquiryProductId"" = ip.""Id""
+            SELECT subOp.""Id""
+            FROM ""OfferExchange"".""OfferProducts"" AS subOp
+            INNER JOIN ""OfferExchange"".""Offers"" AS subO ON subOp.""OfferId"" = subO.""Id""
+            WHERE subOp. ""InquiryProductId"" = ip.""Id""
+            AND(subO.""ExpirationDate"" IS NULL OR subO.""ExpirationDate"" >= NOW()::DATE)
         ";
 
         if (!withReplacements)
-            subQuery += @" AND op.""IsReplacement"" = false"; // don't take replacements
+            subQuery += @" AND subOp.""IsReplacement"" = false"; // don't take replacements
 
         if (decisiveParameter == ComparisonDecisiveParameter.LowestPrice)
-            subQuery += @" ORDER BY ""NetPrice"" ASC LIMIT 1"; // choose offer with lowest price
+            subQuery += @" ORDER BY subOp.""NetPrice"", subOp.""DeliveryDate"" ASC LIMIT 1"; // choose offer with lowest price
 
         if (decisiveParameter == ComparisonDecisiveParameter.NearestDeliveryDate)
-            subQuery += @" ORDER BY ""DeliveryDate"" ASC LIMIT 1"; // choose offer with nearest delivery date
+            subQuery += @" ORDER BY subOp.""DeliveryDate"", subOp.""NetPrice"" ASC LIMIT 1"; // choose offer with nearest delivery date
 
         sql = sql.Replace("@SubQuery", subQuery);
 
