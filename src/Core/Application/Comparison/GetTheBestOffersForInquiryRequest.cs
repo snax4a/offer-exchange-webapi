@@ -8,6 +8,7 @@ public class GetTheBestOffersForInquiryRequest : IRequest<IEnumerable<InquiryPro
     public bool WithReplacements { get; set; } = true;
     public ComparisonProductSelection ProductSelection { get; set; }
     public ComparisonDecisiveParameter DecisiveParameter { get; set; }
+    public DateOnly? MaxDeliveryDate { get; set; }
     public IList<Guid>? ProductIds { get; set; }
 }
 
@@ -16,6 +17,7 @@ public class GetTheBestOffersForInquiryRequestValidator : CustomValidator<GetThe
     public GetTheBestOffersForInquiryRequestValidator()
     {
         RuleFor(r => r.ProductSelection).NotNull();
+        RuleFor(r => r.DecisiveParameter).NotNull();
 
         RuleFor(r => r.ProductIds)
             .Must(ids => ids?.Count > 0)
@@ -39,6 +41,7 @@ public class GetTheBestOffersForInquiryRequestHandler : IRequestHandler<GetTheBe
                 request.ProductIds!,
                 request.WithReplacements,
                 request.DecisiveParameter,
+                request.MaxDeliveryDate,
                 ct);
         }
         else
@@ -47,6 +50,7 @@ public class GetTheBestOffersForInquiryRequestHandler : IRequestHandler<GetTheBe
                 request.InquiryId,
                 request.WithReplacements,
                 request.DecisiveParameter,
+                request.MaxDeliveryDate,
                 ct);
         }
     }

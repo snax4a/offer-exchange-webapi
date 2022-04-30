@@ -15,11 +15,13 @@ public interface IComparisonRepository : ITransientService
         Guid inquiryId,
         bool withReplacements,
         ComparisonDecisiveParameter decisiveParameter,
+        DateOnly? maxDeliveryDate,
         CancellationToken ct);
     Task<IEnumerable<InquiryProductOfferDto>> GetTheBestOffersForSelectedProductsFromInquiryAsync(
         Guid inquiryId,
         IList<Guid> productIds,
         bool withReplacements,
         ComparisonDecisiveParameter decisiveParameter,
+        DateOnly? maxDeliveryDate,
         CancellationToken ct);
 }

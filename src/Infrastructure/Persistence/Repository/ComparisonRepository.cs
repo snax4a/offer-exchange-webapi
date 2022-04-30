@@ -86,6 +86,7 @@ public class ComparisonRepository : IComparisonRepository
         Guid inquiryId,
         bool withReplacements,
         ComparisonDecisiveParameter decisiveParameter,
+        DateOnly? maxDeliveryDate,
         CancellationToken ct)
     {
         string sql = @"
@@ -131,6 +132,9 @@ public class ComparisonRepository : IComparisonRepository
         if (!withReplacements)
             subQuery += @" AND subOp.""IsReplacement"" = false"; // don't take replacements
 
+        if (maxDeliveryDate is not null)
+            subQuery += @" AND subOp.""DeliveryDate"" <= @MaxDeliveryDate"; // don't take offers with delivery date > maxDeliveryDate
+
         if (decisiveParameter == ComparisonDecisiveParameter.LowestPrice)
             subQuery += @" ORDER BY subOp.""NetPrice"", subOp.""DeliveryDate"" ASC LIMIT 1"; // choose offer with lowest price
 
@@ -144,6 +148,7 @@ public class ComparisonRepository : IComparisonRepository
             InquiryId = inquiryId,
             UserId = _currentUser.GetUserId(),
             Tenant = _dbContext.TenantInfo.Id,
+            MaxDeliveryDate = maxDeliveryDate?.ToDateTime(TimeOnly.MinValue)
         };
 
         var command = new CommandDefinition(sql, parameters, cancellationToken: ct);
@@ -158,6 +163,7 @@ public class ComparisonRepository : IComparisonRepository
         IList<Guid> productIds,
         bool withReplacements,
         ComparisonDecisiveParameter decisiveParameter,
+        DateOnly? maxDeliveryDate,
         CancellationToken ct)
     {
         string sql = @"
@@ -204,6 +210,9 @@ public class ComparisonRepository : IComparisonRepository
         if (!withReplacements)
             subQuery += @" AND subOp.""IsReplacement"" = false"; // don't take replacements
 
+        if (maxDeliveryDate is not null)
+            subQuery += @" AND subOp.""DeliveryDate"" <= @MaxDeliveryDate"; // don't take offers with delivery date > maxDeliveryDate
+
         if (decisiveParameter == ComparisonDecisiveParameter.LowestPrice)
             subQuery += @" ORDER BY subOp.""NetPrice"", subOp.""DeliveryDate"" ASC LIMIT 1"; // choose offer with lowest price
 
@@ -217,7 +226,8 @@ public class ComparisonRepository : IComparisonRepository
             InquiryId = inquiryId,
             UserId = _currentUser.GetUserId(),
             Tenant = _dbContext.TenantInfo.Id,
-            ProductIds = productIds
+            ProductIds = productIds,
+            MaxDeliveryDate = maxDeliveryDate?.ToDateTime(TimeOnly.MinValue)
         };
 
         var command = new CommandDefinition(sql, parameters, cancellationToken: ct);
