@@ -3,6 +3,7 @@ using Ardalis.Specification.EntityFrameworkCore;
 using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Domain.Common.Contracts;
 using FSH.WebApi.Infrastructure.Persistence.Context;
+using FSH.WebApi.Infrastructure.Persistence.Specification.Evaluators;
 using Mapster;
 
 namespace FSH.WebApi.Infrastructure.Persistence.Repository;
@@ -11,8 +12,10 @@ namespace FSH.WebApi.Infrastructure.Persistence.Repository;
 public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T>
     where T : class, IAggregateRoot
 {
+    // We use custom evaluator to be able to use postgresql ILike expression in search queries
+    // In postgresql Like expression is case sensitive so its not approperiate for searching
     public EfRepository(ApplicationDbContext dbContext)
-        : base(dbContext)
+        : base(dbContext, MySpecificationEvaluator.Instance)
     {
     }
 
