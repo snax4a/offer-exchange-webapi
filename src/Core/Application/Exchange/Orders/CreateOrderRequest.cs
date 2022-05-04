@@ -23,13 +23,18 @@ public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Lis
     private readonly IRepositoryWithEvents<Order> _repository;
     private readonly IReadRepository<OfferProduct> _productRepo;
     private readonly ICurrentUser _currentUser;
+    private readonly IJobService _jobService;
 
     public CreateOrderRequestHandler(
         IRepositoryWithEvents<Order> repository,
         IReadRepository<OfferProduct> productRepo,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IJobService jobService)
     {
-        (_repository, _productRepo, _currentUser) = (repository, productRepo, currentUser);
+        _repository = repository;
+        _productRepo = productRepo;
+        _currentUser = currentUser;
+        _jobService = jobService;
     }
 
     public async Task<List<Guid>> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
@@ -62,6 +67,7 @@ public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Lis
             var orderProducts = kvp.Value;
             var order = new Order(traderId, orderProducts);
             await _repository.AddAsync(order, cancellationToken);
+            _jobService.Enqueue<IOrderSenderJob>(x => x.SendAsync(order.Id, CancellationToken.None));
             orderIds.Add(order.Id);
         }
 
