@@ -34,4 +34,10 @@ public class Order : AuditableEntity, IAggregateRoot
             Products.Add(new OrderProduct(Id, product.Id));
         }
     }
+
+    public void UpdateStatus(OrderStatus status)
+    {
+        if (Status != OrderStatus.Waiting) throw new Exception($"{Status} status cannot be changed.");
+        Status = status;
+    }
 }

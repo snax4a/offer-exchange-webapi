@@ -37,4 +37,13 @@ public class OrdersController : VersionedApiController
     {
         return Mediator.Send(new GetOrderByTokenRequest(orderToken));
     }
+
+    [HttpPut("update-status")]
+    [AllowAnonymous]
+    [TenantIdHeader]
+    [OpenApiOperation("Update order status.", "")]
+    public Task<Guid> UpdateStatusAsync(UpdateOrderStatusRequest request)
+    {
+        return Mediator.Send(request);
+    }
 }

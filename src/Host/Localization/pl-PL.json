@@ -33,6 +33,7 @@
   "offer.invalidtoken": "Token oferty jest nieprawidłowy.",
   "order.notfound": "Nie znaleziono zamówienia {0}",
   "order.noproducts": "Zamówienie musi mieć conajmniej jeden produkt.",
+  "order.status-cannot-be-changed": "Status tego zamówienia nie może być zmieniony.",
   "inquirymail.subject": "Nowe zapytanie ofertowe od - {0}",
   "inquirymail.main-text-1": "{0} {1} z firmy {2} przesyła do Ciebie zapytanie ofertowe za pośrednictwem platformy OfferExchange.net",
   "inquirymail.main-text-2": "Jeśli masz jakieś pytania skontaktuj się mailowo z nadawcą: {0}",
