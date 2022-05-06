@@ -7,6 +7,8 @@ public class OrderDetailsSpec : Specification<Order, OrderDetailsDto>, ISingleRe
     public OrderDetailsSpec(Guid id, Guid userId) =>
         Query
             .Where(o => o.Id == id && o.CreatedBy == userId)
+            .Include(o => o.Trader)
             .Include(o => o.Products)
-            .Include(o => o.Trader);
+                .ThenInclude(p => p.OfferProduct)
+                    .ThenInclude(op => op.InquiryProduct);
 }

@@ -28,4 +28,13 @@ public class OrdersController : VersionedApiController
     {
         return Mediator.Send(request);
     }
+
+    [HttpGet("get-by-token/{orderToken}")]
+    [AllowAnonymous]
+    [TenantIdHeader]
+    [OpenApiOperation("Get order by token.", "")]
+    public Task<OrderByTokenDto> GetByTokenAsync(string orderToken)
+    {
+        return Mediator.Send(new GetOrderByTokenRequest(orderToken));
+    }
 }
