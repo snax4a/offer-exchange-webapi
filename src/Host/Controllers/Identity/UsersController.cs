@@ -47,10 +47,7 @@ public class UsersController : VersionNeutralApiController
     [OpenApiOperation("Creates a new user.", "")]
     public Task<string> CreateAsync(CreateUserRequest request)
     {
-        // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
-        // and return UnAuthorized when it isn't
-        // Also: add other protection to prevent automatic posting (captcha?)
-        return _userService.CreateAsync(request, GetOriginFromRequest());
+        return _userService.CreateAsync(request);
     }
 
     [HttpPost("self-register")]
@@ -60,10 +57,8 @@ public class UsersController : VersionNeutralApiController
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Register))]
     public Task<string> SelfRegisterAsync(CreateUserRequest request)
     {
-        // TODO: check if registering anonymous users is actually allowed (should probably be an appsetting)
-        // and return UnAuthorized when it isn't
-        // Also: add other protection to prevent automatic posting (captcha?)
-        return _userService.CreateAsync(request, GetOriginFromRequest());
+        // TODO: add captcha
+        return _userService.CreateAsync(request);
     }
 
     [HttpPost("{id}/toggle-status")]
@@ -81,16 +76,16 @@ public class UsersController : VersionNeutralApiController
         return Ok();
     }
 
-    [HttpGet("confirm-email")]
+    [HttpPost("confirm-email")]
     [AllowAnonymous]
     [OpenApiOperation("Confirm email address for a user.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Search))]
-    public Task<string> ConfirmEmailAsync([FromQuery] string tenant, [FromQuery] string userId, [FromQuery] string code, CancellationToken cancellationToken)
+    public Task<string> ConfirmEmailAsync(ConfirmUserEmailRequest request, CancellationToken cancellationToken)
     {
-        return _userService.ConfirmEmailAsync(userId, code, tenant, cancellationToken);
+        return _userService.ConfirmEmailAsync(request.UserId, request.Token, request.Tenant, cancellationToken);
     }
 
-    [HttpGet("confirm-phone-number")]
+    [HttpPost("confirm-phone-number")]
     [AllowAnonymous]
     [OpenApiOperation("Confirm phone number for a user.", "")]
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Search))]

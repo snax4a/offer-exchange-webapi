@@ -27,10 +27,10 @@ public interface IUserService : ITransientService
     Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken);
 
     Task<string> GetOrCreateFromPrincipalAsync(ClaimsPrincipal principal);
-    Task<string> CreateAsync(CreateUserRequest request, string origin);
+    Task<string> CreateAsync(CreateUserRequest request);
     Task UpdateAsync(UpdateUserRequest request, string userId);
 
-    Task<string> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken);
+    Task<string> ConfirmEmailAsync(string userId, string token, string tenant, CancellationToken cancellationToken);
     Task<string> ConfirmPhoneNumberAsync(string userId, string code);
 
     Task<string> ForgotPasswordAsync(ForgotPasswordRequest request);

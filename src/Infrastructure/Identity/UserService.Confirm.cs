@@ -1,29 +1,34 @@
 using System.Text;
 using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Infrastructure.Common;
+using FSH.WebApi.Infrastructure.Common.Settings;
 using FSH.WebApi.Shared.Multitenancy;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FSH.WebApi.Infrastructure.Identity;
 
 internal partial class UserService
 {
-    private async Task<string> GetEmailVerificationUriAsync(ApplicationUser user, string origin)
+    private async Task<string> GetEmailVerificationUriAsync(ApplicationUser user)
     {
         EnsureValidTenant();
 
-        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        const string route = "api/users/confirm-email/";
-        var endpointUri = new Uri(string.Concat($"{origin}/", route));
-        string verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), QueryStringKeys.UserId, user.Id);
-        verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Code, code);
+        var corsSettings = _configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
+        if (corsSettings.React is null) throw new InternalServerException("React cors setting is missing.");
+
+        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+        Uri clientUri = new Uri(string.Concat($"{corsSettings.React}", "/auth/confirm-email"));
+        string verificationUri = QueryHelpers.AddQueryString(clientUri.ToString(), QueryStringKeys.UserId, user.Id);
+        verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Token, encodedToken);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, _currentTenant.Id!);
         return verificationUri;
     }
 
-    public async Task<string> ConfirmEmailAsync(string userId, string code, string tenant, CancellationToken cancellationToken)
+    public async Task<string> ConfirmEmailAsync(string userId, string token, string tenant, CancellationToken cancellationToken)
     {
         EnsureValidTenant();
 
@@ -33,11 +38,11 @@ internal partial class UserService
 
         _ = user ?? throw new InternalServerException(_localizer["An error occurred while confirming E-Mail."]);
 
-        code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-        var result = await _userManager.ConfirmEmailAsync(user, code);
+        string decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+        var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
         return result.Succeeded
-            ? string.Format(_localizer["Account Confirmed for E-Mail {0}. You can now use the /api/tokens endpoint to generate JWT."], user.Email)
+            ? string.Format(_localizer["Account Confirmed for E-Mail {0}. You can now login."], user.Email)
             : throw new InternalServerException(string.Format(_localizer["An error occurred while confirming {0}"], user.Email));
     }
 
@@ -53,8 +58,8 @@ internal partial class UserService
 
         return result.Succeeded
             ? user.EmailConfirmed
-                ? string.Format(_localizer["Account Confirmed for Phone Number {0}. You can now use the /api/tokens endpoint to generate JWT."], user.PhoneNumber)
-                : string.Format(_localizer["Account Confirmed for Phone Number {0}. You should confirm your E-mail before using the /api/tokens endpoint to generate JWT."], user.PhoneNumber)
+                ? string.Format(_localizer["Account Confirmed for Phone Number {0}. You can now login."], user.PhoneNumber)
+                : string.Format(_localizer["Account Confirmed for Phone Number {0}. You should confirm your E-mail before logging in."], user.PhoneNumber)
             : throw new InternalServerException(string.Format(_localizer["An error occurred while confirming {0}"], user.PhoneNumber));
     }
 }

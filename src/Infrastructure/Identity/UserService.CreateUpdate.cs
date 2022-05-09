@@ -102,7 +102,7 @@ internal partial class UserService
         return user;
     }
 
-    public async Task<string> CreateAsync(CreateUserRequest request, string origin)
+    public async Task<string> CreateAsync(CreateUserRequest request)
     {
         var user = new ApplicationUser
         {
@@ -130,7 +130,7 @@ internal partial class UserService
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
             // send verification email
-            string emailVerificationUri = await GetEmailVerificationUriAsync(user, origin);
+            string emailVerificationUri = await GetEmailVerificationUriAsync(user);
             RegisterUserEmailModel eMailModel = new RegisterUserEmailModel()
             {
                 PreheaderText = _localizer["createusermail.preheader-text"],
