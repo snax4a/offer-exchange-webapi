@@ -3,7 +3,7 @@
     "Route": "/jobs",
     "Dashboard": {
       "AppPath": "/",
-      "StatsPollingInterval": 2000,
+      "StatsPollingInterval": 10000,
       "DashboardTitle": "Jobs"
     },
     "Server": {

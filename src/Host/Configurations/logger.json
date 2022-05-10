@@ -35,27 +35,14 @@
           "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog",
           "rollingInterval": "Day",
           "restrictedToMinimumLevel": "Information",
-          "retainedFileCountLimit": 5
+          "retainedFileCountLimit": 15
         },
         "Name": "File"
       },
       {
         "Name": "Seq",
         "Args": {
-          "serverUrl": "http://localhost:5341"
-        }
-      },
-      {
-        "Name": "Hangfire"
-      },
-      {
-        "Name": "Elasticsearch",
-        "Args": {
-          "nodeUris": "http://localhost:9200;",
-          "indexFormat": "FSH.WebApi-logs-{0:yyyy.MM}",
-          "numberOfShards": 2,
-          "numberOfReplicas": 1,
-          "restrictedToMinimumLevel": "Information"
+          "serverUrl": "http://seq:5341"
         }
       }
     ]
