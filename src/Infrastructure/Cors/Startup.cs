@@ -1,4 +1,4 @@
-﻿using FSH.WebApi.Infrastructure.Common.Settings;
+﻿using FSH.WebApi.Infrastructure.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,14 +11,10 @@ internal static class Startup
 
     internal static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration config)
     {
-        var corsSettings = config.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
+        var clientAppSettings = config.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
         var origins = new List<string>();
-        if (corsSettings.Angular is not null)
-            origins.AddRange(corsSettings.Angular.Split(';', StringSplitOptions.RemoveEmptyEntries));
-        if (corsSettings.Blazor is not null)
-            origins.AddRange(corsSettings.Blazor.Split(';', StringSplitOptions.RemoveEmptyEntries));
-        if (corsSettings.React is not null)
-            origins.AddRange(corsSettings.React.Split(';', StringSplitOptions.RemoveEmptyEntries));
+        if (clientAppSettings.CorsOrigins is not null)
+            origins.AddRange(clientAppSettings.CorsOrigins.Split(';', StringSplitOptions.RemoveEmptyEntries));
 
         return services.AddCors(opt =>
             opt.AddPolicy(CorsPolicy, policy =>

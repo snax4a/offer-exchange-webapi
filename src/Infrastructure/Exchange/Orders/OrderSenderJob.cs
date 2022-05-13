@@ -6,7 +6,6 @@ using FSH.WebApi.Application.Exchange.Orders.Specifications;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Exchange;
 using FSH.WebApi.Infrastructure.Common;
-using FSH.WebApi.Infrastructure.Common.Settings;
 using Hangfire;
 using Hangfire.Server;
 using Microsoft.Extensions.Configuration;
@@ -82,10 +81,10 @@ public class OrderSenderJob : IOrderSenderJob
 
     private string GetOrderDetailsUri(Guid orderId, Guid traderId)
     {
-        var corsSettings = _configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
-        if (corsSettings.React is null) throw new InternalServerException("React cors setting is missing.");
+        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
+        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
         string token = _orderTokenService.GenerateToken(orderId, traderId);
-        var orderDetailsUri = new Uri(string.Concat($"{corsSettings.React}", "/order-details/", token));
+        var orderDetailsUri = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/order-details/", token));
         return orderDetailsUri.ToString();
     }
 

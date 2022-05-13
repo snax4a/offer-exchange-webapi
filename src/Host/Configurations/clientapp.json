@@ -1,0 +1,7 @@
+{
+  "ClientAppSettings": {
+    "CorsOrigins": "http://localhost:3000",
+    "BaseUrl": "http://localhost:3000",
+    "AboutPageUrl": "http://localhost:3000/about"
+  }
+}

@@ -7,7 +7,6 @@ using FSH.WebApi.Application.Exchange.Offers;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Exchange;
 using FSH.WebApi.Infrastructure.Common;
-using FSH.WebApi.Infrastructure.Common.Settings;
 using Hangfire;
 using Hangfire.Server;
 using Microsoft.Extensions.Configuration;
@@ -82,10 +81,10 @@ public class InquirySenderJob : IInquirySenderJob
 
     private string GetOfferFormUri(Guid inquiryId, Guid traderId)
     {
-        var corsSettings = _configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
-        if (corsSettings.React is null) throw new InternalServerException("React cors setting is missing.");
+        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
+        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
         string token = _offerTokenService.GenerateToken(inquiryId, traderId);
-        var offerFormUri = new Uri(string.Concat($"{corsSettings.React}", "/create-offer/", token));
+        var offerFormUri = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/create-offer/", token));
         return offerFormUri.ToString();
     }
 

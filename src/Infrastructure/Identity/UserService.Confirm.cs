@@ -1,7 +1,6 @@
 using System.Text;
 using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Infrastructure.Common;
-using FSH.WebApi.Infrastructure.Common.Settings;
 using FSH.WebApi.Shared.Multitenancy;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +14,13 @@ internal partial class UserService
     {
         EnsureValidTenant();
 
-        var corsSettings = _configuration.GetSection(nameof(CorsSettings)).Get<CorsSettings>();
-        if (corsSettings.React is null) throw new InternalServerException("React cors setting is missing.");
+        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
+        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
 
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-        Uri clientUri = new Uri(string.Concat($"{corsSettings.React}", "/auth/confirm-email"));
+        Uri clientUri = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/auth/confirm-email"));
         string verificationUri = QueryHelpers.AddQueryString(clientUri.ToString(), QueryStringKeys.UserId, user.Id);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Token, encodedToken);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, _currentTenant.Id!);
