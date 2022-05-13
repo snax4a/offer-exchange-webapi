@@ -22,6 +22,7 @@ public class TraderConfig : IEntityTypeConfiguration<Trader>
         builder.Property(t => t.FirstName).HasMaxLength(20);
         builder.Property(t => t.LastName).HasMaxLength(20);
         builder.Property(t => t.Email).HasMaxLength(60);
+        builder.Property(t => t.CompanyName).HasMaxLength(100).IsRequired(false);
         builder.HasIndex(t => t.CreatedBy);
         builder.IsMultiTenant().AdjustIndexes();
     }

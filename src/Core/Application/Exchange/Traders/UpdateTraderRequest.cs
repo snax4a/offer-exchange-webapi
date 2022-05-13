@@ -8,6 +8,7 @@ public class UpdateTraderRequest : IRequest<Guid>
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string Email { get; set; } = default!;
+    public string? CompanyName { get; set; }
     public IList<Guid> GroupIds { get; set; } = default!;
 }
 
@@ -19,8 +20,12 @@ public class UpdateTraderRequestValidator : CustomValidator<UpdateTraderRequest>
         IRepository<Group> groupRepo,
         IStringLocalizer<UpdateTraderRequestValidator> localizer)
     {
-        RuleFor(t => t.FirstName).NotEmpty().MinimumLength(3).MaximumLength(20);
-        RuleFor(t => t.LastName).NotEmpty().MinimumLength(3).MaximumLength(20);
+        RuleFor(t => t.FirstName).Cascade(CascadeMode.Stop).NotEmpty().Length(3, 20);
+        RuleFor(t => t.LastName).Cascade(CascadeMode.Stop).NotEmpty().Length(3, 20);
+        RuleFor(t => t.CompanyName)
+            .Cascade(CascadeMode.Stop)
+            .Length(3, 100)
+            .Unless(t => string.IsNullOrEmpty(t.CompanyName));
 
         RuleFor(t => t.Email)
             .NotEmpty()
@@ -66,7 +71,7 @@ public class UpdateTraderRequestHandler : IRequestHandler<UpdateTraderRequest, G
             trader.AddGroup(groupId);
         }
 
-        trader.Update(request.FirstName, request.LastName, request.Email);
+        trader.Update(request.FirstName, request.LastName, request.Email, request.CompanyName);
 
         await _repository.UpdateAsync(trader, cancellationToken);
 

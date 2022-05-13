@@ -7,6 +7,7 @@ public class CreateTraderRequest : IRequest<Guid>
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string Email { get; set; } = default!;
+    public string? CompanyName { get; set; }
     public IList<Guid> GroupIds { get; set; } = default!;
 }
 
@@ -18,8 +19,12 @@ public class CreateTraderRequestValidator : CustomValidator<CreateTraderRequest>
         IReadRepository<Group> groupRepo,
         IStringLocalizer<CreateTraderRequestValidator> localizer)
     {
-        RuleFor(t => t.FirstName).NotEmpty().MinimumLength(3).MaximumLength(20);
-        RuleFor(t => t.LastName).NotEmpty().MinimumLength(3).MaximumLength(20);
+        RuleFor(t => t.FirstName).Cascade(CascadeMode.Stop).NotEmpty().Length(3, 20);
+        RuleFor(t => t.LastName).Cascade(CascadeMode.Stop).NotEmpty().Length(3, 20);
+        RuleFor(t => t.CompanyName)
+            .Cascade(CascadeMode.Stop)
+            .Length(3, 100)
+            .Unless(t => string.IsNullOrEmpty(t.CompanyName));
 
         RuleFor(t => t.Email)
             .NotEmpty()
@@ -43,7 +48,7 @@ public class CreateTraderRequestHandler : IRequestHandler<CreateTraderRequest, G
 
     public async Task<Guid> Handle(CreateTraderRequest request, CancellationToken cancellationToken)
     {
-        var trader = new Trader(request.FirstName, request.LastName, request.Email);
+        var trader = new Trader(request.FirstName, request.LastName, request.Email, request.CompanyName);
 
         if (request.GroupIds.Count > 0)
         {
