@@ -129,9 +129,12 @@ internal partial class UserService
 
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
+            if (_clientAppSettings.AboutPageUrl is null)
+                throw new InternalServerException("ClientAppSettings AboutPageUrl is missing.");
+
             // send verification email
             string emailVerificationUri = await GetEmailVerificationUriAsync(user);
-            RegisterUserEmailModel eMailModel = new RegisterUserEmailModel()
+            RegisterUserEmailModel emailModel = new RegisterUserEmailModel()
             {
                 PreheaderText = _localizer["createusermail.preheader-text"],
                 GreetingText = string.Format(_localizer["mail.greeting-text"], user.FirstName),
@@ -142,12 +145,13 @@ internal partial class UserService
                 RegardsText = _localizer["mail.regards-text"],
                 TeamText = _localizer["mail.team-text"],
                 ReadMoreDescription = _localizer["mail.read-more-description"],
+                AboutPageUrl = _clientAppSettings.AboutPageUrl,
                 ReadMoreLinkText = _localizer["mail.read-more-link-text"]
             };
             var mailRequest = new MailRequest(
                 new List<string> { user.Email },
                 _localizer["createusermail.subject"],
-                _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
+                _templateService.GenerateEmailTemplate("email-confirmation", emailModel));
             _jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
             messages.Add(_localizer[$"Please check {user.Email} to verify your account!"]);
         }

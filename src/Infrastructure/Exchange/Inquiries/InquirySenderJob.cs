@@ -1,23 +1,23 @@
-﻿using System.Text;
-using FSH.WebApi.Application.Common.Exceptions;
+﻿using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Application.Exchange.Inquiries;
 using FSH.WebApi.Application.Exchange.Offers;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Exchange;
+using FSH.WebApi.Infrastructure.ClientApp;
 using FSH.WebApi.Infrastructure.Common;
 using Hangfire;
 using Hangfire.Server;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FSH.WebApi.Infrastructure.Exchange.Inquiries;
 
 public class InquirySenderJob : IInquirySenderJob
 {
-    private readonly IConfiguration _configuration;
+    private readonly ClientAppSettings _clientAppSettings;
     private readonly ILogger<InquirySenderJob> _logger;
     private readonly IReadRepository<Trader> _traderRepo;
     private readonly PerformingContext _performingContext;
@@ -28,7 +28,7 @@ public class InquirySenderJob : IInquirySenderJob
     private readonly IOfferTokenService _offerTokenService;
 
     public InquirySenderJob(
-        IConfiguration configuration,
+        IOptions<ClientAppSettings> clientAppSettings,
         ILogger<InquirySenderJob> logger,
         IReadRepository<Trader> traderRepo,
         PerformingContext performingContext,
@@ -38,7 +38,7 @@ public class InquirySenderJob : IInquirySenderJob
         IEmailTemplateService templateService,
         IOfferTokenService offerTokenService)
     {
-        _configuration = configuration;
+        _clientAppSettings = clientAppSettings.Value;
         _logger = logger;
         _traderRepo = traderRepo;
         _performingContext = performingContext;
@@ -81,15 +81,17 @@ public class InquirySenderJob : IInquirySenderJob
 
     private string GetOfferFormUri(Guid inquiryId, Guid traderId)
     {
-        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
-        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
+        if (_clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
         string token = _offerTokenService.GenerateToken(inquiryId, traderId);
-        var offerFormUri = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/create-offer/", token));
+        var offerFormUri = new Uri(string.Concat($"{_clientAppSettings.BaseUrl}", "/create-offer/", token));
         return offerFormUri.ToString();
     }
 
     private InquiryEmailModel GetEmailModel(UserDetailsDto user, Trader trader, Guid inquiryId)
     {
+        if (_clientAppSettings.AboutPageUrl is null)
+            throw new InternalServerException("ClientAppSettings AboutPageUrl is missing.");
+
         return new InquiryEmailModel()
         {
             GreetingText = string.Format(_localizer["mail.greeting-text"], trader.FirstName),
@@ -102,6 +104,7 @@ public class InquirySenderJob : IInquirySenderJob
             RegardsText = _localizer["mail.regards-text"],
             TeamText = _localizer["mail.team-text"],
             ReadMoreDescription = _localizer["mail.read-more-description"],
+            AboutPageUrl = _clientAppSettings.AboutPageUrl,
             ReadMoreLinkText = _localizer["mail.read-more-link-text"]
         };
     }

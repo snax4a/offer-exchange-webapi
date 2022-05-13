@@ -3,7 +3,6 @@ using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Identity.Users.Password;
 using FSH.WebApi.Infrastructure.Common;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
 
 namespace FSH.WebApi.Infrastructure.Identity;
 
@@ -55,13 +54,12 @@ internal partial class UserService
 
     private async Task<string> GetPasswordResetUrlAsync(ApplicationUser user)
     {
-        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
-        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
+        if (_clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
 
         // For more information on how to enable account confirmation and password reset please
         // visit https://go.microsoft.com/fwlink/?LinkID=532713
         string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        string url = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/auth/reset-password/")).ToString();
+        string url = new Uri(string.Concat($"{_clientAppSettings.BaseUrl}", "/auth/reset-password/")).ToString();
         return QueryHelpers.AddQueryString(url, QueryStringKeys.Token, token);
     }
 

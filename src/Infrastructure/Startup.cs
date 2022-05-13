@@ -2,6 +2,7 @@ using System.Reflection;
 using FSH.WebApi.Infrastructure.Auth;
 using FSH.WebApi.Infrastructure.BackgroundJobs;
 using FSH.WebApi.Infrastructure.Caching;
+using FSH.WebApi.Infrastructure.ClientApp;
 using FSH.WebApi.Infrastructure.Common;
 using FSH.WebApi.Infrastructure.Cors;
 using FSH.WebApi.Infrastructure.FileStorage;
@@ -35,6 +36,7 @@ public static class Startup
             .AddBackgroundJobs(config)
             .AddCaching(config)
             .AddCorsPolicy(config)
+            .AddClientApp(config)
             .AddExceptionMiddleware()
             .AddHealthCheck()
             .AddLocalization(config)

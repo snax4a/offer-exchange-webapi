@@ -1,4 +1,4 @@
-﻿using FSH.WebApi.Infrastructure.Common;
+﻿using FSH.WebApi.Infrastructure.ClientApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

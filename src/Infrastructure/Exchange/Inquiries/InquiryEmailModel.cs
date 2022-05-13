@@ -15,5 +15,6 @@ public class InquiryEmailModel
     public string RegardsText { get; set; } = default!;
     public string TeamText { get; set; } = default!;
     public string ReadMoreDescription { get; set; } = default!;
+    public string AboutPageUrl { get; set; } = default!;
     public string ReadMoreLinkText { get; set; } = default!;
 }

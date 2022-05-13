@@ -1,4 +1,4 @@
-namespace FSH.WebApi.Infrastructure.Common;
+namespace FSH.WebApi.Infrastructure.ClientApp;
 
 public class ClientAppSettings
 {

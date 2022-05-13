@@ -5,18 +5,19 @@ using FSH.WebApi.Application.Exchange.Orders;
 using FSH.WebApi.Application.Exchange.Orders.Specifications;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Exchange;
+using FSH.WebApi.Infrastructure.ClientApp;
 using FSH.WebApi.Infrastructure.Common;
 using Hangfire;
 using Hangfire.Server;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace FSH.WebApi.Infrastructure.Exchange.Orders;
 
 public class OrderSenderJob : IOrderSenderJob
 {
-    private readonly IConfiguration _configuration;
+    private readonly ClientAppSettings _clientAppSettings;
     private readonly ILogger<OrderSenderJob> _logger;
     private readonly IReadRepository<Order> _orderRepo;
     private readonly PerformingContext _performingContext;
@@ -27,7 +28,7 @@ public class OrderSenderJob : IOrderSenderJob
     private readonly IOrderTokenService _orderTokenService;
 
     public OrderSenderJob(
-        IConfiguration configuration,
+        IOptions<ClientAppSettings> clientAppSettings,
         ILogger<OrderSenderJob> logger,
         IReadRepository<Order> orderRepo,
         PerformingContext performingContext,
@@ -37,7 +38,7 @@ public class OrderSenderJob : IOrderSenderJob
         IEmailTemplateService templateService,
         IOrderTokenService orderTokenService)
     {
-        _configuration = configuration;
+        _clientAppSettings = clientAppSettings.Value;
         _logger = logger;
         _orderRepo = orderRepo;
         _performingContext = performingContext;
@@ -81,15 +82,17 @@ public class OrderSenderJob : IOrderSenderJob
 
     private string GetOrderDetailsUri(Guid orderId, Guid traderId)
     {
-        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
-        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
+        if (_clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
         string token = _orderTokenService.GenerateToken(orderId, traderId);
-        var orderDetailsUri = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/order-details/", token));
+        var orderDetailsUri = new Uri(string.Concat($"{_clientAppSettings.BaseUrl}", "/order-details/", token));
         return orderDetailsUri.ToString();
     }
 
     private NewOrderEmailModel GetEmailModel(UserDetailsDto user, Order order)
     {
+        if (_clientAppSettings.AboutPageUrl is null)
+            throw new InternalServerException("ClientAppSettings AboutPageUrl is missing.");
+
         return new NewOrderEmailModel()
         {
             GreetingText = string.Format(_localizer["mail.greeting-text"], order.Trader.FirstName),
@@ -102,6 +105,7 @@ public class OrderSenderJob : IOrderSenderJob
             RegardsText = _localizer["mail.regards-text"],
             TeamText = _localizer["mail.team-text"],
             ReadMoreDescription = _localizer["mail.read-more-description"],
+            AboutPageUrl = _clientAppSettings.AboutPageUrl,
             ReadMoreLinkText = _localizer["mail.read-more-link-text"]
         };
     }

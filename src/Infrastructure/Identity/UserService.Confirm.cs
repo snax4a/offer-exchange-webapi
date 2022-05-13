@@ -14,13 +14,12 @@ internal partial class UserService
     {
         EnsureValidTenant();
 
-        var clientAppSettings = _configuration.GetSection(nameof(ClientAppSettings)).Get<ClientAppSettings>();
-        if (clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
+        if (_clientAppSettings.BaseUrl is null) throw new InternalServerException("ClientAppSettings BaseUrl is missing.");
 
         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-        Uri clientUri = new Uri(string.Concat($"{clientAppSettings.BaseUrl}", "/auth/confirm-email"));
+        Uri clientUri = new Uri(string.Concat($"{_clientAppSettings.BaseUrl}", "/auth/confirm-email"));
         string verificationUri = QueryHelpers.AddQueryString(clientUri.ToString(), QueryStringKeys.UserId, user.Id);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, QueryStringKeys.Token, encodedToken);
         verificationUri = QueryHelpers.AddQueryString(verificationUri, MultitenancyConstants.TenantIdName, _currentTenant.Id!);
