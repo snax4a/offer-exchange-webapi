@@ -1,12 +1,12 @@
-version: '3.4'
+version: "3.4"
 services:
-  dotnetwebapi:
-    image: "iammukeshm/dotnet-webapi"
+  api:
+    image: "snax4a/offer-exchange-api:${API_TAG}"
     environment:
-      - "MultitenancySettings__ConnectionString=server=db;uid=root;pwd=root;dat\
+      - "MultitenancySettings__ConnectionString=server=db;uid=root;pwd=${DB_PASSWORD};dat\
         abase=rootTenantDb;Allow User Variables=True"
       - "MultitenancySettings__DBProvider=mysql"
-      - "ASPNETCORE_Kestrel__Certificates__Default__Password=securePassword123"
+      - "ASPNETCORE_Kestrel__Certificates__Default__Password=${DB_PASSWORD}"
       - "ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx"
       - "ASPNETCORE_URLS=https://+:5052;http://+:5062"
     volumes:
@@ -18,15 +18,16 @@ services:
       db:
         condition: service_healthy
     restart: on-failure
-    container_name: dotnet-webapi-with-mysql
+    container_name: api
+
   db:
-    image: "mysql:latest"
+    image: "mysql:8"
     environment:
-      - "MYSQL_ROOT_PASSWORD=root"
-      - "MYSQL_PASSWORD=root"
+      - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
     container_name: mysql
     healthcheck:
-      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      test: '/usr/bin/mysql --user=root --password=${DB_PASSWORD} --execute "SHOW DATABASES;"'
       interval: 2s
       timeout: 20s
       retries: 10

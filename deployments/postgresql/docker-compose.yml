@@ -1,0 +1,49 @@
+services:
+  api:
+    image: "snax4a/offer-exchange-api:${API_TAG}"
+    container_name: api
+    environment:
+      - "DatabaseSettings__ConnectionString=Host=db;Database=${DB_NAME};\
+        Username=${DB_USER};Password=${DB_PASSWORD};Include Error Detail=true"
+      - "DatabaseSettings__DBProvider=postgresql"
+      - "HangfireSettings__Storage__ConnectionString=Host=db;Database=offer_exchange;\
+        Username=${DB_USER};Password=${DB_PASSWORD};Include Error Detail=true"
+      - "HangfireSettings__Storage__StorageProvider=PostgreSQL"
+      - "HangfireSettings__Credentials__User=${HANGFIRE_USER}"
+      - "HangfireSettings__Credentials__Password=${HANGFIRE_PASSWORD}"
+      - "HangfireSettings__Dashboard__StatsPollingInterval=${HANGFIRE_STATS_POOLING_INTERAL}"
+      - "SwaggerSettings__Enable=${SWAGGER_ENABLED}"
+      - "MiddlewareSettings__EnableHttpsLogging=${HTTPS_LOGGING_ENABLED}"
+      - "CorsSettings__React=${CLIENT_APP_URL}"
+      - "SecuritySettings__JwtSettings__key=${JWT_SIGNING_KEY}"
+      - "MailSettings__DisplayName=${MAIL_DISPLAY_NAME}"
+      - "MailSettings__From=${MAIL_FROM}"
+      - "MailSettings__Host=${MAIL_HOST}"
+      - "MailSettings__Password=${MAIL_PASSWORD}"
+      - "MailSettings__Port=${MAIL_PORT}"
+      - "MailSettings__UserName=${MAIL_USERNAME}"
+    volumes:
+      - ${CERT_VOLUME_PATH}:/https:ro
+      - ${LOGS_VOLUME_PATH}:/app/Logs:rw
+    ports:
+      - "${API_HTTPS_PORT}:5050"
+      - "${API_HTTP_PORT}:5060"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: "postgres:14.2"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    container_name: postgresql
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 20s
+      timeout: 5s
+      retries: 5

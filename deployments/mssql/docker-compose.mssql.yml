@@ -1,22 +1,23 @@
-version: '3.4'
+version: "3.4"
 services:
   redis:
     image: redis
     ports:
       - "6579:6379"
-    restart: on-failure
+    restart: unless-stopped
     container_name: redis-for-dotnet-webapi-with-mssql
-  dotnet-webapi:
-    image: "iammukeshm/dotnet-webapi:latest"
+
+  api:
+    image: "snax4a/offer-exchange-api:${API_TAG}"
     environment:
       - "DatabaseSettings__ConnectionString=Server=db;Database=rootTenantDb;Use\
-        r=sa;Password=securePassword123;MultipleActiveResultSets=true"
+        r=sa;Password=${DB_PASSWORD};MultipleActiveResultSets=true"
       - "DatabaseSettings__DBProvider=mssql"
       - "HangfireSettings__Storage__ConnectionString=Server=db;Database=rootTen\
-        antDb;User=sa;Password=securePassword123;MultipleActiveResultSets=true"
+        antDb;User=sa;Password=${DB_PASSWORD};MultipleActiveResultSets=true"
       - "HangfireSettings__Storage__StorageProvider=mssql"
       - "CacheSettings__RedisURL=redis"
-      - "ASPNETCORE_Kestrel__Certificates__Default__Password=securePassword123"
+      - "ASPNETCORE_Kestrel__Certificates__Default__Password=${DB_PASSWORD}"
       - "ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx"
       - "ASPNETCORE_URLS=https://+:5051;http://+:5061"
     volumes:
@@ -27,14 +28,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    restart: on-failure
-    container_name: dotnet-webapi-with-mssql
+    restart: unless-stopped
+    container_name: api
+
   db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
-      - "SA_PASSWORD=securePassword123"
+      - "SA_PASSWORD=${DB_PASSWORD}"
       - "ACCEPT_EULA=Y"
     container_name: mssql
+    restart: unless-stopped
     healthcheck:
       test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q
         "SELECT 1" || exit 1

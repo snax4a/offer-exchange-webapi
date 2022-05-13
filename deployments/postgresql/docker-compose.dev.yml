@@ -1,0 +1,12 @@
+volumes:
+  offer_exchange_dev_db_data:
+
+services:
+  api:
+    environment:
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/${CERT_FILENAME}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASSWORD}
+
+  db:
+    volumes:
+      - offer_exchange_dev_db_data:/var/lib/postgresql/data

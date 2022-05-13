@@ -456,3 +456,9 @@ $RECYCLE.BIN/
 
 # WebApi configurations
 src/Host/Configurations/*.Development.json
+
+# ENV files
+.env
+.env.local
+.env.development
+.env.production
