@@ -81,7 +81,7 @@ public class OfferNotificationSenderJob : IOfferNotificationSenderJob
         string fromCompanyText = string.Empty;
 
         if (offer.Trader.CompanyName is not null)
-            fromCompanyText = string.Format(_localizer["text.from-company"], $"<b>{user.CompanyName}</b>");
+            fromCompanyText = string.Format(_localizer["text.from-company"], $"<b>{offer.Trader.CompanyName}</b>");
 
         return new NewOfferEmailModel()
         {
