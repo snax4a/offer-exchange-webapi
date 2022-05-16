@@ -52,13 +52,18 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
     private readonly IRepositoryWithEvents<Offer> _offerRepo;
     private readonly IReadRepository<Inquiry> _inquiryRepo;
     private readonly IOfferTokenService _tokenService;
+    private readonly IJobService _jobService;
 
     public CreateOfferRequestHandler(
         IRepositoryWithEvents<Offer> offerRepo,
         IReadRepository<Inquiry> inquiryRepo,
-        IOfferTokenService tokenService)
+        IOfferTokenService tokenService,
+        IJobService jobService)
     {
-        (_offerRepo, _inquiryRepo, _tokenService) = (offerRepo, inquiryRepo, tokenService);
+        _offerRepo = offerRepo;
+        _inquiryRepo = inquiryRepo;
+        _tokenService = tokenService;
+        _jobService = jobService;
     }
 
     public async Task<Guid> Handle(CreateOfferRequest request, CancellationToken ct)
@@ -107,6 +112,8 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
             products);
 
         await _offerRepo.AddAsync(offer, ct);
+
+        _jobService.Enqueue<IOfferNotificationSenderJob>(x => x.NotifyUserAsync(offer.Id, CancellationToken.None));
 
         return offer.Id;
     }

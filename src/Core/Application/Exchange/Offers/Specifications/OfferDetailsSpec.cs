@@ -8,5 +8,13 @@ public class OfferDetailsSpec : Specification<Offer, OfferDetailsDto>, ISingleRe
         Query
             .Where(o => o.Id == id && o.UserId == userId)
             .Include(o => o.OfferProducts)
-            .Include(o => o.Inquiry);
+            .Include(o => o.Inquiry)
+            .Include(o => o.Trader);
+
+    public OfferDetailsSpec(Guid id) =>
+        Query
+            .Where(o => o.Id == id)
+            .Include(o => o.OfferProducts)
+            .Include(o => o.Inquiry)
+            .Include(o => o.Trader);
 }
