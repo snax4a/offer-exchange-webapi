@@ -8,4 +8,9 @@ public class ConflictException : CustomException
         : base(message, null, HttpStatusCode.Conflict)
     {
     }
+
+    public ConflictException(string message, List<string>? errors = default)
+        : base(message, errors, HttpStatusCode.Conflict)
+    {
+    }
 }

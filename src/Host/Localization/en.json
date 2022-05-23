@@ -53,5 +53,6 @@
   "createusermail.subject": "Confirm Registration",
   "createusermail.preheader-text": "We're thrilled to have you here! First you need to confirm your email.",
   "createusermail.main-text": "We are thrilled that you joined us. To complete the account registration you need to confirm your e-mail address: {0}. Just press the button below.",
-  "createusermail.confirm-button-text": "Confirm Email"
+  "createusermail.confirm-button-text": "Confirm Email",
+  "phone.invalid": "Phone number {0} is invalid."
 }

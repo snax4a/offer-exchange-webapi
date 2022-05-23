@@ -61,5 +61,6 @@
   "createusermail.confirm-button-text": "Confirm Email",
   "resetpasswordmail.subject": "Reset your account password ",
   "resetpasswordmail.main-text": "We have received your password reset request. Click the button below to go to the form where you can set a new password for your account.",
-  "resetpasswordmail.reset-button-text": "Reset password"
+  "resetpasswordmail.reset-button-text": "Reset password",
+  "phone.invalid": "Phone number {0} is invalid."
 }

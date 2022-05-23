@@ -181,12 +181,8 @@ internal partial class UserService
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.CompanyName = request.CompanyName;
+        user.Email = request.Email; // TODO: send verification email instead
         user.PhoneNumber = request.PhoneNumber;
-        string phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-        if (request.PhoneNumber != phoneNumber)
-        {
-            await _userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
-        }
 
         var result = await _userManager.UpdateAsync(user);
 

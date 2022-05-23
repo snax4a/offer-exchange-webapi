@@ -48,7 +48,7 @@ internal partial class UserService
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_localizer["Change password failed"], result.GetErrors(_localizer));
+            throw new ConflictException(_localizer["Change password failed"], result.GetErrors(_localizer));
         }
     }
 

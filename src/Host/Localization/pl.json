@@ -61,5 +61,6 @@
   "createusermail.confirm-button-text": "Potwierdź Email",
   "resetpasswordmail.subject": "Zresetuj hasło do swojego konta",
   "resetpasswordmail.main-text": "Otrzymaliśmy Twoją prośbę o zresetowanie hasła. Kliknij w przycisk poniżej aby przejść do formularza, w którym ustawisz nowe hasło do swojego konta.",
-  "resetpasswordmail.reset-button-text": "Resetuj hasło"
+  "resetpasswordmail.reset-button-text": "Resetuj hasło",
+  "phone.invalid": "Numer telfonu {0} jest nieprawidłowy."
 }

@@ -9,7 +9,7 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
         RuleFor(u => u.LastName).NotEmpty().MinimumLength(3).MaximumLength(60);
         RuleFor(u => u.CompanyName).NotEmpty().MinimumLength(3).MaximumLength(100);
 
-        RuleFor(u => u.Email)
+        RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage(localizer["Invalid Email Address."])
@@ -20,8 +20,8 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
             .SetNonNullableValidator(new FileUploadRequestValidator());
 
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
-            .MustAsync(async (user, phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!, user.Id))
-                .WithMessage((_, phone) => string.Format(localizer["Phone number {0} is already registered."], phone))
-                .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
+            .NotEmpty()
+            .Must((_, phone, _) => PhoneNumberValidator.IsValid(phone))
+                .WithMessage((_, phone) => string.Format(localizer["phone.invalid"], phone));
     }
 }

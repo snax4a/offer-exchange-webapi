@@ -6,7 +6,7 @@ public class UpdateUserRequest
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string CompanyName { get; set; } = default!;
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = default!;
     public string Email { get; set; } = default!;
     public FileUploadRequest? Image { get; set; }
     public bool DeleteCurrentImage { get; set; } = false;
