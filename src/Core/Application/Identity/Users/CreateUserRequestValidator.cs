@@ -15,7 +15,7 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
             .EmailAddress()
                 .WithMessage(localizer["Invalid Email Address."])
             .MustAsync(async (email, _) => !await userService.ExistsWithEmailAsync(email))
-                .WithMessage((_, email) => string.Format(localizer["Email {0} is already registered."], email));
+                .WithMessage((_, email) => string.Format(localizer["email.alreadyregistered"], email));
 
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
           .NotEmpty()

@@ -1,6 +1,7 @@
 {
   "auth.failed": "Uwierzytelnianie nie powiodło się.",
   "email.invalid": "Nieprawidłowy adres email.",
+  "email.alreadyregistered": "E-mail {0} jest już zarejestrowany.",
   "tenant.invalid": "Nieprawidłowy najemca.",
   "tenant.expired": "Ważność najemcy wygasła. Prosimy o kontakt z Administratorem Aplikacji.",
   "tenant.inactive": "Najemca nie jest aktywny. Prosimy o kontakt z Administratorem Aplikacji.",

@@ -1,6 +1,7 @@
 {
   "auth.failed": "Authentication Failed.",
   "email.invalid": "Invalid Email Address.",
+  "email.alreadyregistered": "E-mail {0} is already registered.",
   "tenant.invalid": "Invalid Tenant.",
   "tenant.expired": "Tenant Validity Has Expired. Please contact the Application Administrator.",
   "tenant.inactive": "Tenant is not Active. Please contact the Application Administrator.",

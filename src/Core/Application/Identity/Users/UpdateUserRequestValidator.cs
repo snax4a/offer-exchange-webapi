@@ -14,7 +14,7 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
             .EmailAddress()
                 .WithMessage(localizer["Invalid Email Address."])
             .MustAsync(async (user, email, _) => !await userService.ExistsWithEmailAsync(email, user.Id))
-                .WithMessage((_, email) => string.Format(localizer["Email {0} is already registered."], email));
+                .WithMessage((_, email) => string.Format(localizer["email.alreadyregistered"], email));
 
         RuleFor(u => u.Image)
             .SetNonNullableValidator(new FileUploadRequestValidator());
