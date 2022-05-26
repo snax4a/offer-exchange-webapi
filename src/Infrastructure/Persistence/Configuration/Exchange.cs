@@ -64,6 +64,7 @@ public class InquiryProductConfig : IEntityTypeConfiguration<InquiryProduct>
     public void Configure(EntityTypeBuilder<InquiryProduct> builder)
     {
         builder.Property(p => p.Name).HasMaxLength(100);
+        builder.Property(p => p.PreferredDeliveryDate).IsRequired(false);
 
         builder
             .HasOne<Inquiry>()

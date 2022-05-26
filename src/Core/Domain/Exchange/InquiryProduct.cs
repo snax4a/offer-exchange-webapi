@@ -4,7 +4,7 @@ public class InquiryProduct : AuditableEntity
 {
     public string Name { get; private set; } = default!;
     public int Quantity { get; private set; }
-    public DateOnly PreferredDeliveryDate { get; private set; }
+    public DateOnly? PreferredDeliveryDate { get; private set; }
     public Guid InquiryId { get; private set; }
     public ICollection<OfferProduct> OfferProducts { get; private set; } = new List<OfferProduct>();
 
@@ -13,7 +13,7 @@ public class InquiryProduct : AuditableEntity
         // Required by ORM
     }
 
-    public InquiryProduct(Guid inquiryId, string name, int quantity, DateOnly preferredDeliveryDate)
+    public InquiryProduct(Guid inquiryId, string name, int quantity, DateOnly? preferredDeliveryDate)
     {
         InquiryId = inquiryId;
         Name = name;
