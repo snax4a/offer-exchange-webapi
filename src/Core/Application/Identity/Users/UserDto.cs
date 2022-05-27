@@ -7,4 +7,5 @@ public class UserDto
     public string LastName { get; set; } = default!;
     public string CompanyName { get; set; } = default!;
     public string Email { get; set; } = default!;
+    public string? PhoneNumber { get; set; }
 }
