@@ -1,6 +1,6 @@
 ﻿namespace FSH.WebApi.Infrastructure.Exchange.Inquiries;
 
-public class InquiryEmailModel
+public class NewInquiryEmailModel
 {
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
@@ -8,6 +8,8 @@ public class InquiryEmailModel
     public string GreetingText { get; set; } = default!;
     public string MainText1 { get; set; } = default!;
     public string MainText2 { get; set; } = default!;
+    public string? EmailText { get; set; }
+    public string? PhoneText { get; set; }
     public string MainText3 { get; set; } = default!;
     public string OfferFormUrl { get; set; } = default!;
     public string OfferFormButtonText { get; set; } = default!;

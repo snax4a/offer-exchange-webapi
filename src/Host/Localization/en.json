@@ -32,7 +32,7 @@
   "order.status-cannot-be-changed": "The status of this order cannot be changed.",
   "inquirymail.subject": "New request for quotation from - {0}",
   "inquirymail.main-text-1": "{0} {1} from company {2} sends you an inquiry via the platform OfferExchange.net",
-  "inquirymail.main-text-2": "If you have any questions, please contact the sender by e-mail: {0}",
+  "inquirymail.main-text-2": "If you have any questions, please contact the sender:",
   "inquirymail.main-text-3": "Click the button below to go to the offer form.",
   "inquirymail.offer-button-text": "Make an offer",
   "newordermail.subject": "Nowe order frpm - {0}",
@@ -55,5 +55,7 @@
   "createusermail.preheader-text": "We're thrilled to have you here! First you need to confirm your email.",
   "createusermail.main-text": "We are thrilled that you joined us. To complete the account registration you need to confirm your e-mail address: {0}. Just press the button below.",
   "createusermail.confirm-button-text": "Confirm Email",
-  "phone.invalid": "Phone number {0} is invalid."
+  "phone.invalid": "Phone number {0} is invalid.",
+  "text-email-address": "E-mail address",
+  "text-phone-number": "Phone number"
 }

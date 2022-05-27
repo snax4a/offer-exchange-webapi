@@ -37,7 +37,7 @@
   "order.status-cannot-be-changed": "Status tego zamówienia nie może być zmieniony.",
   "inquirymail.subject": "Nowe zapytanie ofertowe od - {0}",
   "inquirymail.main-text-1": "{0} {1} z firmy {2} przesyła do Ciebie zapytanie ofertowe za pośrednictwem platformy OfferExchange.net",
-  "inquirymail.main-text-2": "Jeśli masz jakieś pytania skontaktuj się mailowo z nadawcą: {0}",
+  "inquirymail.main-text-2": "Jeśli masz jakieś pytania skontaktuj się z nadawcą:",
   "inquirymail.main-text-3": "Kliknij przycisk poniżej aby przejść do formularza ofertowego.",
   "inquirymail.offer-button-text": "Złóż ofertę",
   "newordermail.subject": "Nowe zamówienie od - {0}",
@@ -63,5 +63,7 @@
   "resetpasswordmail.subject": "Zresetuj hasło do swojego konta",
   "resetpasswordmail.main-text": "Otrzymaliśmy Twoją prośbę o zresetowanie hasła. Kliknij w przycisk poniżej aby przejść do formularza, w którym ustawisz nowe hasło do swojego konta.",
   "resetpasswordmail.reset-button-text": "Resetuj hasło",
-  "phone.invalid": "Numer telfonu {0} jest nieprawidłowy."
+  "phone.invalid": "Numer telfonu {0} jest nieprawidłowy.",
+  "text-email-address": "Adres e-mail",
+  "text-phone-number": "Numer telefonu"
 }

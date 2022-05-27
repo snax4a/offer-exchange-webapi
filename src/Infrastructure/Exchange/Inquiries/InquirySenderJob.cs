@@ -87,16 +87,26 @@ public class InquirySenderJob : IInquirySenderJob
         return offerFormUri.ToString();
     }
 
-    private InquiryEmailModel GetEmailModel(UserDetailsDto user, Trader trader, Guid inquiryId)
+    private NewInquiryEmailModel GetEmailModel(UserDetailsDto user, Trader trader, Guid inquiryId)
     {
         if (_clientAppSettings.AboutPageUrl is null)
             throw new InternalServerException("ClientAppSettings AboutPageUrl is missing.");
 
-        return new InquiryEmailModel()
+        string? emailText = !string.IsNullOrEmpty(user.Email)
+            ? _localizer["text-email-address"] + $": <b>{user.Email}</b>"
+            : null;
+
+        string? phoneText = !string.IsNullOrEmpty(user.PhoneNumber)
+            ? _localizer["text-phone-number"] + $": <b>{user.PhoneNumber}</b>"
+            : null;
+
+        return new NewInquiryEmailModel()
         {
             GreetingText = string.Format(_localizer["mail.greeting-text"], trader.FirstName),
             MainText1 = string.Format(_localizer["inquirymail.main-text-1"], $"<b>{user.FirstName}", $"{user.LastName}</b>", $"<b>{user.CompanyName}</b>"),
-            MainText2 = string.Format(_localizer["inquirymail.main-text-2"], $"<b>{user.Email}</b>"),
+            MainText2 = _localizer["inquirymail.main-text-2"],
+            EmailText = emailText,
+            PhoneText = phoneText,
             MainText3 = _localizer["inquirymail.main-text-3"],
             OfferFormUrl = GetOfferFormUri(inquiryId, trader.Id),
             OfferFormButtonText = _localizer["inquirymail.offer-button-text"],
