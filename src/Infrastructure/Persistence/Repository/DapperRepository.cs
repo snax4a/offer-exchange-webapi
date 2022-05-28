@@ -22,20 +22,18 @@ public class DapperRepository : IDapperRepository
     public async Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     where T : class, IEntity
     {
-        if (!_dbContext.Model.GetMultiTenantEntityTypes().Any(t => t.ClrType == typeof(T)))
+        if (_dbContext.Model.GetMultiTenantEntityTypes().Any(t => t.ClrType == typeof(T)))
         {
             sql = sql.Replace("@tenant", _dbContext.TenantInfo.Id);
         }
 
-        var entity = await _dbContext.Connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
-
-        return entity ?? throw new NotFoundException(string.Empty);
+        return await _dbContext.Connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
     }
 
     public Task<T> QuerySingleAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
     where T : class, IEntity
     {
-        if (!_dbContext.Model.GetMultiTenantEntityTypes().Any(t => t.ClrType == typeof(T)))
+        if (_dbContext.Model.GetMultiTenantEntityTypes().Any(t => t.ClrType == typeof(T)))
         {
             sql = sql.Replace("@tenant", _dbContext.TenantInfo.Id);
         }
