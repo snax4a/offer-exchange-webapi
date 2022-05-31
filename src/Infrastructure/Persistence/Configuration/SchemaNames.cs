@@ -7,4 +7,5 @@ internal static class SchemaNames
     public static string Identity = nameof(Identity); // "IDENTITY";
     public static string MultiTenancy = nameof(MultiTenancy); // "MULTITENANCY";
     public static string OfferExchange = nameof(OfferExchange); // "OFFEREXCHANGE";
+    public static string ISO = nameof(ISO); // "ISO";
 }
