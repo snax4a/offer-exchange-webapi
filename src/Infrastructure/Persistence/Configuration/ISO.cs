@@ -1,5 +1,4 @@
-﻿using Finbuckle.MultiTenant.EntityFrameworkCore;
-using FSH.WebApi.Domain.Exchange;
+﻿using FSH.WebApi.Domain.Exchange;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -37,10 +36,10 @@ public class CountrySubdivisionConfig : IEntityTypeConfiguration<CountrySubdivis
     {
         builder.ToTable("CountrySubdivisions", schema: SchemaNames.ISO);
 
-        builder.HasKey(cs => cs.Code);
+        builder.HasKey(cs => new { cs.CountryAlpha2Code, cs.Name, cs.Code });
 
-        builder.Property(cs => cs.Code).HasMaxLength(10).IsRequired(true);
-        builder.Property(cs => cs.Name).HasMaxLength(100).IsRequired(true);
         builder.Property(cs => cs.CountryAlpha2Code).HasMaxLength(2).IsRequired(true);
+        builder.Property(cs => cs.Name).HasMaxLength(100).IsRequired(true);
+        builder.Property(cs => cs.Code).HasMaxLength(10).IsRequired(true);
     }
 }

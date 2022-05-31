@@ -4,6 +4,8 @@ using FSH.WebApi.Application.Exchange.Offers.DTOs;
 using FSH.WebApi.Application.Exchange.Orders.DTOs;
 using FSH.WebApi.Application.Exchange.Traders.DTOs;
 using FSH.WebApi.Domain.Exchange;
+using FSH.WebApi.Infrastructure.ISOData.Countries;
+using FSH.WebApi.Infrastructure.ISOData.CountrySubdivisions;
 using Mapster;
 
 namespace FSH.WebApi.Infrastructure.Mapping;
@@ -35,5 +37,10 @@ public class MapsterSettings
 
         TypeAdapterConfig<Order, OrderDetailsDto>.NewConfig()
             .Map(dest => dest.Products, src => src.Products.Select(p => p.OfferProduct));
+
+        TypeAdapterConfig<CountryDataDto, Country>.NewConfig()
+            .Map(dest => dest.NumericCode, src => src.NumericCode.ToString("D" + 3)) // formats to 004, 012, 204 etc.
+            .MapToConstructor(true);
+        TypeAdapterConfig<CountrySubdivisionDataDto, CountrySubdivision>.NewConfig().MapToConstructor(true);
     }
 }

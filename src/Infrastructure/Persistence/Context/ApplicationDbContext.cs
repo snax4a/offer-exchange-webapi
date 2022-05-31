@@ -25,6 +25,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderProduct> OrderProducts => Set<OrderProduct>();
     public DbSet<Country> Countries => Set<Country>();
+    public DbSet<CountrySubdivision> CountrySubdivisions => Set<CountrySubdivision>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -39,9 +39,9 @@ public class Country : IAggregateRoot
     {
         if (alpha2Code.Length != 2) throw new ArgumentException(nameof(alpha2Code));
         if (alpha3Code.Length != 3) throw new ArgumentException(nameof(alpha3Code));
-        if (Regex.Match(numericCode, @"\d{3}$").Success) throw new ArgumentException(nameof(numericCode));
+        if (!Regex.Match(numericCode, @"\d{3}$").Success) throw new ArgumentException(nameof(numericCode));
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-        if (currencyCode is not null && currencyCode.Length != 3) throw new ArgumentException(nameof(currencyCode));
+        if (currencyCode is not null && currencyCode.Length != 3) throw new ArgumentException(currencyCode);
         if (currencyName?.Length <= 3) throw new ArgumentException(nameof(currencyName));
         if (currencySymbol?.Length == 0) throw new ArgumentException(nameof(currencySymbol));
         if (languageCodes?.Length == 0) throw new ArgumentException(nameof(languageCodes));

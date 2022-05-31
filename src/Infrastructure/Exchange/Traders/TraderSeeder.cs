@@ -9,6 +9,7 @@ namespace FSH.WebApi.Infrastructure.Exchange.Traders;
 
 public class TraderSeeder : ICustomSeeder
 {
+    public short Priority { get; } = 3;
     private readonly ISerializerService _serializerService;
     private readonly ApplicationDbContext _db;
     private readonly ILogger<TraderSeeder> _logger;

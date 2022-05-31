@@ -9,6 +9,7 @@ namespace FSH.WebApi.Infrastructure.Exchange.Groups;
 
 public class GroupSeeder : ICustomSeeder
 {
+    public short Priority { get; } = 3;
     private readonly ISerializerService _serializerService;
     private readonly ApplicationDbContext _db;
     private readonly ILogger<GroupSeeder> _logger;
