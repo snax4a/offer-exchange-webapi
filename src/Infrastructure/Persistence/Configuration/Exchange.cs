@@ -205,3 +205,30 @@ public class OrderProductConfig : IEntityTypeConfiguration<OrderProduct>
         builder.IsMultiTenant().AdjustIndexes();
     }
 }
+
+public class AddressConfig : IEntityTypeConfiguration<Address>
+{
+    public void Configure(EntityTypeBuilder<Address> builder)
+    {
+        builder.Property(a => a.CountryCode).HasMaxLength(2).IsRequired(true);
+        builder.Property(a => a.CountrySubdivisionName).HasMaxLength(100).IsRequired(true);
+        builder.Property(a => a.Line1).HasMaxLength(60).IsRequired(true);
+        builder.Property(a => a.Line2).HasMaxLength(60).IsRequired(false);
+        builder.Property(a => a.PostalCode).HasMaxLength(12).IsRequired(true);
+        builder.Property(a => a.Locality).HasMaxLength(60).IsRequired(true);
+
+        builder.IsMultiTenant().AdjustIndexes();
+    }
+}
+
+public class UserAddressConfig : IEntityTypeConfiguration<UserAddress>
+{
+    public void Configure(EntityTypeBuilder<UserAddress> builder)
+    {
+        builder.Property(ua => ua.Name).HasMaxLength(100).IsRequired(false);
+
+        builder.IsMultiTenant().AdjustIndexes();
+
+        builder.HasOne(ua => ua.Address);
+    }
+}
