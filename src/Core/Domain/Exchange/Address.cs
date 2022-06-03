@@ -1,6 +1,8 @@
 namespace FSH.WebApi.Domain.Exchange;
 
-public class Address : BaseEntity
+// TODO: In the feature maybe we should make it a value object
+// and store in the aggregates as owned types
+public class Address : BaseEntity, IAggregateRoot
 {
     public string CountryCode { get; private set; } = default!;
     public string CountrySubdivisionName { get; private set; } = default!; // State or province
@@ -28,5 +30,34 @@ public class Address : BaseEntity
         Line2 = line2;
         PostalCode = postalCode;
         Locality = locality;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || obj.GetType() != GetType())
+        {
+            return false;
+        }
+
+        var other = (Address)obj;
+        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+    }
+
+    public override int GetHashCode()
+    {
+        return GetEqualityComponents()
+            .Select(x => x?.GetHashCode() ?? 0)
+            .Aggregate((x, y) => x ^ y);
+    }
+
+    public IEnumerable<object> GetEqualityComponents()
+    {
+        // Using a yield return statement to return each element one at a time
+        yield return CountryCode;
+        yield return CountrySubdivisionName;
+        yield return Line1;
+        yield return Line2;
+        yield return PostalCode;
+        yield return Locality;
     }
 }

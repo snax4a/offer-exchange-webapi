@@ -11,7 +11,7 @@ public static class SpecificationBuilderExtensions
             .SearchByKeyword(filter.Keyword)
             .AdvancedSearch(filter.AdvancedSearch);
 
-    public static ISpecificationBuilder<T> PaginateBy<T>(this ISpecificationBuilder<T> query, PaginationFilter filter)
+    public static ISpecificationBuilder<T> PaginateBy<T>(this ISpecificationBuilder<T> query, PaginationFilter filter, int maxPageSize = 100)
     {
         if (filter.PageNumber <= 0)
         {
@@ -21,6 +21,11 @@ public static class SpecificationBuilderExtensions
         if (filter.PageSize <= 0)
         {
             filter.PageSize = 10;
+        }
+
+        if (filter.PageSize > maxPageSize)
+        {
+            filter.PageSize = maxPageSize;
         }
 
         if (filter.PageNumber > 1)

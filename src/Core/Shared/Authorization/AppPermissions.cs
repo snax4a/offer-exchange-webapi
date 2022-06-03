@@ -31,6 +31,7 @@ public static class Resource
     public const string Inquiries = nameof(Inquiries);
     public const string Offers = nameof(Offers);
     public const string Orders = nameof(Orders);
+    public const string Addresses = nameof(Addresses);
 }
 
 public static class AppPermissions
@@ -84,6 +85,11 @@ public static class AppPermissions
         new("Search Orders", ResourceAction.Search, Resource.Orders, IsBasic: true),
         new("View Orders", ResourceAction.View, Resource.Orders, IsBasic: true),
         new("Create Orders", ResourceAction.Create, Resource.Orders, IsBasic: true),
+        new("Search Addresses", ResourceAction.Search, Resource.Addresses, IsBasic: true),
+        new("View Addresses", ResourceAction.View, Resource.Addresses, IsBasic: true),
+        new("Create Addresses", ResourceAction.Create, Resource.Addresses, IsBasic: true),
+        new("Update Addresses", ResourceAction.Update, Resource.Addresses, IsBasic: true),
+        new("Delete Addresses", ResourceAction.Delete, Resource.Addresses, IsBasic: true),
         new("View Tenants", ResourceAction.View, Resource.Tenants, IsRoot: true),
         new("Create Tenants", ResourceAction.Create, Resource.Tenants, IsRoot: true),
         new("Update Tenants", ResourceAction.Update, Resource.Tenants, IsRoot: true),

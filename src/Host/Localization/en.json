@@ -57,5 +57,8 @@
   "createusermail.confirm-button-text": "Confirm Email",
   "phone.invalid": "Phone number {0} is invalid.",
   "text-email-address": "E-mail address",
-  "text-phone-number": "Phone number"
+  "text-phone-number": "Phone number",
+  "address.notfound": "The address was not found.",
+  "address.name-already-exists": "An address named {0} already exists.",
+  "country.notfound": "The country was not found."
 }

@@ -225,8 +225,9 @@ public class UserAddressConfig : IEntityTypeConfiguration<UserAddress>
 {
     public void Configure(EntityTypeBuilder<UserAddress> builder)
     {
-        builder.Property(ua => ua.Name).HasMaxLength(100).IsRequired(false);
+        builder.Property(ua => ua.Name).HasMaxLength(100).IsRequired(true);
 
+        builder.HasIndex(ua => new { ua.CreatedBy, ua.Name }).IsUnique(true);
         builder.IsMultiTenant().AdjustIndexes();
 
         builder.HasOne(ua => ua.Address);

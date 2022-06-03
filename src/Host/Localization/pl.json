@@ -65,5 +65,8 @@
   "resetpasswordmail.reset-button-text": "Resetuj hasło",
   "phone.invalid": "Numer telfonu {0} jest nieprawidłowy.",
   "text-email-address": "Adres e-mail",
-  "text-phone-number": "Numer telefonu"
+  "text-phone-number": "Numer telefonu",
+  "address.notfound": "Nie znaleziono adresu.",
+  "address.name-already-exists": "Adres o nazwie {0} już istnieje.",
+  "country.notfound": "Nie znaleziono kraju."
 }
