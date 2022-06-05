@@ -2,10 +2,10 @@ using FSH.WebApi.Application.Exchange.Addresses.DTOs;
 
 namespace FSH.WebApi.Application.Exchange.Addresses.Specifications;
 
-public class SearchCountriesSpec : Specification<Country, CountryDto>
+public class SearchCountriesSpec : EntitiesByBaseFilterSpec<Country, CountryDto>
 {
-    public SearchCountriesSpec(SearchCountriesRequest request) =>
-        Query
+    public SearchCountriesSpec(SearchCountriesRequest request)
+        : base(request) => Query
             .OrderBy(c => c.Name, !request.HasOrderBy())
             .PaginateBy(request, 250);
 
