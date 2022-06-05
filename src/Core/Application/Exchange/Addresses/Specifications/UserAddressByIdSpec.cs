@@ -7,5 +7,6 @@ public class UserAddressByIdSpec : Specification<UserAddress, UserAddressDto>, I
     public UserAddressByIdSpec(Guid id, Guid userId) =>
         Query
             .Where(ua => ua.Id == id && ua.CreatedBy == userId)
-            .Include(ua => ua.Address);
+            .Include(ua => ua.Address)
+                .ThenInclude(ua => ua.Country);
 }

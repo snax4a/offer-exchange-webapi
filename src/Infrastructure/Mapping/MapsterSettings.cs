@@ -1,4 +1,5 @@
-﻿using FSH.WebApi.Application.Exchange.Groups.DTOs;
+﻿using FSH.WebApi.Application.Exchange.Addresses.DTOs;
+using FSH.WebApi.Application.Exchange.Groups.DTOs;
 using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 using FSH.WebApi.Application.Exchange.Offers.DTOs;
 using FSH.WebApi.Application.Exchange.Orders.DTOs;
@@ -42,5 +43,9 @@ public class MapsterSettings
             .Map(dest => dest.NumericCode, src => src.NumericCode.ToString("D" + 3)) // formats to 004, 012, 204 etc.
             .MapToConstructor(true);
         TypeAdapterConfig<CountrySubdivisionDataDto, CountrySubdivision>.NewConfig().MapToConstructor(true);
+
+        TypeAdapterConfig<Address, AddressDto>.NewConfig()
+            .Map(dest => dest.CountryName, src => src.Country.Name)
+            .MapToConstructor(true);
     }
 }

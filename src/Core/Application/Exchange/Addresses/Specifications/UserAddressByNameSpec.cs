@@ -6,6 +6,5 @@ public class UserAddressByNameSpec : Specification<UserAddress, UserAddressDto>,
 {
     public UserAddressByNameSpec(string name, Guid userId) =>
         Query
-            .Where(ua => ua.Name == name && ua.CreatedBy == userId)
-            .Include(ua => ua.Address);
+            .Where(ua => ua.Name == name && ua.CreatedBy == userId);
 }

@@ -7,6 +7,5 @@ public class UserAddressByNameAndNotIdSpec : Specification<UserAddress, UserAddr
     public UserAddressByNameAndNotIdSpec(string name, Guid id, Guid userId) =>
         Query
             .Where(ua => ua.Id != id)
-            .Where(ua => ua.Name == name && ua.CreatedBy == userId)
-            .Include(ua => ua.Address);
+            .Where(ua => ua.Name == name && ua.CreatedBy == userId);
 }

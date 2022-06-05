@@ -217,6 +217,11 @@ public class AddressConfig : IEntityTypeConfiguration<Address>
         builder.Property(a => a.PostalCode).HasMaxLength(12).IsRequired(true);
         builder.Property(a => a.Locality).HasMaxLength(60).IsRequired(true);
 
+        builder
+            .HasOne(a => a.Country)
+            .WithMany()
+            .HasForeignKey(a => a.CountryCode);
+
         builder.IsMultiTenant().AdjustIndexes();
     }
 }
