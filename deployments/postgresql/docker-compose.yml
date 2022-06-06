@@ -18,6 +18,8 @@ services:
       - "ClientAppSettings__BaseUrl=${CLIENT_APP_BASE_URL}"
       - "ClientAppSettings__AboutPageUrl=${CLIENT_APP_ABOUT_PAGE_URL}"
       - "SecuritySettings__JwtSettings__key=${JWT_SIGNING_KEY}"
+      - "SecuritySettings__JwtSettings__tokenExpirationInMinutes=${JWT_EXPIRATION_IN_MINUTES}"
+      - "SecuritySettings__JwtSettings__refreshTokenExpirationInDays=${REFRESH_TOKEN_EXPIRATION_IN_DAYS}"
       - "MailSettings__DisplayName=${MAIL_DISPLAY_NAME}"
       - "MailSettings__From=${MAIL_FROM}"
       - "MailSettings__Host=${MAIL_HOST}"
