@@ -32,6 +32,19 @@ internal class ExceptionMiddleware : IMiddleware
         }
         catch (Exception exception)
         {
+            var response = context.Response;
+            var errorResult = new ErrorResult();
+
+            if (exception is ValidationException ex && !response.HasStarted)
+            {
+                // short-cut for validation exceptions
+                response.ContentType = "application/json";
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                errorResult.ValidationErrors = ex.Errors;
+                await response.WriteAsync(_jsonSerializer.Serialize(errorResult));
+                return;
+            }
+
             string email = _currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
             var userId = _currentUser.GetUserId();
             string tenant = _currentUser.GetTenant() ?? string.Empty;
@@ -41,14 +54,13 @@ internal class ExceptionMiddleware : IMiddleware
             string errorId = Guid.NewGuid().ToString();
             LogContext.PushProperty("ErrorId", errorId);
             LogContext.PushProperty("StackTrace", exception.StackTrace);
-            var errorResult = new ErrorResult
-            {
-                Source = exception.TargetSite?.DeclaringType?.FullName,
-                Exception = exception.Message.Trim(),
-                ErrorId = errorId,
-                SupportMessage = _localizer["exceptionmiddleware.supportmessage"]
-            };
+
             errorResult.Messages.Add(exception.Message);
+            errorResult.Source = exception.TargetSite?.DeclaringType?.FullName;
+            errorResult.Exception = exception.Message.Trim();
+            errorResult.ErrorId = errorId;
+            errorResult.SupportMessage = _localizer["exceptionmiddleware.supportmessage"];
+
             if (exception is not CustomException && exception.InnerException != null)
             {
                 while (exception.InnerException != null)
@@ -77,8 +89,8 @@ internal class ExceptionMiddleware : IMiddleware
                     break;
             }
 
-            Log.Error($"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
-            var response = context.Response;
+            Log.Error($"{errorResult.Exception} Request failed with Status Code {response.StatusCode} and Error Id {errorId}.");
+
             if (!response.HasStarted)
             {
                 response.ContentType = "application/json";

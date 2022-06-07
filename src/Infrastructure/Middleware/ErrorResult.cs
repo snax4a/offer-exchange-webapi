@@ -2,8 +2,8 @@
 
 public class ErrorResult
 {
-    public List<string> Messages { get; set; } = new();
-
+    public List<string>? Messages { get; set; }
+    public IDictionary<string, string[]>? ValidationErrors { get; set; }
     public string? Source { get; set; }
     public string? Exception { get; set; }
     public string? ErrorId { get; set; }
