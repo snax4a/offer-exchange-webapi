@@ -30,7 +30,7 @@ try
             opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             opt.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
         })
-        .AddFluentValidation();
+        .AddFluentValidation(opt => opt.AutomaticValidationEnabled = false);
 
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();
