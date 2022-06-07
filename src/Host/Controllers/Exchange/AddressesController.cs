@@ -24,7 +24,7 @@ public class AddressesController : VersionedApiController
     [HttpPost]
     [MustHavePermission(ResourceAction.Create, Resource.Addresses)]
     [OpenApiOperation("Create a new address.", "")]
-    public Task<Guid> CreateAsync(CreateUserAddressRequest request)
+    public Task<UserAddressDto> CreateAsync(CreateUserAddressRequest request)
     {
         return Mediator.Send(request);
     }

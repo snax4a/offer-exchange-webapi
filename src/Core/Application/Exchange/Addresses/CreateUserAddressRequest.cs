@@ -1,8 +1,10 @@
+using FSH.WebApi.Application.Exchange.Addresses.DTOs;
 using FSH.WebApi.Application.Exchange.Addresses.Specifications;
+using Mapster;
 
 namespace FSH.WebApi.Application.Exchange.Addresses;
 
-public class CreateUserAddressRequest : IRequest<Guid>
+public class CreateUserAddressRequest : IRequest<UserAddressDto>
 {
     public string Name { get; set; } = default!;
     public string CountryCode { get; set; } = default!;
@@ -43,20 +45,20 @@ public class CreateUserAddressRequestValidator : CustomValidator<CreateUserAddre
     }
 }
 
-public class CreateUserAddressRequestHandler : IRequestHandler<CreateUserAddressRequest, Guid>
+public class CreateUserAddressRequestHandler : IRequestHandler<CreateUserAddressRequest, UserAddressDto>
 {
     // Add Domain Events automatically by using IRepositoryWithEvents
     private readonly IRepositoryWithEvents<UserAddress> _repository;
 
     public CreateUserAddressRequestHandler(IRepositoryWithEvents<UserAddress> repository) => _repository = repository;
 
-    public async Task<Guid> Handle(CreateUserAddressRequest req, CancellationToken cancellationToken)
+    public async Task<UserAddressDto> Handle(CreateUserAddressRequest req, CancellationToken cancellationToken)
     {
         var address = new Address(req.CountryCode, req.CountrySubdivisionName, req.Line1, req.Line2, req.PostalCode, req.Locality);
         var userAddress = new UserAddress(req.Name, address);
 
         await _repository.AddAsync(userAddress, cancellationToken);
 
-        return userAddress.Id;
+        return userAddress.Adapt<UserAddressDto>();
     }
 }
