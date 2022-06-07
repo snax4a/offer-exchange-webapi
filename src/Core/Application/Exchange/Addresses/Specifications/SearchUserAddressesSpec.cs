@@ -9,5 +9,5 @@ public class SearchUserAddressesSpec : EntitiesByPaginationFilterSpec<UserAddres
             .Where(ua => ua.CreatedBy == userId)
             .Include(ua => ua.Address)
                 .ThenInclude(ua => ua.Country)
-            .OrderByDescending(ua => ua.Name, !request.HasOrderBy());
+            .OrderBy(ua => ua.Name, !request.HasOrderBy());
 }
