@@ -54,6 +54,13 @@ public class InquiryConfig : IEntityTypeConfiguration<Inquiry>
     {
         builder.Property(i => i.Name).HasMaxLength(60);
         builder.Property(i => i.Title).HasMaxLength(100);
+
+        builder
+            .HasOne(i => i.Address)
+            .WithMany()
+            .HasForeignKey(i => i.AddressId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasIndex(i => new { i.ReferenceNumber, i.CreatedBy }).IsUnique(true);
         builder.IsMultiTenant().AdjustIndexes();
     }

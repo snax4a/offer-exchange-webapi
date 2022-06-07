@@ -1,3 +1,4 @@
+using FSH.WebApi.Application.Exchange.Addresses.Specifications;
 using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 using FSH.WebApi.Application.Exchange.Inquiries.Specifications;
 using MassTransit;
@@ -8,6 +9,7 @@ public class CreateInquiryRequest : IRequest<Guid>
 {
     public string Name { get; set; } = default!;
     public string Title { get; set; } = default!;
+    public Guid UserAddressId { get; set; }
     public IList<Guid> RecipientIds { get; set; } = default!;
     public IList<InquiryProductDto> Products { get; set; } = default!;
 }
@@ -30,8 +32,11 @@ public class CreateInquiryRequestValidator : CustomValidator<CreateInquiryReques
 {
     public CreateInquiryRequestValidator(IStringLocalizer<CreateInquiryRequestValidator> localizer)
     {
+        CascadeMode = CascadeMode.Stop;
+
         RuleFor(i => i.Name).NotEmpty().MinimumLength(3).MaximumLength(60);
         RuleFor(i => i.Title).NotEmpty().MinimumLength(3).MaximumLength(100);
+        RuleFor(i => i.UserAddressId).NotEmpty();
 
         RuleFor(i => i.RecipientIds)
             .Must(ids => ids.Count > 0)
@@ -51,30 +56,45 @@ public class CreateInquiryRequestHandler : IRequestHandler<CreateInquiryRequest,
 
     // Add Domain Events automatically by using IRepositoryWithEvents
     private readonly IRepositoryWithEvents<Inquiry> _repository;
+    private readonly IReadRepository<UserAddress> _addressRepo;
     private readonly IJobService _jobService;
+    private readonly IStringLocalizer<CreateInquiryRequestHandler> _localizer;
 
-    public CreateInquiryRequestHandler(ICurrentUser currentUser, IRepositoryWithEvents<Inquiry> repository, IJobService jobService)
+    public CreateInquiryRequestHandler(
+        ICurrentUser currentUser,
+        IRepositoryWithEvents<Inquiry> repository,
+        IReadRepository<UserAddress> addressRepo,
+        IJobService jobService,
+        IStringLocalizer<CreateInquiryRequestHandler> localizer)
     {
-        (_currentUser, _repository, _jobService) = (currentUser, repository, jobService);
+        _currentUser = currentUser;
+        _repository = repository;
+        _addressRepo = addressRepo;
+        _jobService = jobService;
+        _localizer = localizer;
     }
 
-    public async Task<Guid> Handle(CreateInquiryRequest request, CancellationToken ct)
+    public async Task<Guid> Handle(CreateInquiryRequest req, CancellationToken ct)
     {
+        var addressSpec = new UserAddressByIdSpec(req.UserAddressId, _currentUser.GetUserId());
+        var userAddress = await _addressRepo.GetBySpecAsync(addressSpec, ct);
+        if (userAddress is null) throw new ConflictException(_localizer["address.notfound"]);
+
         Guid inquiryId = NewId.Next().ToGuid();
         List<InquiryProduct> products = new();
 
-        foreach (InquiryProductDto product in request.Products)
+        foreach (InquiryProductDto product in req.Products)
         {
             products.Add(new InquiryProduct(inquiryId, product.Name, product.Quantity, product.PreferredDeliveryDate));
         }
 
-        var spec = new UserInquiriesSpec(_currentUser.GetUserId());
-        int referenceNumber = await _repository.CountAsync(spec, ct);
-        var inquiry = new Inquiry(inquiryId, referenceNumber + 1, request.Name, request.Title, products, request.RecipientIds);
+        var inquirySpec = new UserInquiriesSpec(_currentUser.GetUserId());
+        int referenceNumber = await _repository.CountAsync(inquirySpec, ct);
+        var inquiry = new Inquiry(inquiryId, referenceNumber + 1, req.Name, req.Title, userAddress.Address, products, req.RecipientIds);
 
         await _repository.AddAsync(inquiry, ct);
 
-        foreach (Guid traderId in request.RecipientIds)
+        foreach (Guid traderId in req.RecipientIds)
         {
             _jobService.Enqueue<IInquirySenderJob>(x => x.SendAsync(inquiry.Id, traderId, CancellationToken.None));
         }
