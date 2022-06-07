@@ -63,6 +63,7 @@ public class GetInquiryForOfferRequestHandler : IRequestHandler<GetInquiryForOff
             Id = inquiry.Id,
             ReferenceNumber = inquiry.ReferenceNumber,
             Title = inquiry.Title,
+            ShippingAddress = inquiry.ShippingAddress,
             CreatedOn = inquiry.CreatedOn,
             Trader = trader,
             Creator = user.Adapt<UserDto>(),
