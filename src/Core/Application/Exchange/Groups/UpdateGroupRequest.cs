@@ -13,7 +13,7 @@ public class UpdateGroupRequestValidator : CustomValidator<UpdateGroupRequest>
 {
     public UpdateGroupRequestValidator(IRepository<Group> repository, ICurrentUser currentUser, IStringLocalizer<UpdateGroupRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(p => p.Name)
             .NotEmpty()

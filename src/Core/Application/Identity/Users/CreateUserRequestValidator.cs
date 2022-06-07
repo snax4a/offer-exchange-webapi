@@ -4,7 +4,7 @@ public class CreateUserRequestValidator : CustomValidator<CreateUserRequest>
 {
     public CreateUserRequestValidator(IUserService userService, IStringLocalizer<CreateUserRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(u => u.FirstName).NotEmpty().MinimumLength(3).MaximumLength(60);
         RuleFor(u => u.LastName).NotEmpty().MinimumLength(3).MaximumLength(60);

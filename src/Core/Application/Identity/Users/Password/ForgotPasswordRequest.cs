@@ -9,7 +9,7 @@ public class ForgotPasswordRequestValidator : CustomValidator<ForgotPasswordRequ
 {
     public ForgotPasswordRequestValidator()
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(p => p.Email)
             .NotEmpty()

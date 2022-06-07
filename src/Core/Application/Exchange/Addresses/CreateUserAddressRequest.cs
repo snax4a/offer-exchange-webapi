@@ -21,7 +21,7 @@ public class CreateUserAddressRequestValidator : CustomValidator<CreateUserAddre
         IReadRepository<UserAddress> addressRepo,
         IStringLocalizer<CreateUserAddressRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(ua => ua.Name)
             .NotEmpty()

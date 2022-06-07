@@ -11,7 +11,7 @@ public class CreateOrderRequestValidator : CustomValidator<CreateOrderRequest>
 {
     public CreateOrderRequestValidator(IStringLocalizer<CreateOrderRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(o => o.ProductIds)
             .Must(ids => ids.Count > 0)

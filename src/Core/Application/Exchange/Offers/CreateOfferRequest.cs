@@ -21,7 +21,7 @@ public class CreateOfferRequestValidator : CustomValidator<CreateOfferRequest>
 {
     public CreateOfferRequestValidator(IOfferTokenService tokenService, IStringLocalizer<CreateOfferRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(o => o.Token)
             .NotEmpty()

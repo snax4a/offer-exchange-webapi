@@ -6,7 +6,7 @@ public class TokenRequestValidator : CustomValidator<TokenRequest>
 {
     public TokenRequestValidator()
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(p => p.Email).NotEmpty().EmailAddress().WithMessage("Invalid Email Address.");
         RuleFor(p => p.Password).NotEmpty();

@@ -10,7 +10,7 @@ public class UpdateRolePermissionsRequestValidator : CustomValidator<UpdateRoleP
 {
     public UpdateRolePermissionsRequestValidator()
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(r => r.RoleId).NotEmpty();
         RuleFor(r => r.Permissions).NotNull();

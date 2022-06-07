@@ -7,7 +7,7 @@ public class CreateTenantRequestValidator : CustomValidator<CreateTenantRequest>
         IStringLocalizer<CreateTenantRequestValidator> localizer,
         IConnectionStringValidator connectionStringValidator)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(t => t.Id)
             .NotEmpty()

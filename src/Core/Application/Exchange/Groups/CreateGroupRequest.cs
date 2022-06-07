@@ -12,7 +12,7 @@ public class CreateGroupRequestValidator : CustomValidator<CreateGroupRequest>
 {
     public CreateGroupRequestValidator(IReadRepository<Group> repository, ICurrentUser currentUser, IStringLocalizer<CreateGroupRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(g => g.Name)
             .NotEmpty()

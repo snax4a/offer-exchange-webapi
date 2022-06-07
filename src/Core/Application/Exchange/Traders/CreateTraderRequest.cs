@@ -19,7 +19,7 @@ public class CreateTraderRequestValidator : CustomValidator<CreateTraderRequest>
         IReadRepository<Group> groupRepo,
         IStringLocalizer<CreateTraderRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(t => t.FirstName).NotEmpty().Length(3, 20);
         RuleFor(t => t.LastName).NotEmpty().Length(3, 20);

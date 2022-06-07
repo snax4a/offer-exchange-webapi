@@ -21,7 +21,7 @@ public class OfferProductValidator : CustomValidator<OfferProductDto>
 {
     public OfferProductValidator()
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(p => p.CurrencyCode).NotEmpty().Length(3);
         RuleFor(p => p.VatRate).InclusiveBetween((short)0, (short)100);

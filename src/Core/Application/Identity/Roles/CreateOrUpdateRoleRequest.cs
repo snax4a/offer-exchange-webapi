@@ -11,7 +11,7 @@ public class CreateOrUpdateRoleRequestValidator : CustomValidator<CreateOrUpdate
 {
     public CreateOrUpdateRoleRequestValidator(IRoleService roleService, IStringLocalizer<CreateOrUpdateRoleRequestValidator> localizer)
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(r => r.Name)
             .NotEmpty()

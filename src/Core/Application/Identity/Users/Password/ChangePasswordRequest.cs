@@ -11,7 +11,7 @@ public class ChangePasswordRequestValidator : CustomValidator<ChangePasswordRequ
 {
     public ChangePasswordRequestValidator()
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
 
         RuleFor(p => p.Password).NotEmpty();
         RuleFor(p => p.NewPassword).NotEmpty();

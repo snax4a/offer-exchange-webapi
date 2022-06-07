@@ -12,7 +12,7 @@ public class UpdateOrderStatusRequestValidator : CustomValidator<UpdateOrderStat
 {
     public UpdateOrderStatusRequestValidator()
     {
-        CascadeMode = CascadeMode.Stop;
+        RuleLevelCascadeMode = CascadeMode.Stop;
         RuleFor(p => p.Status).NotNull();
     }
 }
