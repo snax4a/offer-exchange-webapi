@@ -9,5 +9,5 @@ public class InquiryDetailsDto : InquiryWithCountsDto
     public IList<TraderDto> Recipients { get; set; } = default!;
     public Guid CreatedBy { get; set; }
     public string Title { get; set; } = default!;
-    public AddressDto? Address { get; set; }
+    public AddressDto? ShippingAddress { get; set; }
 }

@@ -7,7 +7,7 @@ public class InquiryDetailsSpec : Specification<Inquiry, InquiryDetailsDto>, ISi
     public InquiryDetailsSpec(Guid inquiryId, Guid userId) =>
         Query
             .Where(i => i.Id == inquiryId && i.CreatedBy == userId)
-            .Include(i => i.Address!)
+            .Include(i => i.ShippingAddress!)
                 .ThenInclude(a => a.Country)
             .Include(i => i.Products)
             .Include(i => i.InquiryRecipients);
@@ -15,7 +15,7 @@ public class InquiryDetailsSpec : Specification<Inquiry, InquiryDetailsDto>, ISi
     public InquiryDetailsSpec(Guid inquiryId) =>
         Query
             .Where(i => i.Id == inquiryId)
-            .Include(i => i.Address!)
+            .Include(i => i.ShippingAddress!)
                 .ThenInclude(a => a.Country)
             .Include(i => i.Products)
             .Include(i => i.InquiryRecipients);

@@ -56,9 +56,9 @@ public class InquiryConfig : IEntityTypeConfiguration<Inquiry>
         builder.Property(i => i.Title).HasMaxLength(100);
 
         builder
-            .HasOne(i => i.Address)
+            .HasOne(i => i.ShippingAddress)
             .WithMany()
-            .HasForeignKey(i => i.AddressId)
+            .HasForeignKey(i => i.ShippingAddressId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(i => new { i.ReferenceNumber, i.CreatedBy }).IsUnique(true);
