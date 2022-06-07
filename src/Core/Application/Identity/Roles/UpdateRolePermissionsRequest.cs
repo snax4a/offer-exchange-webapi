@@ -10,9 +10,9 @@ public class UpdateRolePermissionsRequestValidator : CustomValidator<UpdateRoleP
 {
     public UpdateRolePermissionsRequestValidator()
     {
-        RuleFor(r => r.RoleId)
-            .NotEmpty();
-        RuleFor(r => r.Permissions)
-            .NotNull();
+        CascadeMode = CascadeMode.Stop;
+
+        RuleFor(r => r.RoleId).NotEmpty();
+        RuleFor(r => r.Permissions).NotNull();
     }
 }

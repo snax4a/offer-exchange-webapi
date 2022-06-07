@@ -20,12 +20,11 @@ public class UpdateTraderRequestValidator : CustomValidator<UpdateTraderRequest>
         IRepository<Group> groupRepo,
         IStringLocalizer<UpdateTraderRequestValidator> localizer)
     {
-        RuleFor(t => t.FirstName).Cascade(CascadeMode.Stop).NotEmpty().Length(3, 20);
-        RuleFor(t => t.LastName).Cascade(CascadeMode.Stop).NotEmpty().Length(3, 20);
-        RuleFor(t => t.CompanyName)
-            .Cascade(CascadeMode.Stop)
-            .Length(3, 100)
-            .Unless(t => string.IsNullOrEmpty(t.CompanyName));
+        CascadeMode = CascadeMode.Stop;
+
+        RuleFor(t => t.FirstName).NotEmpty().Length(3, 20);
+        RuleFor(t => t.LastName).NotEmpty().Length(3, 20);
+        RuleFor(t => t.CompanyName).Length(3, 100).Unless(t => string.IsNullOrEmpty(t.CompanyName));
 
         RuleFor(t => t.Email)
             .NotEmpty()

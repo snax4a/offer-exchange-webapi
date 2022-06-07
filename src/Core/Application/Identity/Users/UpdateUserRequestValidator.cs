@@ -4,12 +4,14 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
 {
     public UpdateUserRequestValidator(IUserService userService, IStringLocalizer<UpdateUserRequestValidator> localizer)
     {
+        CascadeMode = CascadeMode.Stop;
+
         RuleFor(u => u.Id).NotEmpty();
         RuleFor(u => u.FirstName).NotEmpty().MinimumLength(3).MaximumLength(60);
         RuleFor(u => u.LastName).NotEmpty().MinimumLength(3).MaximumLength(60);
         RuleFor(u => u.CompanyName).NotEmpty().MinimumLength(3).MaximumLength(100);
 
-        RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
+        RuleFor(u => u.Email)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage(localizer["Invalid Email Address."])
@@ -19,7 +21,7 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
         RuleFor(u => u.Image)
             .SetNonNullableValidator(new FileUploadRequestValidator());
 
-        RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
+        RuleFor(u => u.PhoneNumber)
             .NotEmpty()
             .Must((_, phone, _) => PhoneNumberValidator.IsValid(phone))
                 .WithMessage((_, phone) => string.Format(localizer["phone.invalid"], phone));

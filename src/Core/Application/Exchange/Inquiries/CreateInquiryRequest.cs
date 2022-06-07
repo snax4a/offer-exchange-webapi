@@ -16,6 +16,8 @@ public class InquiryProductValidator : CustomValidator<InquiryProductDto>
 {
     public InquiryProductValidator()
     {
+        CascadeMode = CascadeMode.Stop;
+
         RuleFor(p => p.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
         RuleFor(p => p.Quantity).NotEmpty().GreaterThan(0);
         RuleFor(p => p.PreferredDeliveryDate)

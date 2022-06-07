@@ -13,6 +13,8 @@ public class InquiryProductDetailsValidator : CustomValidator<InquiryProductDeta
 {
     public InquiryProductDetailsValidator()
     {
+        CascadeMode = CascadeMode.Stop;
+
         RuleFor(p => p.Id).NotEmpty().Must(id => id != Guid.Empty);
         RuleFor(p => p.InquiryId).NotEmpty().Must(id => id != Guid.Empty);
         RuleFor(p => p.Name).NotEmpty().MinimumLength(3).MaximumLength(100);

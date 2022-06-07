@@ -7,9 +7,13 @@ public class ForgotPasswordRequest
 
 public class ForgotPasswordRequestValidator : CustomValidator<ForgotPasswordRequest>
 {
-    public ForgotPasswordRequestValidator() =>
-        RuleFor(p => p.Email).Cascade(CascadeMode.Stop)
+    public ForgotPasswordRequestValidator()
+    {
+        CascadeMode = CascadeMode.Stop;
+
+        RuleFor(p => p.Email)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage("Invalid Email Address.");
+    }
 }
