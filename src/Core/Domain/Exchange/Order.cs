@@ -10,6 +10,8 @@ public class Order : AuditableEntity, IAggregateRoot
     public Guid TraderId { get; private set; }
     public virtual Trader Trader { get; private set; } = default!;
     public OrderStatus Status { get; private set; }
+    public Guid? ShippingAddressId { get; private set; }
+    public virtual Address? ShippingAddress { get; private set; }
     public ICollection<OrderProduct> Products { get; private set; } = new List<OrderProduct>();
 
     private Order()
@@ -17,7 +19,7 @@ public class Order : AuditableEntity, IAggregateRoot
         // Required by ORM
     }
 
-    public Order(Guid traderId, IList<OfferProduct> offerProducts)
+    public Order(Guid traderId, Guid? shippingAddressId, IList<OfferProduct> offerProducts)
     {
         if (traderId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(traderId));
         if (offerProducts.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(offerProducts));
@@ -28,6 +30,7 @@ public class Order : AuditableEntity, IAggregateRoot
         CurrencyCode = offerProducts[0].CurrencyCode;
         Status = OrderStatus.Waiting;
         TraderId = traderId;
+        ShippingAddressId = shippingAddressId;
 
         foreach (OfferProduct product in offerProducts)
         {

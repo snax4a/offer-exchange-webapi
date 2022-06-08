@@ -6,6 +6,8 @@ public class OrderDetailsByIdAndTraderSpec : Specification<Order>, ISingleResult
         Query
             .Where(o => o.Id == id && o.TraderId == traderId)
             .Include(o => o.Trader)
+            .Include(o => o.ShippingAddress!)
+                .ThenInclude(a => a.Country)
             .Include(o => o.Products)
                 .ThenInclude(p => p.OfferProduct)
                     .ThenInclude(op => op.InquiryProduct);

@@ -8,6 +8,8 @@ public class OrderDetailsSpec : Specification<Order, OrderDetailsDto>, ISingleRe
         Query
             .Where(o => o.Id == id && o.CreatedBy == userId)
             .Include(o => o.Trader)
+            .Include(o => o.ShippingAddress!)
+                .ThenInclude(a => a.Country)
             .Include(o => o.Products)
                 .ThenInclude(p => p.OfferProduct)
                     .ThenInclude(op => op.InquiryProduct);

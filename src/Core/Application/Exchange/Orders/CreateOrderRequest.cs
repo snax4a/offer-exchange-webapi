@@ -41,6 +41,7 @@ public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Lis
 
     public async Task<List<Guid>> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
     {
+        Guid? shippingAddressId = null;
         Dictionary<Guid, List<OfferProduct>> traderProducts = new();
 
         // Prepare dictionary of traders containing their offer products
@@ -51,6 +52,16 @@ public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Lis
 
             if (product is null)
                 throw new NotFoundException(string.Format("Offer product {0} not found.", productId));
+
+            Guid? productShippingAddress = product.Offer.ShippingAddressId;
+
+            // set shipping address if null
+            if (shippingAddressId is null)
+                shippingAddressId = productShippingAddress;
+
+            // check if shipping address is same as product shipping address
+            if (shippingAddressId != productShippingAddress)
+                throw new ConflictException("Products with different shipping address can't be ordered at same time");
 
             Guid traderId = product.Offer.TraderId;
 
@@ -67,7 +78,7 @@ public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Lis
         {
             var traderId = kvp.Key;
             var orderProducts = kvp.Value;
-            var order = new Order(traderId, orderProducts);
+            var order = new Order(traderId, shippingAddressId, orderProducts);
             await _repository.AddAsync(order, cancellationToken);
             _jobService.Enqueue<IOrderSenderJob>(x => x.SendAsync(order.Id, CancellationToken.None));
             orderIds.Add(order.Id);

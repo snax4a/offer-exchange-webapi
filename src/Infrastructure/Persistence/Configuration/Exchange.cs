@@ -194,6 +194,12 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
         builder.Property(o => o.NetValue).IsRequired(true);
         builder.Property(o => o.GrossValue).IsRequired(true);
 
+        builder
+            .HasOne(o => o.ShippingAddress)
+            .WithMany()
+            .HasForeignKey(o => o.ShippingAddressId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasIndex(o => o.CreatedBy);
         builder.IsMultiTenant().AdjustIndexes();
     }
