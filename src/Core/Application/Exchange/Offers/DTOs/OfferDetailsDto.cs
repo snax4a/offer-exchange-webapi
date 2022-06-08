@@ -1,3 +1,4 @@
+using FSH.WebApi.Application.Exchange.Addresses.DTOs;
 using FSH.WebApi.Application.Exchange.Inquiries.DTOs;
 using FSH.WebApi.Application.Exchange.Traders.DTOs;
 
@@ -18,5 +19,6 @@ public class OfferDetailsDto : IDto
     public bool HasReplacements { get; set; }
     public TraderDto Trader { get; set; } = default!;
     public InquiryDto Inquiry { get; set; } = default!;
+    public AddressDto? ShippingAddress { get; set; }
     public IList<OfferProductDto> Products { get; set; } = default!;
 }

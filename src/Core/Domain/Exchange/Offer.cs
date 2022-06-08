@@ -16,6 +16,8 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
     public virtual Inquiry Inquiry { get; private set; } = default!;
     public Guid TraderId { get; private set; }
     public virtual Trader Trader { get; private set; } = default!;
+    public Guid? ShippingAddressId { get; private set; }
+    public virtual Address? ShippingAddress { get; private set; }
     public ICollection<OfferProduct> OfferProducts { get; private set; } = new List<OfferProduct>();
 
     private Offer()
@@ -28,6 +30,7 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
         Guid inquiryId,
         Guid traderId,
         Guid userId,
+        Guid? shippingAddressId,
         DateOnly? expirationDate,
         string currencyCode,
         DeliveryCost deliveryCost,
@@ -46,6 +49,7 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
         InquiryId = inquiryId;
         TraderId = traderId;
         UserId = userId;
+        ShippingAddressId = shippingAddressId;
         ExpirationDate = expirationDate;
         CurrencyCode = currencyCode;
         NetValue = offerProducts.Sum(op => op.NetValue);

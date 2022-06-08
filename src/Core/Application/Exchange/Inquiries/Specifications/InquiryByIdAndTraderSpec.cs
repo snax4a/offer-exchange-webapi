@@ -6,6 +6,8 @@ public class InquiryByIdAndTraderSpec : Specification<Inquiry, InquiryDetailsDto
 {
     public InquiryByIdAndTraderSpec(Guid inquiryId, Guid traderId) =>
         Query
+            .Include(i => i.ShippingAddress!)
+                .ThenInclude(a => a.Country)
             .Include(i => i.InquiryRecipients)
             .Where(i => i.Id == inquiryId && i.InquiryRecipients.Any(ir => ir.TraderId == traderId));
 }

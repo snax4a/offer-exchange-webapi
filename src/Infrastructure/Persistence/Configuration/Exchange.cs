@@ -173,6 +173,12 @@ public class OfferConfig : IEntityTypeConfiguration<Offer>
             .WithMany(t => t.Offers)
             .HasForeignKey(o => o.TraderId);
 
+        builder
+            .HasOne(o => o.ShippingAddress)
+            .WithMany()
+            .HasForeignKey(o => o.ShippingAddressId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Indexes
         builder.HasIndex(o => o.CreatedOn);
         builder.HasIndex(o => o.UserId).IsUnique(false);

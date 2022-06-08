@@ -24,7 +24,7 @@ public class Inquiry : AuditableEntity, IAggregateRoot
         int referenceNumber,
         string name,
         string title,
-        Address shippingAddress,
+        Address? shippingAddress,
         IList<InquiryProduct> products,
         IList<Guid> recipientIds)
     {
@@ -32,7 +32,6 @@ public class Inquiry : AuditableEntity, IAggregateRoot
         if (referenceNumber <= 0) throw new ArgumentException("Must be a positive number", nameof(referenceNumber));
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
         if (string.IsNullOrWhiteSpace(title)) throw new ArgumentNullException(nameof(title));
-        if (shippingAddress is null) throw new ArgumentNullException(nameof(shippingAddress));
         if (products.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(products));
         if (recipientIds.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(recipientIds));
 
@@ -41,7 +40,7 @@ public class Inquiry : AuditableEntity, IAggregateRoot
         Name = name;
         Title = title;
         ShippingAddress = shippingAddress;
-        ShippingAddressId = shippingAddress.Id;
+        ShippingAddressId = shippingAddress?.Id;
         Products = products;
 
         foreach (Guid traderId in recipientIds)

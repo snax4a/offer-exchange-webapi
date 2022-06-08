@@ -107,6 +107,7 @@ public class CreateOfferRequestHandler : IRequestHandler<CreateOfferRequest, Gui
             inquiryId,
             traderId,
             inquiry.CreatedBy,
+            inquiry.ShippingAddressId,
             request.ExpirationDate,
             request.CurrencyCode,
             deliveryCost,
