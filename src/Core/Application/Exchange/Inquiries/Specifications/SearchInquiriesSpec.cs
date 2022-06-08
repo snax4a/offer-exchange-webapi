@@ -8,5 +8,7 @@ public class SearchInquiriesSpec : EntitiesByPaginationFilterSpec<Inquiry, Inqui
         : base(request) => Query
             .Where(i => i.CreatedBy == userId)
             .Where(i => i.InquiryRecipients.Any(ir => ir.TraderId == request.TraderId), request.TraderId != Guid.Empty && request.TraderId is not null)
+                .Include(i => i.ShippingAddress!)
+                    .ThenInclude(a => a.Country)
             .OrderByDescending(i => i.ReferenceNumber, !request.HasOrderBy());
 }
