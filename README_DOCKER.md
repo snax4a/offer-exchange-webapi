@@ -30,4 +30,16 @@ After that you should be able to run
 
 from the root project folder and if everything builds fine, your api should be available at `https://localhost:5060/swagger`
 
-**!! There are more docker-compose examples under the deployments folder !!**
+## Deployments
+
+**!! There are docker-compose configurations under deployments directory !!**
+
+### Running dev deployment
+```
+ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+```
+
+### Running prod deployment
+```
+ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```

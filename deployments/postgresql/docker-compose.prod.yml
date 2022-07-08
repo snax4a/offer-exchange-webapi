@@ -32,3 +32,24 @@ services:
           memory: 4G
         reservations:
           memory: 2G
+
+  pgbackups:
+    container_name: postgres_backups
+    image: prodrigestivill/postgres-backup-local:14-alpine
+    restart: unless-stopped
+    volumes:
+      - ./backups:/backups
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_EXTRA_OPTS=-Z9 --schema=public --blobs
+      - SCHEDULE=@daily
+      - TZ=Europe/Warsaw
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=1
+      - HEALTHCHECK_PORT=5088
