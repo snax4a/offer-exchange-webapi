@@ -8,4 +8,5 @@ internal static class SchemaNames
     public static string MultiTenancy = nameof(MultiTenancy); // "MULTITENANCY";
     public static string OfferExchange = nameof(OfferExchange); // "OFFEREXCHANGE";
     public static string ISO = nameof(ISO); // "ISO";
+    public static string Billing = nameof(Billing); // "Billing";
 }

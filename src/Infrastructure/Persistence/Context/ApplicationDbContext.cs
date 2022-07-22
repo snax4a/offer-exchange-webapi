@@ -1,6 +1,7 @@
 using Finbuckle.MultiTenant;
 using FSH.WebApi.Application.Common.Events;
 using FSH.WebApi.Application.Common.Interfaces;
+using FSH.WebApi.Domain.Billing;
 using FSH.WebApi.Domain.Exchange;
 using FSH.WebApi.Infrastructure.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<Country> Countries => Set<Country>();
     public DbSet<CountrySubdivision> CountrySubdivisions => Set<CountrySubdivision>();
     public DbSet<UserAddress> UserAddresses => Set<UserAddress>();
+    public DbSet<Customer> Customers => Set<Customer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
