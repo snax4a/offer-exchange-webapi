@@ -35,6 +35,7 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 ENV ASPNETCORE_URLS=https://+:5050;http://+:5060
+ARG EXPOSE_PORT=5050 5060
 EXPOSE $EXPOSE_PORT
 
 ENTRYPOINT ["dotnet", "FSH.WebApi.Host.dll"]
