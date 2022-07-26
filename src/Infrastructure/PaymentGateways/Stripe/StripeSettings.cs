@@ -8,6 +8,7 @@ public class StripeSettings : IValidatableObject
     public string WebhookSecret { get; set; } = string.Empty;
     public string SuccessUrl { get; set; } = string.Empty;
     public string CancelUrl { get; set; } = string.Empty;
+    public string PortalReturnUrl { get; set; } = string.Empty;
     public string BasicProductId { get; set; } = string.Empty;
     public string StandardProductId { get; set; } = string.Empty;
     public string EnterpriseProductId { get; set; } = string.Empty;
@@ -40,6 +41,13 @@ public class StripeSettings : IValidatableObject
             yield return new ValidationResult(
                 $"{nameof(StripeSettings)}.{nameof(CancelUrl)} is not configured",
                 new[] { nameof(CancelUrl) });
+        }
+
+        if (string.IsNullOrEmpty(PortalReturnUrl))
+        {
+            yield return new ValidationResult(
+                $"{nameof(StripeSettings)}.{nameof(PortalReturnUrl)} is not configured",
+                new[] { nameof(PortalReturnUrl) });
         }
 
         if (string.IsNullOrEmpty(BasicProductId))

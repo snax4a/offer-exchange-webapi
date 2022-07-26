@@ -6,15 +6,18 @@ using FSH.WebApi.Domain.Billing;
 using Mapster;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Stripe;
-using Stripe.Checkout;
+
+// Doing this to avoid namespace conflicts.
+using StripeBilling = Stripe.BillingPortal;
+using StripeCheckout = Stripe.Checkout;
+using StripeRoot = Stripe;
 
 namespace FSH.WebApi.Infrastructure.PaymentGateways.Stripe;
 
 public class StripeService : IStripeService
 {
     private readonly StripeSettings _settings;
-    private readonly IStripeClient _stripeClient;
+    private readonly StripeRoot.IStripeClient _stripeClient;
     private readonly ILogger<StripeService> _logger;
     private readonly IRepositoryWithEvents<StripeSubscription> _subscriptionRepository;
 
@@ -26,28 +29,44 @@ public class StripeService : IStripeService
         _logger = logger;
         _settings = settings.Value;
         _subscriptionRepository = subscriptionRepository;
-        _stripeClient = new StripeClient(_settings.SecretKey);
+        _stripeClient = new StripeRoot.StripeClient(_settings.SecretKey);
     }
 
-    public Event ConstructEvent(string json, string signature)
+    public StripeRoot.Event ConstructEvent(string json, string signature)
     {
-        return EventUtility.ConstructEvent(json, signature, _settings.WebhookSecret);
+        return StripeRoot.EventUtility.ConstructEvent(json, signature, _settings.WebhookSecret);
+    }
+
+    public async Task<StripeCustomerPortalSessionDto> CreateCustomerPortalSession(string customerId, CancellationToken ct = default)
+    {
+        var options = new StripeBilling.SessionCreateOptions
+        {
+            Customer = customerId,
+            ReturnUrl = _settings.PortalReturnUrl,
+        };
+
+        var service = new StripeBilling.SessionService(_stripeClient);
+        var session = await service.CreateAsync(options, null, ct);
+
+        _logger.LogInformation("Stripe checkout session created with id: {SessionId}", session.Id);
+
+        return session.Adapt<StripeCustomerPortalSessionDto>();
     }
 
     public async Task<StripeCheckoutSessionDto> CreateCheckoutSession(string customerId, string priceId, CancellationToken ct = default)
     {
-        var options = new SessionCreateOptions
+        var options = new StripeCheckout.SessionCreateOptions
         {
             Mode = "subscription",
             Customer = customerId,
-            CustomerUpdate = new SessionCustomerUpdateOptions
+            CustomerUpdate = new StripeCheckout.SessionCustomerUpdateOptions
             {
                 Name = "auto",
                 Address = "auto"
             },
-            LineItems = new List<SessionLineItemOptions>
+            LineItems = new List<StripeCheckout.SessionLineItemOptions>
             {
-                new SessionLineItemOptions
+                new StripeCheckout.SessionLineItemOptions
                 {
                     Price = priceId,
                     Quantity = 1,
@@ -55,11 +74,11 @@ public class StripeService : IStripeService
             },
             SuccessUrl = $"{_settings.SuccessUrl}?session_id={{CHECKOUT_SESSION_ID}}",
             CancelUrl = $"{_settings.CancelUrl}",
-            AutomaticTax = new SessionAutomaticTaxOptions { Enabled = true },
-            TaxIdCollection = new SessionTaxIdCollectionOptions { Enabled = true }
+            AutomaticTax = new StripeCheckout.SessionAutomaticTaxOptions { Enabled = true },
+            TaxIdCollection = new StripeCheckout.SessionTaxIdCollectionOptions { Enabled = true }
         };
 
-        var service = new SessionService(_stripeClient);
+        var service = new StripeCheckout.SessionService(_stripeClient);
         var session = await service.CreateAsync(options, null, ct);
 
         _logger.LogInformation("Stripe checkout session created with id: {SessionId}", session.Id);
@@ -67,7 +86,7 @@ public class StripeService : IStripeService
         return session.Adapt<StripeCheckoutSessionDto>();
     }
 
-    public async Task CreateOrUpdateSubscription(Subscription subscriptionData, CancellationToken ct = default)
+    public async Task CreateOrUpdateSubscription(StripeRoot.Subscription subscriptionData, CancellationToken ct = default)
     {
         var subscription = await _subscriptionRepository.GetByIdAsync(subscriptionData.Id, ct);
 
@@ -112,9 +131,9 @@ public class StripeService : IStripeService
         }
     }
 
-    public async Task<Subscription> RetrieveSubscription(string subscriptionId, CancellationToken ct = default)
+    public async Task<StripeRoot.Subscription> RetrieveSubscription(string subscriptionId, CancellationToken ct = default)
     {
-        var service = new SubscriptionService(_stripeClient);
+        var service = new StripeRoot.SubscriptionService(_stripeClient);
         var subscription = await service.GetAsync(subscriptionId, null, null, ct);
 
         _ = subscription ?? throw new NotFoundException($"Subscription: ${subscriptionId} not found.");

@@ -6,6 +6,14 @@ namespace FSH.WebApi.Host.Controllers.Billing;
 public class StripeController : VersionNeutralApiController
 {
     [TenantIdHeader]
+    [HttpPost("customer-portal-session")]
+    [OpenApiOperation("Create Stripe checkout session.", "")]
+    public Task<StripeCustomerPortalSessionDto> CreateCustomerPortalSession(CreateCustomerPortalSessionRequest request)
+    {
+        return Mediator.Send(request);
+    }
+
+    [TenantIdHeader]
     [HttpPost("checkout-session")]
     [OpenApiOperation("Create Stripe checkout session.", "")]
     public Task<StripeCheckoutSessionDto> CreateStripeCheckoutSessionAsync(CreateStripeCheckoutSessionRequest request)
