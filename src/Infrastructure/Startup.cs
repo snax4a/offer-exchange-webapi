@@ -13,6 +13,7 @@ using FSH.WebApi.Infrastructure.Middleware;
 using FSH.WebApi.Infrastructure.Multitenancy;
 using FSH.WebApi.Infrastructure.Notifications;
 using FSH.WebApi.Infrastructure.OpenApi;
+using FSH.WebApi.Infrastructure.PaymentGateways;
 using FSH.WebApi.Infrastructure.Persistence;
 using FSH.WebApi.Infrastructure.Persistence.Initialization;
 using FSH.WebApi.Infrastructure.SecurityHeaders;
@@ -41,6 +42,7 @@ public static class Startup
             .AddHealthCheck()
             .AddLocalization(config)
             .AddMailing(config)
+            .AddPaymentGateways(config)
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddMultitenancy()
             .AddNotifications(config)

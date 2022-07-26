@@ -1,0 +1,11 @@
+{
+  "StripeSettings": {
+    "SecretKey": "",
+    "WebhookSecret": "",
+    "SuccessUrl": "",
+    "CancelUrl": "",
+    "BasicProductId": "",
+    "StandardProductId": "",
+    "EnterpriseProductId": ""
+  }
+}

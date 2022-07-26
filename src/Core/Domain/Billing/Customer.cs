@@ -2,15 +2,15 @@ namespace FSH.WebApi.Domain.Billing;
 
 public class Customer : BaseEntity, IAggregateRoot
 {
-    public string UserId { get; private set; }
+    public Guid UserId { get; private set; }
     public string StripeCustomerId { get; private set; }
     public BillingPlan BillingPlan { get; private set; }
     public short MonthlyNumberOfInquiriesSent { get; private set; }
     public ICollection<StripeSubscription> Subscriptions { get; private set; }
 
-    public Customer(string userId, string stripeCustomerId)
+    public Customer(Guid userId, string stripeCustomerId)
     {
-        if (string.IsNullOrWhiteSpace(userId)) throw new ArgumentNullException(nameof(userId));
+        if (userId == Guid.Empty) throw new ArgumentNullException(nameof(userId));
         if (string.IsNullOrWhiteSpace(stripeCustomerId)) throw new ArgumentNullException(nameof(stripeCustomerId));
 
         UserId = userId;

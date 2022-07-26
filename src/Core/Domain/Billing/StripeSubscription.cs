@@ -1,6 +1,6 @@
 namespace FSH.WebApi.Domain.Billing;
 
-public class StripeSubscription : BaseEntity<string>
+public class StripeSubscription : BaseEntity<string>, IAggregateRoot
 {
     public string CustomerId { get; private set; }
     public virtual Customer Customer { get; private set; } = default!;
