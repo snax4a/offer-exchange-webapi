@@ -1,0 +1,87 @@
+{
+  "FeatureUsageLimiterSettings": {
+    "EnableLimiter": true,
+    "Plans": [
+      {
+        "PlanId": "Free",
+        "FeatureLimits": [
+          {
+            "FeatureId": "Inquiries_MonthlyCount",
+            "LimitType": "Limit",
+            "Value": 5
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfRecipients",
+            "LimitType": "Limit",
+            "Value": 5
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfProducts",
+            "LimitType": "Limit",
+            "Value": 15
+          }
+        ]
+      },
+      {
+        "PlanId": "Basic",
+        "FeatureLimits": [
+          {
+            "FeatureId": "Inquiries_MonthlyCount",
+            "LimitType": "Limit",
+            "Value": 20
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfRecipients",
+            "LimitType": "Limit",
+            "Value": 10
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfProducts",
+            "LimitType": "Limit",
+            "Value": 30
+          }
+        ]
+      },
+      {
+        "PlanId": "Standard",
+        "FeatureLimits": [
+          {
+            "FeatureId": "Inquiries_MonthlyCount",
+            "LimitType": "Limit",
+            "Value": 40
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfRecipients",
+            "LimitType": "Limit",
+            "Value": 20
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfProducts",
+            "LimitType": "Limit",
+            "Value": 60
+          }
+        ]
+      },
+      {
+        "PlanId": "Enterprise",
+        "FeatureLimits": [
+          {
+            "FeatureId": "Inquiries_MonthlyCount",
+            "LimitType": "Limit",
+            "Value": 80
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfRecipients",
+            "LimitType": "Limit",
+            "Value": 40
+          },
+          {
+            "FeatureId": "Inquiries_NumberOfProducts",
+            "LimitType": "Limit",
+            "Value": 120
+          }
+        ]
+      }
+    ]
+  }
+}

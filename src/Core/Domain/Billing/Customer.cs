@@ -26,15 +26,21 @@ public class Customer : BaseEntity, IAggregateRoot
         return this;
     }
 
-    public Customer IncreaseMonthlyNumberOfInquiriesSent()
+    public Customer IncrementMonthlyNumberOfInquiriesSent()
     {
         MonthlyNumberOfInquiriesSent++;
         return this;
     }
 
-    public Customer ResetMonthlyNumberOfInquiriesSent()
+    public Customer DecrementMonthlyNumberOfInquiriesSent()
     {
-        MonthlyNumberOfInquiriesSent = 0;
+        MonthlyNumberOfInquiriesSent--;
+        return this;
+    }
+
+    public Customer SetMonthlyNumberOfInquiriesSent(short newValue)
+    {
+        MonthlyNumberOfInquiriesSent = newValue;
         return this;
     }
 

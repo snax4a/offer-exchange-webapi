@@ -5,6 +5,7 @@ using FSH.WebApi.Infrastructure.Caching;
 using FSH.WebApi.Infrastructure.ClientApp;
 using FSH.WebApi.Infrastructure.Common;
 using FSH.WebApi.Infrastructure.Cors;
+using FSH.WebApi.Infrastructure.FeatureUsage;
 using FSH.WebApi.Infrastructure.FileStorage;
 using FSH.WebApi.Infrastructure.Localization;
 using FSH.WebApi.Infrastructure.Mailing;
@@ -43,6 +44,7 @@ public static class Startup
             .AddLocalization(config)
             .AddMailing(config)
             .AddPaymentGateways(config)
+            .AddFeatureUsageLimiter(config)
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddMultitenancy()
             .AddNotifications(config)
