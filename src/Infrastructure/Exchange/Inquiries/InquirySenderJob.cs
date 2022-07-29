@@ -49,7 +49,7 @@ public class InquirySenderJob : IInquirySenderJob
         _offerTokenService = offerTokenService;
     }
 
-    [Queue("inquiries")]
+    [Queue("default")]
     [AutomaticRetry(Attempts = 5)]
     public async Task SendAsync(Guid inquiryId, Guid traderId, CancellationToken ct)
     {
