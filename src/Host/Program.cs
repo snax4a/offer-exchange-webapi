@@ -6,6 +6,7 @@ using FSH.WebApi.Host.Configurations;
 using FSH.WebApi.Host.Controllers;
 using FSH.WebApi.Infrastructure;
 using FSH.WebApi.Infrastructure.Common;
+using FSH.WebApi.Infrastructure.FeatureUsage;
 using Serilog;
 
 [assembly: ApiConventionType(typeof(ApiConventions))]
@@ -42,6 +43,8 @@ try
     app.UseInfrastructure(builder.Configuration);
     app.MapEndpoints();
     app.Run();
+
+    FeatureUsageService.RegisterRecurringJobs();
 }
 catch (Exception ex) when (!ex.GetType().Name.Equals("StopTheHostException", StringComparison.Ordinal))
 {

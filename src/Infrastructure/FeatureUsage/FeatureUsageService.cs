@@ -4,6 +4,7 @@ using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Application.Exchange.Billing.Customers.Specifications;
 using FSH.WebApi.Core.Shared.FeatureUsage;
 using FSH.WebApi.Domain.Billing;
+using Hangfire;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -29,6 +30,13 @@ public class FeatureUsageService : IFeatureUsageService
         _limiterSettings = limiterSettings.Value;
         _customerRepository = customerRepository;
         _currentUser = currentUser;
+    }
+
+    public static void RegisterRecurringJobs()
+    {
+        // Register monthly feature usage reset job
+        RecurringJob.AddOrUpdate<MonthlyFeatureUsageJob>(
+            "reset-monthly-fature-usage", x => x.ResetAllCustomersUsageDataAsync(), Cron.Monthly);
     }
 
     // Check if user has not exceeded the limit for the feature.
