@@ -26,13 +26,15 @@ public class AppJobFilter : IClientFilter
         using var scope = _services.CreateScope();
 
         var httpContext = scope.ServiceProvider.GetRequiredService<IHttpContextAccessor>()?.HttpContext;
-        _ = httpContext ?? throw new InvalidOperationException("Can't create a TenantJob without HttpContext.");
 
-        var tenantInfo = scope.ServiceProvider.GetRequiredService<ITenantInfo>();
-        context.SetJobParameter(MultitenancyConstants.TenantIdName, tenantInfo);
+        if (httpContext is not null)
+        {
+            var tenantInfo = scope.ServiceProvider.GetService<ITenantInfo>();
+            context.SetJobParameter(MultitenancyConstants.TenantIdName, tenantInfo);
 
-        string? userId = httpContext.User.GetUserId();
-        context.SetJobParameter(QueryStringKeys.UserId, userId);
+            string? userId = httpContext.User.GetUserId();
+            context.SetJobParameter(QueryStringKeys.UserId, userId);
+        }
     }
 
     public void OnCreated(CreatedContext context) =>
