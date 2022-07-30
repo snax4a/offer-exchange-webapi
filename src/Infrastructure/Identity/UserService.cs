@@ -1,6 +1,7 @@
 using Ardalis.Specification;
 using Ardalis.Specification.EntityFrameworkCore;
 using Finbuckle.MultiTenant;
+using FSH.WebApi.Application.Billing.Stripe;
 using FSH.WebApi.Application.Common.Caching;
 using FSH.WebApi.Application.Common.Events;
 using FSH.WebApi.Application.Common.Exceptions;
@@ -8,8 +9,10 @@ using FSH.WebApi.Application.Common.FileStorage;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Common.Models;
+using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Application.Common.Specification;
 using FSH.WebApi.Application.Identity.Users;
+using FSH.WebApi.Domain.Billing;
 using FSH.WebApi.Domain.Identity;
 using FSH.WebApi.Infrastructure.Auth;
 using FSH.WebApi.Infrastructure.ClientApp;
@@ -40,6 +43,8 @@ internal partial class UserService : IUserService
     private readonly ICacheService _cache;
     private readonly ICacheKeyService _cacheKeys;
     private readonly ITenantInfo _currentTenant;
+    private readonly IStripeService _stripeService;
+    private readonly IRepositoryWithEvents<Customer> _customerRepository;
 
     public UserService(
         SignInManager<ApplicationUser> signInManager,
@@ -55,6 +60,8 @@ internal partial class UserService : IUserService
         ICacheService cache,
         ICacheKeyService cacheKeys,
         ITenantInfo currentTenant,
+        IStripeService stripeService,
+        IRepositoryWithEvents<Customer> customerRepository,
         IOptions<ClientAppSettings> clientAppSettings,
         IOptions<SecuritySettings> securitySettings)
     {
@@ -71,6 +78,8 @@ internal partial class UserService : IUserService
         _cache = cache;
         _cacheKeys = cacheKeys;
         _currentTenant = currentTenant;
+        _stripeService = stripeService;
+        _customerRepository = customerRepository;
         _clientAppSettings = clientAppSettings.Value;
         _securitySettings = securitySettings.Value;
     }

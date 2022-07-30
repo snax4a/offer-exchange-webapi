@@ -86,6 +86,21 @@ public class StripeService : IStripeService
         return session.Adapt<StripeCheckoutSessionDto>();
     }
 
+    public async Task<StripeRoot.Customer> CreateCustomer(string email, string name, string userId, CancellationToken ct = default)
+    {
+        var options = new StripeRoot.CustomerCreateOptions
+        {
+            Email = email,
+            Name = name,
+            Metadata = new Dictionary<string, string>
+            {
+                { "userId", userId }
+            }
+        };
+        var service = new StripeRoot.CustomerService(_stripeClient);
+        return await service.CreateAsync(options, null, ct);
+    }
+
     public async Task CreateOrUpdateSubscription(StripeRoot.Subscription subscriptionData, CancellationToken ct = default)
     {
         var subscription = await _subscriptionRepository.GetByIdAsync(subscriptionData.Id, ct);
