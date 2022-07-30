@@ -5,6 +5,7 @@ using FSH.WebApi.Infrastructure.Caching;
 using FSH.WebApi.Infrastructure.ClientApp;
 using FSH.WebApi.Infrastructure.Common;
 using FSH.WebApi.Infrastructure.Cors;
+using FSH.WebApi.Infrastructure.FeatureUsage;
 using FSH.WebApi.Infrastructure.FileStorage;
 using FSH.WebApi.Infrastructure.Localization;
 using FSH.WebApi.Infrastructure.Mailing;
@@ -13,6 +14,7 @@ using FSH.WebApi.Infrastructure.Middleware;
 using FSH.WebApi.Infrastructure.Multitenancy;
 using FSH.WebApi.Infrastructure.Notifications;
 using FSH.WebApi.Infrastructure.OpenApi;
+using FSH.WebApi.Infrastructure.PaymentGateways;
 using FSH.WebApi.Infrastructure.Persistence;
 using FSH.WebApi.Infrastructure.Persistence.Initialization;
 using FSH.WebApi.Infrastructure.SecurityHeaders;
@@ -41,6 +43,8 @@ public static class Startup
             .AddHealthCheck()
             .AddLocalization(config)
             .AddMailing(config)
+            .AddPaymentGateways(config)
+            .AddFeatureUsageLimiter(config)
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddMultitenancy()
             .AddNotifications(config)

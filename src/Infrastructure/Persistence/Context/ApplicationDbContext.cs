@@ -29,6 +29,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<CountrySubdivision> CountrySubdivisions => Set<CountrySubdivision>();
     public DbSet<UserAddress> UserAddresses => Set<UserAddress>();
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<StripeSubscription> StripeSubscriptions => Set<StripeSubscription>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

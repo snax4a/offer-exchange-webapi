@@ -49,7 +49,7 @@ public class OrderSenderJob : IOrderSenderJob
         _orderTokenService = orderTokenService;
     }
 
-    [Queue("orders")]
+    [Queue("default")]
     [AutomaticRetry(Attempts = 5)]
     public async Task SendAsync(Guid orderId, CancellationToken ct)
     {

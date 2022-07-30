@@ -26,6 +26,14 @@ services:
       - "MailSettings__Password=${MAIL_PASSWORD}"
       - "MailSettings__Port=${MAIL_PORT}"
       - "MailSettings__UserName=${MAIL_USERNAME}"
+      - "StripeSettings__SecretKey=${STRIPE_SECRET_KEY}"
+      - "StripeSettings__WebhookSecret=${STRIPE_WEBHOOK_SECRET}"
+      - "StripeSettings__SuccessUrl=${STRIPE_SUCCESS_URL}"
+      - "StripeSettings__CancelUrl=${STRIPE_CANCEL_URL}"
+      - "StripeSettings__PortalReturnUrl=${STRIPE_PORTAL_RETURN_URL}"
+      - "StripeSettings__BasicProductId=${STRIPE_BASIC_PRODUCT_ID}"
+      - "StripeSettings__StandardProductId=${STRIPE_STANDARD_PRODUCT_ID}"
+      - "StripeSettings__EnterpriseProductId=${STRIPE_ENTERPRISE_PRODUCT_ID}"
     volumes:
       - ${CERT_VOLUME_PATH}:/https:ro
       - ${LOGS_VOLUME_PATH}:/app/Logs:rw

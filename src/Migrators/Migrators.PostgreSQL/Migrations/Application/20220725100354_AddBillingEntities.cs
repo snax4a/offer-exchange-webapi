@@ -18,7 +18,7 @@ namespace Migrators.PostgreSQL.Migrations.Application
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     StripeCustomerId = table.Column<string>(type: "text", nullable: false),
                     BillingPlan = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     MonthlyNumberOfInquiriesSent = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)0)

@@ -18,6 +18,8 @@ internal static class Startup
                 .AddJsonFile($"{configurationsDirectory}/cache.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/clientapp.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/clientapp.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"{configurationsDirectory}/stripe.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"{configurationsDirectory}/stripe.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/database.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/database.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/mail.json", optional: false, reloadOnChange: true)
@@ -32,6 +34,8 @@ internal static class Startup
                 .AddJsonFile($"{configurationsDirectory}/signalr.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/securityheaders.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"{configurationsDirectory}/securityheaders.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"{configurationsDirectory}/featurelimiter.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"{configurationsDirectory}/featurelimiter.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
         });
         return host;

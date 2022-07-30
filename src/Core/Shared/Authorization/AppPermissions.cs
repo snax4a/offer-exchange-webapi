@@ -9,6 +9,7 @@ public static class ResourceAction
     public const string Create = nameof(Create);
     public const string Update = nameof(Update);
     public const string Delete = nameof(Delete);
+    public const string Manage = nameof(Manage);
     public const string Export = nameof(Export);
     public const string Generate = nameof(Generate);
     public const string Clean = nameof(Clean);
@@ -32,6 +33,7 @@ public static class Resource
     public const string Offers = nameof(Offers);
     public const string Orders = nameof(Orders);
     public const string Addresses = nameof(Addresses);
+    public const string Customers = nameof(Customers);
 }
 
 public static class AppPermissions
@@ -93,7 +95,8 @@ public static class AppPermissions
         new("View Tenants", ResourceAction.View, Resource.Tenants, IsRoot: true),
         new("Create Tenants", ResourceAction.Create, Resource.Tenants, IsRoot: true),
         new("Update Tenants", ResourceAction.Update, Resource.Tenants, IsRoot: true),
-        new("Upgrade Tenant Subscription", ResourceAction.UpgradeSubscription, Resource.Tenants, IsRoot: true)
+        new("Upgrade Tenant Subscription", ResourceAction.UpgradeSubscription, Resource.Tenants, IsRoot: true),
+        new("Manage Customers", ResourceAction.Manage, Resource.Customers, IsRoot: true)
     };
 
     public static IReadOnlyList<AppPermission> All { get; } = new ReadOnlyCollection<AppPermission>(_all);

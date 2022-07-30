@@ -44,6 +44,13 @@ Read Documentation related to this Boilerplate here - https://docs.conetso.com/o
 
 For further steps and details, [Read the Getting Started Guide](https://docs.conetso.com/offer-exchange/getting-started/)
 
+### Generate test data with the Stripe CLI
+
+The [Stripe CLI](https://stripe.com/docs/stripe-cli#install) `fixtures` command executes a series of API requests defined in a JSON file. To speed up the setup, we have added a [fixtures file](src/Infrastructure/PaymentGateways/Stripe/Fixtures/create-products-fixtures.json) to bootstrap test product and pricing data in your Stripe account.
+
+Simply run:
+`stripe fixtures src/Infrastructure/PaymentGateways/Stripe/Fixtures/create-products-fixtures.json`.
+
 ## Important Links & Documentations
 
 

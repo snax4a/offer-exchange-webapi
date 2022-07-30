@@ -45,7 +45,7 @@ public class OfferNotificationSenderJob : IOfferNotificationSenderJob
         _templateService = templateService;
     }
 
-    [Queue("offers")]
+    [Queue("default")]
     [AutomaticRetry(Attempts = 5)]
     public async Task NotifyUserAsync(Guid offerId, CancellationToken ct)
     {

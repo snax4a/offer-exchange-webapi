@@ -2,6 +2,7 @@
 using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Identity.Users;
+using FSH.WebApi.Domain.Billing;
 using FSH.WebApi.Domain.Common;
 using FSH.WebApi.Domain.Identity;
 using FSH.WebApi.Shared.Authorization;
@@ -129,33 +130,11 @@ internal partial class UserService
 
         if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
-            if (_clientAppSettings.AboutPageUrl is null)
-                throw new InternalServerException("ClientAppSettings AboutPageUrl is missing.");
-
-            // send verification email
-            string emailVerificationUri = await GetEmailVerificationUriAsync(user);
-            RegisterUserEmailModel emailModel = new RegisterUserEmailModel()
-            {
-                PreheaderText = _localizer["createusermail.preheader-text"],
-                GreetingText = string.Format(_localizer["mail.greeting-text"], user.FirstName),
-                MainText = string.Format(_localizer["createusermail.main-text"], $"<b>{user.Email}</b>"),
-                ConfirmationUrl = emailVerificationUri,
-                ConfirmButtonText = _localizer["createusermail.confirm-button-text"],
-                CopyLinkDescription = _localizer["mail.copy-link-description"],
-                RegardsText = _localizer["mail.regards-text"],
-                TeamText = _localizer["mail.team-text"],
-                ReadMoreDescription = _localizer["mail.read-more-description"],
-                AboutPageUrl = _clientAppSettings.AboutPageUrl,
-                ReadMoreLinkText = _localizer["mail.read-more-link-text"]
-            };
-            var mailRequest = new MailRequest(
-                new List<string> { user.Email },
-                _localizer["createusermail.subject"],
-                _templateService.GenerateEmailTemplate("email-confirmation", emailModel));
-            _jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
+            await SendVerificationEmailAsync(user);
             messages.Add(_localizer[$"Please check {user.Email} to verify your account!"]);
         }
 
+        await CreateCustomerForUserAsync(user);
         await _events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
 
         return string.Join(Environment.NewLine, messages);
@@ -194,5 +173,46 @@ internal partial class UserService
         {
             throw new InternalServerException(_localizer["Update profile failed"], result.GetErrors(_localizer));
         }
+    }
+
+    private async Task<string> SendVerificationEmailAsync(ApplicationUser user)
+    {
+        if (_clientAppSettings.AboutPageUrl is null)
+            throw new InternalServerException("ClientAppSettings AboutPageUrl is missing.");
+
+        // send verification email
+        string emailVerificationUri = await GetEmailVerificationUriAsync(user);
+        RegisterUserEmailModel emailModel = new RegisterUserEmailModel()
+        {
+            PreheaderText = _localizer["createusermail.preheader-text"],
+            GreetingText = string.Format(_localizer["mail.greeting-text"], user.FirstName),
+            MainText = string.Format(_localizer["createusermail.main-text"], $"<b>{user.Email}</b>"),
+            ConfirmationUrl = emailVerificationUri,
+            ConfirmButtonText = _localizer["createusermail.confirm-button-text"],
+            CopyLinkDescription = _localizer["mail.copy-link-description"],
+            RegardsText = _localizer["mail.regards-text"],
+            TeamText = _localizer["mail.team-text"],
+            ReadMoreDescription = _localizer["mail.read-more-description"],
+            AboutPageUrl = _clientAppSettings.AboutPageUrl,
+            ReadMoreLinkText = _localizer["mail.read-more-link-text"]
+        };
+
+        var mailRequest = new MailRequest(
+            new List<string> { user.Email },
+            _localizer["createusermail.subject"],
+            _templateService.GenerateEmailTemplate("email-confirmation", emailModel));
+
+        return _jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
+    }
+
+    private async Task<Customer> CreateCustomerForUserAsync(ApplicationUser user)
+    {
+        var stripeCustomer = await _stripeService.CreateCustomer(user.Email, user.CompanyName, user.Id);
+        _ = stripeCustomer ?? throw new InternalServerException(_localizer["Stripe Customer Creation Failed."]);
+
+        var customer = new Customer(Guid.Parse(user.Id), stripeCustomer.Id);
+        await _customerRepository.AddAsync(customer);
+
+        return customer;
     }
 }

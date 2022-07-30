@@ -14,12 +14,13 @@ public class DapperRepository : IDapperRepository
 
     public DapperRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public async Task<IReadOnlyList<T>> QueryAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
-    where T : class, IEntity =>
-        (await _dbContext.Connection.QueryAsync<T>(sql, param, transaction))
-            .AsList();
+    public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null)
+    where T : class
+    {
+        return await _dbContext.Connection.QueryAsync<T>(sql, param, transaction);
+    }
 
-    public async Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public async Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null)
     where T : class, IEntity
     {
         if (_dbContext.Model.GetMultiTenantEntityTypes().Any(t => t.ClrType == typeof(T)))
@@ -30,7 +31,7 @@ public class DapperRepository : IDapperRepository
         return await _dbContext.Connection.QueryFirstOrDefaultAsync<T>(sql, param, transaction);
     }
 
-    public Task<T> QuerySingleAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+    public Task<T> QuerySingleAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null)
     where T : class, IEntity
     {
         if (_dbContext.Model.GetMultiTenantEntityTypes().Any(t => t.ClrType == typeof(T)))

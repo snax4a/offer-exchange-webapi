@@ -1,0 +1,151 @@
+{
+  "_meta": {
+    "template_version": 0
+  },
+  "fixtures": [
+    {
+      "name": "product_basic",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Basic",
+        "type": "service",
+        "tax_code": "txcd_10103000",
+        "description": "Podstawowy plan aplikacji Offer Exchange",
+        "statement_descriptor": "Offer Exchange"
+      }
+    },
+    {
+      "name": "price_basic_month",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${product_basic:id}",
+        "nickname": "Basic monthly",
+        "billing_scheme": "per_unit",
+        "currency": "pln",
+        "unit_amount": 5000,
+        "tax_behavior": "inclusive",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1,
+          "usage_type": "licensed"
+        }
+      }
+    },
+    {
+      "name": "price_basic_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${product_basic:id}",
+        "nickname": "Basic yearly",
+        "billing_scheme": "per_unit",
+        "currency": "pln",
+        "unit_amount": 45000,
+        "tax_behavior": "inclusive",
+        "recurring": {
+          "interval": "year",
+          "interval_count": 1,
+          "usage_type": "licensed"
+        }
+      }
+    },
+    {
+      "name": "product_standard",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Standard",
+        "type": "service",
+        "tax_code": "txcd_10103000",
+        "description": "Standardowy plan aplikacji Offer Exchange",
+        "statement_descriptor": "Offer Exchange"
+      }
+    },
+    {
+      "name": "price_standard_month",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${product_standard:id}",
+        "nickname": "Standard monthly",
+        "billing_scheme": "per_unit",
+        "currency": "pln",
+        "unit_amount": 8000,
+        "tax_behavior": "inclusive",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1,
+          "usage_type": "licensed"
+        }
+      }
+    },
+    {
+      "name": "price_standard_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${product_standard:id}",
+        "nickname": "Standard yearly",
+        "billing_scheme": "per_unit",
+        "currency": "pln",
+        "unit_amount": 72000,
+        "tax_behavior": "inclusive",
+        "recurring": {
+          "interval": "year",
+          "interval_count": 1,
+          "usage_type": "licensed"
+        }
+      }
+    },
+    {
+      "name": "product_enterprise",
+      "path": "/v1/products",
+      "method": "post",
+      "params": {
+        "name": "Enterprise",
+        "type": "service",
+        "tax_code": "txcd_10103000",
+        "description": "Korporacyjny plan aplikacji Offer Exchange",
+        "statement_descriptor": "Offer Exchange"
+      }
+    },
+    {
+      "name": "price_enterprise_month",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${product_enterprise:id}",
+        "nickname": "Enterprise monthly",
+        "billing_scheme": "per_unit",
+        "currency": "pln",
+        "unit_amount": 14000,
+        "tax_behavior": "inclusive",
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1,
+          "usage_type": "licensed"
+        }
+      }
+    },
+    {
+      "name": "price_enterprise_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${product_enterprise:id}",
+        "nickname": "Enterprise yearly",
+        "billing_scheme": "per_unit",
+        "currency": "pln",
+        "unit_amount": 124000,
+        "tax_behavior": "inclusive",
+        "recurring": {
+          "interval": "year",
+          "interval_count": 1,
+          "usage_type": "licensed"
+        }
+      }
+    }
+  ]
+}
