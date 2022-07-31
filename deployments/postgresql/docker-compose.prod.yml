@@ -46,6 +46,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_EXTRA_OPTS=--compress=6 --format=directory --jobs=4
       - SCHEDULE=@daily
       - TZ=Europe/Warsaw
       - BACKUP_KEEP_DAYS=7
