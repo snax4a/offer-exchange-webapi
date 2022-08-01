@@ -9,6 +9,7 @@ public interface IStripeService : ITransientService
     Task<StripeCustomerPortalSessionDto> CreateCustomerPortalSession(string customerId, CancellationToken ct = default);
     Task<StripeCheckoutSessionDto> CreateCheckoutSession(string customerId, string priceId, CancellationToken ct = default);
     Task<Customer> CreateCustomer(string email, string name, string userId, CancellationToken ct = default);
+    Task<Customer> UpdateCustomer(string customerId, string email, string name, CancellationToken ct = default);
     Task CreateOrUpdateSubscription(Subscription subscription, CancellationToken ct = default);
     Task<Subscription> RetrieveSubscription(string subscriptionId, CancellationToken ct = default);
     Domain.Billing.BillingPlan? GetBillingPlanForStripeProduct(string productId);

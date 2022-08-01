@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Common.Mailing;
+using FSH.WebApi.Application.Exchange.Billing.Customers.Specifications;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Domain.Billing;
 using FSH.WebApi.Domain.Common;
@@ -146,6 +147,8 @@ internal partial class UserService
 
         _ = user ?? throw new NotFoundException(_localizer["User Not Found."]);
 
+        bool shouldUpdateStripeCustomer = request.Email != user.Email || request.CompanyName != user.CompanyName;
+
         string currentImage = user.ImageUrl ?? string.Empty;
         if (request.Image != null || request.DeleteCurrentImage)
         {
@@ -172,6 +175,14 @@ internal partial class UserService
         if (!result.Succeeded)
         {
             throw new InternalServerException(_localizer["Update profile failed"], result.GetErrors(_localizer));
+        }
+
+        if (shouldUpdateStripeCustomer)
+        {
+            // Update customer data in stripe
+            var spec = new CustomerByUserIdSpec(Guid.Parse(user.Id));
+            var customer = await _customerRepository.GetBySpecAsync(spec);
+            await _stripeService.UpdateCustomer(customer!.StripeCustomerId, request.Email, request.CompanyName);
         }
     }
 

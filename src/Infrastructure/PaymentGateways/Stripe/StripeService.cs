@@ -101,6 +101,17 @@ public class StripeService : IStripeService
         return await service.CreateAsync(options, null, ct);
     }
 
+    public async Task<StripeRoot.Customer> UpdateCustomer(string customerId, string email, string name, CancellationToken ct = default)
+    {
+        var options = new StripeRoot.CustomerUpdateOptions
+        {
+            Email = email,
+            Name = name,
+        };
+        var service = new StripeRoot.CustomerService(_stripeClient);
+        return await service.UpdateAsync(customerId, options, null, ct);
+    }
+
     public async Task CreateOrUpdateSubscription(StripeRoot.Subscription subscriptionData, CancellationToken ct = default)
     {
         var subscription = await _subscriptionRepository.GetByIdAsync(subscriptionData.Id, ct);
