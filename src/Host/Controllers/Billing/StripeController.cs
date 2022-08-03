@@ -8,9 +8,9 @@ public class StripeController : VersionNeutralApiController
     [TenantIdHeader]
     [HttpPost("customer-portal-session")]
     [OpenApiOperation("Create Stripe checkout session.", "")]
-    public Task<StripeCustomerPortalSessionDto> CreateCustomerPortalSession(CreateCustomerPortalSessionRequest request)
+    public Task<StripeCustomerPortalSessionDto> CreateCustomerPortalSession()
     {
-        return Mediator.Send(request);
+        return Mediator.Send(new CreateCustomerPortalSessionRequest());
     }
 
     [TenantIdHeader]
