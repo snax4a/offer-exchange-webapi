@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using FSH.WebApi.Application.Auditing;
+using FSH.WebApi.Application.Exchange.Billing.Customers;
+using FSH.WebApi.Application.Exchange.Billing.Customers.DTOs;
 using FSH.WebApi.Application.Identity.Users;
 using FSH.WebApi.Application.Identity.Users.Password;
 
@@ -31,6 +33,13 @@ public class PersonalController : VersionNeutralApiController
 
         await _userService.UpdateAsync(request, userId);
         return Ok();
+    }
+
+    [HttpGet("billing-details")]
+    [OpenApiOperation("Get customer billing details for currently logged in user.", "")]
+    public Task<CustomerBillingDetailsDto> GetBillingDetailsAsync()
+    {
+        return Mediator.Send(new GetCustomerBillingDetailsRequest());
     }
 
     [HttpPut("change-password")]
