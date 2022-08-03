@@ -4,6 +4,8 @@ public class Customer : BaseEntity, IAggregateRoot
 {
     public Guid UserId { get; private set; }
     public string StripeCustomerId { get; private set; }
+    public string? CurrentSubscriptionId { get; private set; }
+    public virtual StripeSubscription? CurrentSubscription { get; private set; }
     public BillingPlan BillingPlan { get; private set; }
     public short MonthlyNumberOfInquiriesSent { get; private set; }
     public ICollection<StripeSubscription> Subscriptions { get; private set; }
@@ -23,6 +25,12 @@ public class Customer : BaseEntity, IAggregateRoot
     public Customer SetBillingPlan(BillingPlan billingPlan)
     {
         BillingPlan = billingPlan;
+        return this;
+    }
+
+    public Customer SetCurrentSubscription(string subscriptionId)
+    {
+        CurrentSubscriptionId = subscriptionId;
         return this;
     }
 

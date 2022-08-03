@@ -17,6 +17,12 @@ public class CustomerConfig : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.MonthlyNumberOfInquiriesSent).IsRequired().HasDefaultValue(0);
 
         builder
+            .HasOne(c => c.CurrentSubscription)
+            .WithMany()
+            .HasForeignKey(c => c.CurrentSubscriptionId)
+            .IsRequired(false);
+
+        builder
             .HasMany(c => c.Subscriptions)
             .WithOne(s => s.Customer)
             .HasForeignKey(s => s.CustomerId)

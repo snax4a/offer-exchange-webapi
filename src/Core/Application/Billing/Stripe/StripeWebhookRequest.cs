@@ -125,10 +125,14 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
 
         _ = newBillingPlan ?? throw new InternalServerException($"Billing plan for product: {stripeProductId} not found.");
 
-        await SetCustomerBillingPlan(invoice.CustomerId, (BillingPlan)newBillingPlan, ct);
+        await SetCustomerBillingPlan(invoice.CustomerId, invoice.SubscriptionId, (BillingPlan)newBillingPlan, ct);
     }
 
-    private async Task SetCustomerBillingPlan(string customerId, BillingPlan newBillingPlan, CancellationToken ct)
+    private async Task SetCustomerBillingPlan(
+        string customerId,
+        string subscriptionId,
+        BillingPlan newBillingPlan,
+        CancellationToken ct)
     {
         var spec = new CustomerByStripeCustomerIdSpec(customerId);
         var customer = await _customerRepository.GetBySpecAsync(spec, ct);
@@ -139,6 +143,7 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
         var oldBillingPlan = customer.BillingPlan;
 
         customer.SetBillingPlan(newBillingPlan);
+        customer.SetCurrentSubscription(subscriptionId);
         await _customerRepository.UpdateAsync(customer, ct);
 
         _logger.LogInformation($"Customer: {customer.Id} billing plan was changed from: {oldBillingPlan} to: {newBillingPlan}.");
