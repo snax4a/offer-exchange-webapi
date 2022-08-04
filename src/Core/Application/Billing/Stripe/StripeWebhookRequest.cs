@@ -63,6 +63,16 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
                     // customer portal to update their payment information.
                     // TODO: implement notification
                     break;
+                case "product.created":
+                case "product.updated":
+                    var product = (Product)stripeEvent.Data.Object;
+                    await HandleProductChanged(product, ct);
+                    break;
+                case "price.created":
+                case "price.updated":
+                    var price = (Price)stripeEvent.Data.Object;
+                    await HandlePriceChanged(price, ct);
+                    break;
                 default:
                     _logger.LogWarning($"Unhandled stripe webhook request type: {stripeEvent.Type}");
                     return false;
@@ -81,7 +91,7 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
     {
         // Update the subscription data in the database.
         string newStatus = subscription.Status;
-        await _stripeService.CreateOrUpdateSubscription(subscription, ct);
+        await _stripeService.UpsertSubscription(subscription, ct);
         _logger.LogInformation($"Subscription: {subscription.Id} data was updated. Status: {newStatus}");
 
         if (newStatus == "canceled" || newStatus == "unpaid")
@@ -94,6 +104,7 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
                 $"Customer: {customerId} not found. Was unable to reset his billing plan.");
 
             customer.SetBillingPlan(BillingPlan.Free);
+            customer.SetCurrentSubscription(null);
             await _customerRepository.UpdateAsync(customer, ct);
 
             _logger.LogInformation($"Customer: {customerId} billing plan was set to: {customer.BillingPlan}");
@@ -126,6 +137,18 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
         _ = newBillingPlan ?? throw new InternalServerException($"Billing plan for product: {stripeProductId} not found.");
 
         await SetCustomerBillingPlan(invoice.CustomerId, invoice.SubscriptionId, (BillingPlan)newBillingPlan, ct);
+    }
+
+    private async Task HandlePriceChanged(Price price, CancellationToken ct)
+    {
+        await _stripeService.UpsertPrice(price, ct);
+        _logger.LogInformation($"Price: {price.Id} data was updated.");
+    }
+
+    private async Task HandleProductChanged(Product product, CancellationToken ct)
+    {
+        await _stripeService.UpsertProduct(product, ct);
+        _logger.LogInformation($"Product: {product.Id} data was updated.");
     }
 
     private async Task SetCustomerBillingPlan(

@@ -11,7 +11,7 @@ public class Address : BaseEntity, IAggregateRoot
     public string PostalCode { get; private set; } = default!;
     public string Locality { get; private set; } = default!;
 
-    public virtual Country Country { get; private set; }
+    public virtual Country Country { get; private set; } = default!;
 
     private Address()
     {

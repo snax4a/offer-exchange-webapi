@@ -30,6 +30,8 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<UserAddress> UserAddresses => Set<UserAddress>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<StripeSubscription> StripeSubscriptions => Set<StripeSubscription>();
+    public DbSet<StripeProduct> StripeProducts => Set<StripeProduct>();
+    public DbSet<StripePrice> StripePrices => Set<StripePrice>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

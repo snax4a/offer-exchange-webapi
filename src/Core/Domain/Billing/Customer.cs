@@ -28,7 +28,7 @@ public class Customer : BaseEntity, IAggregateRoot
         return this;
     }
 
-    public Customer SetCurrentSubscription(string subscriptionId)
+    public Customer SetCurrentSubscription(string? subscriptionId)
     {
         CurrentSubscriptionId = subscriptionId;
         return this;

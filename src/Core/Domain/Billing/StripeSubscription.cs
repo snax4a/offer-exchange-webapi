@@ -6,6 +6,7 @@ public class StripeSubscription : BaseEntity<string>, IAggregateRoot
     public virtual Customer Customer { get; private set; } = default!;
     public string Status { get; private set; }
     public string PriceId { get; private set; }
+    public virtual StripePrice Price { get; private set; } = default!;
 
     // Summary:
     //     If the subscription has been canceled with the at_period_end flag set to true,

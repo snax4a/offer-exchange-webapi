@@ -12,4 +12,12 @@ public class AdminController : VersionedApiController
     {
         return Mediator.Send(new CreateCustomersRequest());
     }
+
+    [HttpPost("sync-stripe-products")]
+    [MustHavePermission(ResourceAction.Manage, Resource.Customers)]
+    [OpenApiOperation("Sync stripe products and prices data.", "")]
+    public Task<SyncStripeProductsResponse> SyncProductsAsync()
+    {
+        return Mediator.Send(new SyncStripeProductsRequest());
+    }
 }

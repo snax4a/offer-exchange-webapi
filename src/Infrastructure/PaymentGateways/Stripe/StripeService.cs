@@ -1,9 +1,12 @@
+using System.Text.Json;
 using FSH.WebApi.Application.Billing.Stripe;
 using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Common.Persistence;
 using FSH.WebApi.Application.Exchange.Billing.Stripe.DTOs;
 using FSH.WebApi.Domain.Billing;
+using FSH.WebApi.Infrastructure.Persistence.Context;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -19,16 +22,16 @@ public class StripeService : IStripeService
     private readonly StripeSettings _settings;
     private readonly StripeRoot.IStripeClient _stripeClient;
     private readonly ILogger<StripeService> _logger;
-    private readonly IRepositoryWithEvents<StripeSubscription> _subscriptionRepository;
+    private readonly ApplicationDbContext _db;
 
     public StripeService(
         ILogger<StripeService> logger,
         IOptions<StripeSettings> settings,
-        IRepositoryWithEvents<StripeSubscription> subscriptionRepository)
+        ApplicationDbContext dbContext)
     {
+        _db = dbContext;
         _logger = logger;
         _settings = settings.Value;
-        _subscriptionRepository = subscriptionRepository;
         _stripeClient = new StripeRoot.StripeClient(_settings.SecretKey);
     }
 
@@ -112,13 +115,10 @@ public class StripeService : IStripeService
         return await service.UpdateAsync(customerId, options, null, ct);
     }
 
-    public async Task CreateOrUpdateSubscription(StripeRoot.Subscription subscriptionData, CancellationToken ct = default)
+    public async Task UpsertSubscription(StripeRoot.Subscription subscriptionData, CancellationToken ct = default)
     {
-        var subscription = await _subscriptionRepository.GetByIdAsync(subscriptionData.Id, ct);
-
-        if (subscription is null)
-        {
-            var newSubscription = new StripeSubscription(
+        await _db.StripeSubscriptions
+            .Upsert(new StripeSubscription(
                 subscriptionData.Id,
                 subscriptionData.CustomerId,
                 subscriptionData.Status,
@@ -135,26 +135,8 @@ public class StripeService : IStripeService
                 subscriptionData.EndedAt,
                 subscriptionData.TrialStart,
                 subscriptionData.TrialEnd,
-                subscriptionData.Livemode);
-
-            await _subscriptionRepository.AddAsync(newSubscription, ct);
-        }
-        else
-        {
-            subscription.Update(
-                subscriptionData.Status,
-                subscriptionData.CancelAtPeriodEnd,
-                subscriptionData.CancelAt,
-                subscriptionData.CanceledAt,
-                subscriptionData.CurrentPeriodEnd,
-                subscriptionData.CurrentPeriodStart,
-                subscriptionData.StartDate,
-                subscriptionData.EndedAt,
-                subscriptionData.TrialStart,
-                subscriptionData.TrialEnd);
-
-            await _subscriptionRepository.UpdateAsync(subscription, ct);
-        }
+                subscriptionData.Livemode))
+            .RunAsync(ct);
     }
 
     public async Task<StripeRoot.Subscription> RetrieveSubscription(string subscriptionId, CancellationToken ct = default)
@@ -165,6 +147,63 @@ public class StripeService : IStripeService
         _ = subscription ?? throw new NotFoundException($"Subscription: ${subscriptionId} not found.");
 
         return subscription;
+    }
+
+    public async Task UpsertProduct(StripeRoot.Product productData, CancellationToken ct = default)
+    {
+        string serializedMetadata = JsonSerializer.Serialize(productData.Metadata);
+
+        await _db.StripeProducts
+            .Upsert(new StripeProduct(
+                productData.Id,
+                productData.Name,
+                productData.Description,
+                productData.Active,
+                productData.Livemode,
+                serializedMetadata))
+            .RunAsync(ct);
+    }
+
+    public async Task<IEnumerable<StripeRoot.Product>> ListAllActiveProducts(CancellationToken ct = default)
+    {
+        var service = new StripeRoot.ProductService(_stripeClient);
+        var options = new StripeRoot.ProductListOptions { Active = true, Limit = 100 };
+        var products = await service.ListAsync(options, null, ct);
+
+        return products.Data;
+    }
+
+    public async Task<IEnumerable<StripeRoot.Price>> ListAllActivePrices(CancellationToken ct = default)
+    {
+        var service = new StripeRoot.PriceService(_stripeClient);
+        var options = new StripeRoot.PriceListOptions { Active = true, Limit = 100 };
+        var prices = await service.ListAsync(options, null, ct);
+
+        return prices.Data;
+    }
+
+    public async Task UpsertPrice(StripeRoot.Price priceData, CancellationToken ct = default)
+    {
+        // var price = await _priceRepository.GetByIdAsync(priceData.Id, ct);
+        string serializedMetadata = JsonSerializer.Serialize(priceData.Metadata);
+
+        await _db.StripePrices
+            .Upsert(new StripePrice(
+                priceData.Id,
+                priceData.ProductId,
+                priceData.Type,
+                priceData.Nickname,
+                priceData.UnitAmount,
+                priceData.UnitAmountDecimal,
+                priceData.Currency,
+                priceData.TaxBehavior,
+                priceData.Recurring.Interval,
+                priceData.Recurring.IntervalCount,
+                priceData.Recurring.TrialPeriodDays,
+                priceData.Active,
+                priceData.Livemode,
+                serializedMetadata))
+            .RunAsync(ct);
     }
 
     public BillingPlan? GetBillingPlanForStripeProduct(string productId)
