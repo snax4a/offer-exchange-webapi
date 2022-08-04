@@ -7,5 +7,6 @@ public class CustomerWithSubscriptionByUserIdSpec : Specification<Customer>, ISi
     public CustomerWithSubscriptionByUserIdSpec(Guid userId)
         => Query
             .Where(c => c.UserId == userId)
-            .Include(c => c.CurrentSubscription);
+            .Include(c => c.CurrentSubscription)
+                .ThenInclude(s => s!.Price);
 }

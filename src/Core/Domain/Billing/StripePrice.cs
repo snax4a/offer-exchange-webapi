@@ -3,6 +3,7 @@ namespace FSH.WebApi.Domain.Billing;
 public class StripePrice : BaseEntity<string>, IAggregateRoot
 {
     public string ProductId { get; private set; }
+    public virtual StripeProduct Product { get; set; } = default!;
     public string Type { get; private set; }
     public string? Description { get; private set; }
     public long? UnitAmount { get; private set; }

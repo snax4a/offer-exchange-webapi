@@ -81,7 +81,7 @@ public class StripeProductConfig : IEntityTypeConfiguration<StripeProduct>
 
         builder
             .HasMany(product => product.Prices)
-            .WithOne()
+            .WithOne(p => p.Product)
             .HasForeignKey(price => price.ProductId);
     }
 }

@@ -3,7 +3,7 @@ namespace FSH.WebApi.Application.Exchange.Billing.Stripe.DTOs;
 public class StripeSubscriptionDto
 {
     public string Status { get; set; } = default!;
-    public string PriceId { get; set; } = default!;
+    public StripePriceDto Price { get; set; } = default!;
     public bool CancelAtPeriodEnd { get; set; }
     public DateTime? CancelAt { get; set; }
     public DateTime? CanceledAt { get; set; }
