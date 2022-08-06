@@ -118,7 +118,7 @@ public class StripeEventConfig : IEntityTypeConfiguration<StripeEvent>
 
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).HasMaxLength(255);
-        builder.Property(e => e.AccountId).HasMaxLength(255).IsRequired();
+        builder.Property(e => e.AccountId).HasMaxLength(255).IsRequired(false);
         builder.Property(e => e.ApiVersion).HasMaxLength(50).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.ProcessedAt).IsRequired();
