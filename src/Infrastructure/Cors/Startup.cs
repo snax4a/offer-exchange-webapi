@@ -18,7 +18,8 @@ internal static class Startup
 
         return services.AddCors(opt =>
             opt.AddPolicy(CorsPolicy, policy =>
-                policy.AllowAnyHeader()
+                policy.SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
                     .WithOrigins(origins.ToArray())));
