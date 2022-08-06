@@ -121,8 +121,8 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
             return;
         }
 
-        // Retrieve subscription from stripe and make sure its status is active.
         var stripeSubscription = await _stripeService.RetrieveSubscription(invoice.SubscriptionId, ct);
+        await _stripeService.UpsertSubscription(stripeSubscription, ct);
 
         if (stripeSubscription.Status != "active")
         {
