@@ -121,31 +121,47 @@ public class StripeSubscription : BaseEntity<string>, IAggregateRoot
     }
 
     public StripeSubscription Update(
+        string customerId,
         string status,
+        string priceId,
         bool cancelAtPeriodEnd,
         DateTime? cancelAt,
         DateTime? canceledAt,
+        string collectionMethod,
+        DateTime created,
+        string currency,
         DateTime currentPeriodEnd,
         DateTime currentPeriodStart,
         DateTime startDate,
         DateTime? endedAt,
         DateTime? trialStart,
-        DateTime? trialEnd)
+        DateTime? trialEnd,
+        bool livemode)
     {
+        if (string.IsNullOrWhiteSpace(customerId)) throw new ArgumentNullException(nameof(customerId));
+        if (string.IsNullOrWhiteSpace(status)) throw new ArgumentNullException(nameof(status));
+        if (string.IsNullOrWhiteSpace(priceId)) throw new ArgumentNullException(nameof(priceId));
+        if (string.IsNullOrWhiteSpace(currency)) throw new ArgumentNullException(nameof(currency));
         if (currentPeriodEnd == default) throw new ArgumentNullException(nameof(currentPeriodEnd));
         if (currentPeriodStart == default) throw new ArgumentNullException(nameof(currentPeriodStart));
         if (startDate == default) throw new ArgumentNullException(nameof(startDate));
 
+        CustomerId = customerId;
         Status = status;
+        PriceId = priceId;
         CancelAtPeriodEnd = cancelAtPeriodEnd;
         CancelAt = cancelAt;
         CanceledAt = canceledAt;
+        CollectionMethod = collectionMethod;
+        Created = created;
+        Currency = currency;
         CurrentPeriodEnd = currentPeriodEnd;
         CurrentPeriodStart = currentPeriodStart;
         StartDate = startDate;
         EndedAt = endedAt;
         TrialStart = trialStart;
         TrialEnd = trialEnd;
+        Livemode = livemode;
 
         return this;
     }

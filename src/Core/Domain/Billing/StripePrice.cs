@@ -62,6 +62,7 @@ public class StripePrice : BaseEntity<string>, IAggregateRoot
     }
 
     public StripePrice Update(
+        string productId,
         string type,
         string? description,
         long? unitAmount,
@@ -75,6 +76,7 @@ public class StripePrice : BaseEntity<string>, IAggregateRoot
         bool livemode,
         string metadata)
     {
+        if (string.IsNullOrWhiteSpace(productId)) throw new ArgumentNullException(nameof(productId));
         if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
         if (string.IsNullOrWhiteSpace(currency)) throw new ArgumentNullException(nameof(currency));
         if (string.IsNullOrWhiteSpace(taxBehavior)) throw new ArgumentNullException(nameof(taxBehavior));
@@ -85,6 +87,7 @@ public class StripePrice : BaseEntity<string>, IAggregateRoot
         if (unitAmountDecimal < 0) throw new ArgumentOutOfRangeException(nameof(unitAmountDecimal));
         if (string.IsNullOrWhiteSpace(metadata)) throw new ArgumentNullException(nameof(metadata));
 
+        ProductId = productId;
         Type = type;
         Description = description;
         UnitAmount = unitAmount;
