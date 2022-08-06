@@ -26,15 +26,18 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
 {
     private readonly IStripeService _stripeService;
     private readonly IRepositoryWithEvents<Domain.Billing.Customer> _customerRepository;
+    private readonly IRepositoryWithEvents<StripeEvent> _eventRepository;
     private readonly ILogger<StripeWebhookRequestHandler> _logger;
 
     public StripeWebhookRequestHandler(
         IStripeService stripeService,
         IRepositoryWithEvents<Domain.Billing.Customer> customerRepository,
+        IRepositoryWithEvents<StripeEvent> eventRepository,
         ILogger<StripeWebhookRequestHandler> logger)
     {
         _stripeService = stripeService;
         _customerRepository = customerRepository;
+        _eventRepository = eventRepository;
         _logger = logger;
     }
 
@@ -45,6 +48,13 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
             Event stripeEvent = _stripeService.ConstructEvent(request.Payload, request.Signature);
 
             _logger.LogInformation($"Processing stripe webhook request with type: {stripeEvent.Type} found for: {stripeEvent.Id}");
+
+            // To avoid issues with duplicate events, we will only process events that have not been previously processed
+            if (await WasEventAlreadyProcessed(stripeEvent.Id, ct))
+            {
+                _logger.LogInformation($"The event with id: {stripeEvent.Id} has already been processed, skipping...");
+                return true;
+            }
 
             switch (stripeEvent.Type)
             {
@@ -77,6 +87,8 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
                     _logger.LogWarning($"Unhandled stripe webhook request type: {stripeEvent.Type}");
                     return false;
             }
+
+            await StoreProcessedEvent(stripeEvent, CancellationToken.None);
         }
         catch (Exception e)
         {
@@ -170,5 +182,16 @@ public class StripeWebhookRequestHandler : IRequestHandler<StripeWebhookRequest,
         await _customerRepository.UpdateAsync(customer, ct);
 
         _logger.LogInformation($"Customer: {customer.Id} billing plan was changed from: {oldBillingPlan} to: {newBillingPlan}.");
+    }
+
+    private async Task<bool> WasEventAlreadyProcessed(string eventId, CancellationToken ct)
+    {
+        return await _eventRepository.GetByIdAsync(eventId, ct) is not null;
+    }
+
+    private async Task StoreProcessedEvent(Event ev, CancellationToken ct)
+    {
+        var stripeEvent = new StripeEvent(ev.Id, ev.Account, ev.ApiVersion, ev.Created);
+        await _eventRepository.AddAsync(stripeEvent, ct);
     }
 }

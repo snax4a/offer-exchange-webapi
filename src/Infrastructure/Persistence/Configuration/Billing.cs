@@ -109,3 +109,18 @@ public class StripePriceConfig : IEntityTypeConfiguration<StripePrice>
         builder.Property(p => p.Metadata).HasColumnType("jsonb").IsRequired();
     }
 }
+
+public class StripeEventConfig : IEntityTypeConfiguration<StripeEvent>
+{
+    public void Configure(EntityTypeBuilder<StripeEvent> builder)
+    {
+        builder.ToTable("StripeEvents", SchemaNames.Billing);
+
+        builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).HasMaxLength(255);
+        builder.Property(e => e.AccountId).HasMaxLength(255).IsRequired();
+        builder.Property(e => e.ApiVersion).HasMaxLength(50).IsRequired();
+        builder.Property(e => e.CreatedAt).IsRequired();
+        builder.Property(e => e.ProcessedAt).IsRequired();
+    }
+}

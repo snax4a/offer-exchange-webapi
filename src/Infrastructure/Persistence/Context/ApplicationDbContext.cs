@@ -32,6 +32,7 @@ public class ApplicationDbContext : BaseDbContext
     public DbSet<StripeSubscription> StripeSubscriptions => Set<StripeSubscription>();
     public DbSet<StripeProduct> StripeProducts => Set<StripeProduct>();
     public DbSet<StripePrice> StripePrices => Set<StripePrice>();
+    public DbSet<StripeEvent> StripeEvents => Set<StripeEvent>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
