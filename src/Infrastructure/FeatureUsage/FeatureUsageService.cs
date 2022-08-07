@@ -1,6 +1,7 @@
 using FSH.Webapi.Core.Application.FeatureUsage;
 using FSH.WebApi.Application.Common.Interfaces;
 using FSH.WebApi.Application.Common.Persistence;
+using FSH.WebApi.Application.Exchange.Billing.Customers.DTOs;
 using FSH.WebApi.Application.Exchange.Billing.Customers.Specifications;
 using FSH.WebApi.Core.Shared.FeatureUsage;
 using FSH.WebApi.Domain.Billing;
@@ -47,12 +48,12 @@ public class FeatureUsageService : IFeatureUsageService
         var customer = await GetCustomer();
         var featureLimit = GetFeatureLimit(featureId, customer.BillingPlan);
         short featureLimitValue = featureLimit?.Value ?? short.MaxValue;
-        short featureUsage = await GetFeatureUsage(featureId);
+        short? featureUsage = await GetFeatureUsage(featureId);
 
-        return featureUsage < featureLimitValue;
+        return featureUsage == null || featureUsage < featureLimitValue;
     }
 
-    // Get feature limit for given billing plan from limiter settings.
+    // Get specific feature limit for given billing plan.
     public FeatureLimit? GetFeatureLimit(AppFeatureIds featureId, BillingPlan billingPlan)
     {
         return _limiterSettings.Plans
@@ -61,7 +62,38 @@ public class FeatureUsageService : IFeatureUsageService
             .FirstOrDefault(f => f.FeatureId == featureId);
     }
 
-    public async Task<short> GetFeatureUsage(AppFeatureIds featureId)
+    // Get all feature limits for given billing plan.
+    public List<FeatureLimit> GetAllFeatureLimits(BillingPlan billingPlan)
+    {
+        return _limiterSettings.Plans
+            .Where(p => p.PlanId == billingPlan)
+            .SelectMany(p => p.FeatureLimits)
+            .ToList();
+    }
+
+    // Get customer's usage data along with his plan limits.
+    public async Task<List<FeatureUsageDetailsDto>> GetFeatureUsageData()
+    {
+        var customer = await GetCustomer();
+        var planLimits = GetAllFeatureLimits(customer.BillingPlan);
+        List<FeatureUsageDetailsDto> usageData = new();
+
+        foreach (var featureLimit in planLimits)
+        {
+            short? featureUsage = await GetFeatureUsage(featureLimit.FeatureId);
+            usageData.Add(new FeatureUsageDetailsDto
+            {
+                FeatureId = featureLimit.FeatureId,
+                Usage = featureUsage,
+                Limit = featureLimit.Value,
+                LimitType = featureLimit.Type
+            });
+        }
+
+        return usageData;
+    }
+
+    public async Task<short?> GetFeatureUsage(AppFeatureIds featureId)
     {
         try
         {
@@ -71,7 +103,7 @@ public class FeatureUsageService : IFeatureUsageService
                     return await GetInquiriesSent();
                 default:
                     _logger.LogWarning($"Getting usage for feature {featureId} is not supported.");
-                    return 0;
+                    return null;
             }
         }
         catch (Exception ex)

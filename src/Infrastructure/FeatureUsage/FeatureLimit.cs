@@ -8,9 +8,3 @@ public class FeatureLimit
     public LimitType Type { get; set; }
     public short Value { get; set; }
 }
-
-public enum LimitType
-{
-    Boolean, // 1 - Enabled, 0 - Disabled
-    Limit
-}

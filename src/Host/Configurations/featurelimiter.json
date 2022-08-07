@@ -7,17 +7,17 @@
         "FeatureLimits": [
           {
             "FeatureId": "Inquiries_MonthlyCount",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 5
           },
           {
             "FeatureId": "Inquiries_NumberOfRecipients",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 5
           },
           {
             "FeatureId": "Inquiries_NumberOfProducts",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 15
           }
         ]
@@ -27,17 +27,17 @@
         "FeatureLimits": [
           {
             "FeatureId": "Inquiries_MonthlyCount",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 20
           },
           {
             "FeatureId": "Inquiries_NumberOfRecipients",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 10
           },
           {
             "FeatureId": "Inquiries_NumberOfProducts",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 30
           }
         ]
@@ -47,17 +47,17 @@
         "FeatureLimits": [
           {
             "FeatureId": "Inquiries_MonthlyCount",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 40
           },
           {
             "FeatureId": "Inquiries_NumberOfRecipients",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 20
           },
           {
             "FeatureId": "Inquiries_NumberOfProducts",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 60
           }
         ]
@@ -67,17 +67,17 @@
         "FeatureLimits": [
           {
             "FeatureId": "Inquiries_MonthlyCount",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 80
           },
           {
             "FeatureId": "Inquiries_NumberOfRecipients",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 40
           },
           {
             "FeatureId": "Inquiries_NumberOfProducts",
-            "LimitType": "Limit",
+            "Type": "Limit",
             "Value": 120
           }
         ]

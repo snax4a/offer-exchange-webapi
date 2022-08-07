@@ -34,6 +34,7 @@ services:
       - "StripeSettings__BasicProductId=${STRIPE_BASIC_PRODUCT_ID}"
       - "StripeSettings__StandardProductId=${STRIPE_STANDARD_PRODUCT_ID}"
       - "StripeSettings__EnterpriseProductId=${STRIPE_ENTERPRISE_PRODUCT_ID}"
+      - "FeatureUsageLimiterSettings__EnableLimiter=${FEATURE_USAGE_LIMITER_ENABLED}"
     volumes:
       - ${CERT_VOLUME_PATH}:/https:ro
       - ${LOGS_VOLUME_PATH}:/app/Logs:rw

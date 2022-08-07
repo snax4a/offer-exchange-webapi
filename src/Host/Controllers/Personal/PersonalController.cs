@@ -36,10 +36,17 @@ public class PersonalController : VersionNeutralApiController
     }
 
     [HttpGet("billing-details")]
-    [OpenApiOperation("Get customer billing details for currently logged in user.", "")]
+    [OpenApiOperation("Get billing details for currently logged in user.", "")]
     public Task<CustomerBillingDetailsDto> GetBillingDetailsAsync()
     {
         return Mediator.Send(new GetCustomerBillingDetailsRequest());
+    }
+
+    [HttpGet("feature-usage")]
+    [OpenApiOperation("Get feature usage data for currently logged in user.", "")]
+    public Task<List<FeatureUsageDetailsDto>> GetFeatureUsageAsync()
+    {
+        return Mediator.Send(new GetCustomerFeatureUsageRequest());
     }
 
     [HttpPut("change-password")]
