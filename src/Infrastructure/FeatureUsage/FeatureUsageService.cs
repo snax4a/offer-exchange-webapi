@@ -47,8 +47,15 @@ public class FeatureUsageService : IFeatureUsageService
 
         var customer = await GetCustomer();
         var featureLimit = GetFeatureLimit(featureId, customer.BillingPlan);
-        short featureLimitValue = featureLimit?.Value ?? short.MaxValue;
+        short featureLimitValue = featureLimit?.Value
+            ?? throw new Exception($"Limit value not found for feature id: {featureId}");
         short? featureUsage = await GetFeatureUsage(featureId);
+
+        if (valueToCheck is not null)
+        {
+            // Check against static limit
+            return valueToCheck <= featureLimitValue;
+        }
 
         return featureUsage == null || featureUsage < featureLimitValue;
     }
