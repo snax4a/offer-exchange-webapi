@@ -25,7 +25,7 @@
         "billing_scheme": "per_unit",
         "currency": "pln",
         "unit_amount": 5000,
-        "tax_behavior": "inclusive",
+        "tax_behavior": "exclusive",
         "recurring": {
           "interval": "month",
           "interval_count": 1,
@@ -43,7 +43,7 @@
         "billing_scheme": "per_unit",
         "currency": "pln",
         "unit_amount": 45000,
-        "tax_behavior": "inclusive",
+        "tax_behavior": "exclusive",
         "recurring": {
           "interval": "year",
           "interval_count": 1,
@@ -73,7 +73,7 @@
         "billing_scheme": "per_unit",
         "currency": "pln",
         "unit_amount": 8000,
-        "tax_behavior": "inclusive",
+        "tax_behavior": "exclusive",
         "recurring": {
           "interval": "month",
           "interval_count": 1,
@@ -91,7 +91,7 @@
         "billing_scheme": "per_unit",
         "currency": "pln",
         "unit_amount": 72000,
-        "tax_behavior": "inclusive",
+        "tax_behavior": "exclusive",
         "recurring": {
           "interval": "year",
           "interval_count": 1,
@@ -121,7 +121,7 @@
         "billing_scheme": "per_unit",
         "currency": "pln",
         "unit_amount": 14000,
-        "tax_behavior": "inclusive",
+        "tax_behavior": "exclusive",
         "recurring": {
           "interval": "month",
           "interval_count": 1,
@@ -139,7 +139,7 @@
         "billing_scheme": "per_unit",
         "currency": "pln",
         "unit_amount": 124000,
-        "tax_behavior": "inclusive",
+        "tax_behavior": "exclusive",
         "recurring": {
           "interval": "year",
           "interval_count": 1,
