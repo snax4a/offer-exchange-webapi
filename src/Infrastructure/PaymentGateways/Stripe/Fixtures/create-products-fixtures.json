@@ -10,7 +10,7 @@
       "params": {
         "name": "Basic",
         "type": "service",
-        "tax_code": "txcd_10103000",
+        "tax_code": "txcd_10103001",
         "description": "Podstawowy plan aplikacji Offer Exchange",
         "statement_descriptor": "Offer Exchange"
       }
@@ -58,7 +58,7 @@
       "params": {
         "name": "Standard",
         "type": "service",
-        "tax_code": "txcd_10103000",
+        "tax_code": "txcd_10103001",
         "description": "Standardowy plan aplikacji Offer Exchange",
         "statement_descriptor": "Offer Exchange"
       }
@@ -106,7 +106,7 @@
       "params": {
         "name": "Enterprise",
         "type": "service",
-        "tax_code": "txcd_10103000",
+        "tax_code": "txcd_10103001",
         "description": "Korporacyjny plan aplikacji Offer Exchange",
         "statement_descriptor": "Offer Exchange"
       }
