@@ -108,6 +108,9 @@ public class FeatureUsageService : IFeatureUsageService
             {
                 case AppFeatureIds.Inquiries_MonthlyCount:
                     return await GetInquiriesSent();
+                case AppFeatureIds.Inquiries_NumberOfRecipients:
+                case AppFeatureIds.Inquiries_NumberOfProducts:
+                    return null;
                 default:
                     _logger.LogWarning($"Getting usage for feature {featureId} is not supported.");
                     return null;
