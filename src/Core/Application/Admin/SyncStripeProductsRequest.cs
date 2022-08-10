@@ -1,6 +1,5 @@
 using FSH.WebApi.Application.Admin.DTOs;
 using FSH.WebApi.Application.Billing.Stripe;
-using FSH.WebApi.Domain.Billing;
 
 namespace FSH.WebApi.Application.Admin;
 
