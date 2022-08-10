@@ -9,6 +9,11 @@ public class RequestLoggingMiddleware : IMiddleware
 {
     public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
     {
+        string ipAddress = httpContext.Request.Headers.ContainsKey("X-Forwarded-For")
+            ? httpContext.Request.Headers["X-Forwarded-For"]
+            : httpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "N/A";
+
+        LogContext.PushProperty("RemoteIpAddress", ipAddress);
         LogContext.PushProperty("RequestTimeUTC", DateTime.UtcNow);
         string requestBody = string.Empty;
         if (httpContext.Request.Path.ToString().Contains("tokens"))
