@@ -10,15 +10,17 @@ public class Group : AuditableEntity, IAggregateRoot
 
     public Group(string name, ColorName color)
     {
-        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        string strippedName = name.StripHtml();
+        if (string.IsNullOrWhiteSpace(strippedName)) throw new ArgumentNullException(nameof(name));
 
-        Name = name.StripHtml();
+        Name = strippedName;
         Color = color;
     }
 
     public Group Update(string? name, ColorName? color)
     {
-        if (name is not null && Name?.Equals(name) is not true) Name = name.StripHtml();
+        string? strippedName = name?.StripHtml();
+        if (strippedName is not null && Name?.Equals(strippedName) is not true) Name = strippedName;
         if (color is not null && Color != color) Color = (ColorName)color;
         return this;
     }

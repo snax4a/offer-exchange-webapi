@@ -22,18 +22,25 @@ public class Address : BaseEntity, IAggregateRoot
 
     public Address(string countryCode, string countrySubdivisionName, string line1, string? line2, string postalCode, string locality)
     {
-        if (string.IsNullOrWhiteSpace(countryCode)) throw new ArgumentNullException(nameof(countryCode));
-        if (string.IsNullOrWhiteSpace(countrySubdivisionName)) throw new ArgumentNullException(nameof(countrySubdivisionName));
-        if (string.IsNullOrWhiteSpace(line1)) throw new ArgumentNullException(nameof(line1));
-        if (string.IsNullOrWhiteSpace(postalCode)) throw new ArgumentNullException(nameof(postalCode));
-        if (string.IsNullOrWhiteSpace(locality)) throw new ArgumentNullException(nameof(locality));
+        string strippedCountryCode = countryCode.StripHtml();
+        string strippedCountrySubdivisionName = countrySubdivisionName.StripHtml();
+        string strippedLine1 = line1.StripHtml();
+        string? strippedLine2 = line2?.StripHtml();
+        string strippedPostalCode = postalCode.StripHtml();
+        string strippedLocality = locality.StripHtml();
 
-        CountryCode = countryCode.StripHtml();
-        CountrySubdivisionName = countrySubdivisionName.StripHtml();
-        Line1 = line1.StripHtml();
-        Line2 = line2?.StripHtml();
-        PostalCode = postalCode.StripHtml();
-        Locality = locality.StripHtml();
+        if (string.IsNullOrWhiteSpace(strippedCountryCode)) throw new ArgumentNullException(nameof(countryCode));
+        if (string.IsNullOrWhiteSpace(strippedCountrySubdivisionName)) throw new ArgumentNullException(nameof(countrySubdivisionName));
+        if (string.IsNullOrWhiteSpace(strippedLine1)) throw new ArgumentNullException(nameof(line1));
+        if (string.IsNullOrWhiteSpace(strippedPostalCode)) throw new ArgumentNullException(nameof(postalCode));
+        if (string.IsNullOrWhiteSpace(strippedLocality)) throw new ArgumentNullException(nameof(locality));
+
+        CountryCode = strippedCountryCode;
+        CountrySubdivisionName = strippedCountrySubdivisionName;
+        Line1 = strippedLine1;
+        Line2 = strippedLine2;
+        PostalCode = strippedPostalCode;
+        Locality = strippedLocality;
     }
 
     public override bool Equals(object? obj)

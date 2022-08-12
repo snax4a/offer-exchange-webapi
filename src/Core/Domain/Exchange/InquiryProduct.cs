@@ -17,8 +17,12 @@ public class InquiryProduct : AuditableEntity
 
     public InquiryProduct(Guid inquiryId, string name, int quantity, DateOnly? preferredDeliveryDate)
     {
+        string strippedName = name.StripHtml();
+
+        if (string.IsNullOrEmpty(strippedName)) throw new ArgumentNullException(nameof(name));
+
         InquiryId = inquiryId;
-        Name = name.StripHtml();
+        Name = strippedName;
         Quantity = quantity;
         PreferredDeliveryDate = preferredDeliveryDate;
     }

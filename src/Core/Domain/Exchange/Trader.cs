@@ -14,23 +14,33 @@ public class Trader : AuditableEntity, IAggregateRoot
 
     public Trader(string firstName, string lastName, string email, string? companyName)
     {
-        if (string.IsNullOrWhiteSpace(firstName)) throw new ArgumentNullException(nameof(firstName));
-        if (string.IsNullOrWhiteSpace(lastName)) throw new ArgumentNullException(nameof(lastName));
-        if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException(nameof(email));
-        if (companyName?.Length == 0) throw new ArgumentException(nameof(companyName));
+        string strippedFirstName = firstName.StripHtml();
+        string strippedLastName = lastName.StripHtml();
+        string strippedEmail = email.StripHtml();
+        string? strippedCompanyName = companyName?.StripHtml();
 
-        FirstName = firstName.StripHtml();
-        LastName = lastName.StripHtml();
-        Email = email.StripHtml();
-        CompanyName = companyName?.StripHtml();
+        if (string.IsNullOrWhiteSpace(strippedFirstName)) throw new ArgumentNullException(nameof(firstName));
+        if (string.IsNullOrWhiteSpace(strippedLastName)) throw new ArgumentNullException(nameof(lastName));
+        if (string.IsNullOrWhiteSpace(strippedEmail)) throw new ArgumentNullException(nameof(email));
+        if (strippedCompanyName?.Length == 0) throw new ArgumentException(nameof(companyName));
+
+        FirstName = strippedFirstName;
+        LastName = strippedLastName;
+        Email = strippedEmail;
+        CompanyName = strippedCompanyName;
     }
 
     public Trader Update(string? firstName, string? lastName, string? email, string? companyName)
     {
-        if (firstName is not null && FirstName?.Equals(firstName) is not true) FirstName = firstName.StripHtml();
-        if (lastName is not null && LastName?.Equals(lastName) is not true) LastName = lastName.StripHtml();
-        if (email is not null && Email?.Equals(email) is not true) Email = email.StripHtml();
-        if (CompanyName?.Equals(companyName) is not true) CompanyName = companyName?.StripHtml();
+        string? strippedFirstName = firstName?.StripHtml();
+        string? strippedLastName = lastName?.StripHtml();
+        string? strippedEmail = email?.StripHtml();
+        string? strippedCompanyName = companyName?.StripHtml();
+
+        if (strippedFirstName is not null && FirstName?.Equals(firstName) is not true) FirstName = strippedFirstName;
+        if (strippedLastName is not null && LastName?.Equals(lastName) is not true) LastName = strippedLastName;
+        if (strippedEmail is not null && Email?.Equals(email) is not true) Email = strippedEmail;
+        if (CompanyName?.Equals(strippedCompanyName) is not true) CompanyName = strippedCompanyName;
         return this;
     }
 

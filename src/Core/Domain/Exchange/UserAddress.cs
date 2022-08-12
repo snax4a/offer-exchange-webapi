@@ -15,16 +15,20 @@ public class UserAddress : AuditableEntity, IAggregateRoot
 
     public UserAddress(string name, Address address)
     {
-        if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+        string strippedName = name.StripHtml();
 
-        Name = name.StripHtml();
+        if (string.IsNullOrEmpty(strippedName)) throw new ArgumentNullException(nameof(name));
+
+        Name = strippedName;
         Address = address;
         AddressId = address.Id;
     }
 
     public UserAddress Update(string? name, Address? newAddress)
     {
-        if (!string.IsNullOrEmpty(name) && Name?.Equals(name) is not true) Name = name;
+        string? strippedName = name?.StripHtml();
+
+        if (!string.IsNullOrEmpty(strippedName) && Name?.Equals(strippedName) is not true) Name = strippedName;
         if (newAddress is not null && !Address.Equals(newAddress))
         {
             Address = newAddress;

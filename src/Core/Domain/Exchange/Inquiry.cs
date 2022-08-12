@@ -30,17 +30,20 @@ public class Inquiry : AuditableEntity, IAggregateRoot
         IList<InquiryProduct> products,
         IList<Guid> recipientIds)
     {
+        string strippedName = name.StripHtml();
+        string strippedTitle = title.StripHtml();
+
         if (id == Guid.Empty) throw new ArgumentException("Cannot be empty Guid", nameof(id));
         if (referenceNumber <= 0) throw new ArgumentException("Must be a positive number", nameof(referenceNumber));
-        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-        if (string.IsNullOrWhiteSpace(title)) throw new ArgumentNullException(nameof(title));
+        if (string.IsNullOrWhiteSpace(strippedName)) throw new ArgumentNullException(nameof(name));
+        if (string.IsNullOrWhiteSpace(strippedTitle)) throw new ArgumentNullException(nameof(title));
         if (products.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(products));
         if (recipientIds.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(recipientIds));
 
         Id = id;
         ReferenceNumber = referenceNumber;
-        Name = name.StripHtml();
-        Title = title.StripHtml();
+        Name = strippedName;
+        Title = strippedTitle;
         ShippingAddress = shippingAddress;
         ShippingAddressId = shippingAddress?.Id;
         Products = products;

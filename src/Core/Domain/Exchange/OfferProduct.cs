@@ -37,12 +37,16 @@ public class OfferProduct : BaseEntity
         string? replacementName,
         string? freebie)
     {
+        string? strippedReplacementName = replacementName?.StripHtml();
+        string? strippedFreebie = freebie?.StripHtml();
+
         if (offerId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(offerId));
         if (inquiryProductId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(inquiryProductId));
         if (string.IsNullOrWhiteSpace(currencyCode)) throw new ArgumentException("Must be valid ISO 4217", nameof(currencyCode));
         if (netPrice <= 0) throw new ArgumentException("Must be a positive number", nameof(netPrice));
         if (quantity <= 0) throw new ArgumentException("Must be a positive number", nameof(quantity));
-        if (isReplacement && string.IsNullOrWhiteSpace(replacementName)) throw new ArgumentNullException(nameof(replacementName));
+        if (isReplacement && string.IsNullOrWhiteSpace(strippedReplacementName)) throw new ArgumentNullException(nameof(replacementName));
+        if (strippedFreebie?.Length == 0) throw new ArgumentNullException(nameof(freebie));
 
         OfferId = offerId;
         InquiryProductId = inquiryProductId;
@@ -54,8 +58,8 @@ public class OfferProduct : BaseEntity
         GrossValue = NetValue + CalculateVAT(NetValue, VatRate ?? 0);
         DeliveryDate = deliveryDate;
         IsReplacement = isReplacement;
-        ReplacementName = replacementName?.StripHtml();
-        Freebie = freebie?.StripHtml();
+        ReplacementName = strippedReplacementName;
+        Freebie = strippedFreebie;
     }
 
     private long CalculateVAT(long value, short vatRate)
