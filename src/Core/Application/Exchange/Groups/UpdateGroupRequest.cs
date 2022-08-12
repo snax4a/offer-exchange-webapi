@@ -19,6 +19,7 @@ public class UpdateGroupRequestValidator : CustomValidator<UpdateGroupRequest>
             .NotEmpty()
             .MinimumLength(3)
             .MaximumLength(20)
+            .NotContainForbiddenCharacters()
             .MustAsync(async (group, name, ct) =>
                     await repository.GetBySpecAsync(new GroupByNameAndOwnerSpec(name, currentUser.GetUserId()), ct)
                         is not Group existingGroup || existingGroup.Id == group.Id)

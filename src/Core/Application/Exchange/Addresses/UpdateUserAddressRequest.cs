@@ -27,20 +27,22 @@ public class UpdateUserAddressRequestValidator : CustomValidator<UpdateUserAddre
         RuleFor(ua => ua.Name)
             .NotEmpty()
             .Length(1, 100)
+            .NotContainForbiddenCharacters()
             .MustAsync(async (req, name, ct) => await addressRepo.GetBySpecAsync(new UserAddressByNameAndNotIdSpec(name, req.Id, currentUser.GetUserId()), ct) is null)
                 .WithMessage((_, name) => string.Format(localizer["address.name-already-exists"], name));
 
         RuleFor(ua => ua.CountryCode)
             .NotEmpty()
             .Length(2)
+            .NotContainForbiddenCharacters()
             .MustAsync(async (code, ct) => await countryRepo.GetByIdAsync(code, ct) is not null)
             .WithMessage((_, name) => string.Format(localizer["country.notfound"], name));
 
-        RuleFor(ua => ua.CountrySubdivisionName).NotEmpty().Length(2, 100);
-        RuleFor(ua => ua.Line1).NotEmpty().Length(3, 100);
-        RuleFor(ua => ua.Line2).Length(1, 100).Unless(ua => ua.Line2 is null);
-        RuleFor(ua => ua.PostalCode).NotEmpty().MaximumLength(12);
-        RuleFor(ua => ua.Locality).NotEmpty().Length(3, 60);
+        RuleFor(ua => ua.CountrySubdivisionName).NotEmpty().Length(2, 100).NotContainForbiddenCharacters();
+        RuleFor(ua => ua.Line1).NotEmpty().Length(3, 100).NotContainForbiddenCharacters();
+        RuleFor(ua => ua.Line2).Length(1, 100).NotContainForbiddenCharacters().Unless(ua => ua.Line2 is null);
+        RuleFor(ua => ua.PostalCode).NotEmpty().MaximumLength(12).NotContainForbiddenCharacters();
+        RuleFor(ua => ua.Locality).NotEmpty().Length(3, 60).NotContainForbiddenCharacters();
     }
 }
 

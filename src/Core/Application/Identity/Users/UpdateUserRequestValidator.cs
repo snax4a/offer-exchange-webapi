@@ -7,14 +7,15 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
         CascadeMode = CascadeMode.Stop;
 
         RuleFor(u => u.Id).NotEmpty();
-        RuleFor(u => u.FirstName).NotEmpty().MinimumLength(3).MaximumLength(60);
-        RuleFor(u => u.LastName).NotEmpty().MinimumLength(3).MaximumLength(60);
-        RuleFor(u => u.CompanyName).NotEmpty().MinimumLength(3).MaximumLength(100);
+        RuleFor(u => u.FirstName).NotEmpty().MinimumLength(3).MaximumLength(60).NotContainForbiddenCharacters();
+        RuleFor(u => u.LastName).NotEmpty().MinimumLength(3).MaximumLength(60).NotContainForbiddenCharacters();
+        RuleFor(u => u.CompanyName).NotEmpty().MinimumLength(3).MaximumLength(100).NotContainForbiddenCharacters();
 
         RuleFor(u => u.Email)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage(localizer["Invalid Email Address."])
+            .NotContainForbiddenCharacters()
             .MustAsync(async (user, email, _) => !await userService.ExistsWithEmailAsync(email, user.Id))
                 .WithMessage((_, email) => string.Format(localizer["email.alreadyregistered"], email));
 
@@ -23,6 +24,7 @@ public class UpdateUserRequestValidator : CustomValidator<UpdateUserRequest>
 
         RuleFor(u => u.PhoneNumber)
             .NotEmpty()
+            .NotContainForbiddenCharacters()
             .Must((_, phone, _) => PhoneNumberValidator.IsValid(phone))
                 .WithMessage((_, phone) => string.Format(localizer["phone.invalid"], phone));
     }

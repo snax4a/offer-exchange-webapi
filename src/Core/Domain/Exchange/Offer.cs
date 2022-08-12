@@ -40,6 +40,7 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
         IList<OfferProduct> offerProducts)
     {
         string strippedCurrencyCode = currencyCode.StripHtml();
+        string? strippedFreebie = offerFreebie?.StripHtml();
 
         if (id == Guid.Empty) throw new ArgumentException("Cannot be empty Guid", nameof(id));
         if (inquiryId == Guid.Empty) throw new ArgumentException("Must be a valid Guid", nameof(inquiryId));
@@ -48,6 +49,7 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
         if (offerProducts.Count == 0) throw new ArgumentException("Cannot be empty list", nameof(offerProducts));
         if (string.IsNullOrWhiteSpace(strippedCurrencyCode) || strippedCurrencyCode.Length != 3)
             throw new ArgumentException("Must be valid ISO 4217", nameof(currencyCode));
+        if (strippedFreebie?.Length == 0) throw new ArgumentNullException(nameof(offerFreebie));
 
         Id = id;
         InquiryId = inquiryId;
@@ -59,7 +61,7 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
         NetValue = offerProducts.Sum(op => op.NetValue);
         GrossValue = offerProducts.Sum(op => op.GrossValue);
         DeliveryCost = deliveryCost;
-        Freebie = offerFreebie?.StripHtml();
+        Freebie = strippedFreebie;
         HasFreebies = !string.IsNullOrWhiteSpace(offerFreebie) || offerProducts.Any(op => !string.IsNullOrWhiteSpace(op.Freebie));
         HasReplacements = offerProducts.Any(op => op.IsReplacement);
         OfferProducts = offerProducts;

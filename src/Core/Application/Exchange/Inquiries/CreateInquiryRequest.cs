@@ -22,7 +22,7 @@ public class InquiryProductValidator : CustomValidator<InquiryProductDto>
     {
         CascadeMode = CascadeMode.Stop;
 
-        RuleFor(p => p.Name).NotEmpty().MinimumLength(3).MaximumLength(100);
+        RuleFor(p => p.Name).NotEmpty().MinimumLength(3).MaximumLength(100).NotContainForbiddenCharacters();
         RuleFor(p => p.Quantity).NotEmpty().GreaterThan(0);
         RuleFor(p => p.PreferredDeliveryDate)
             .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow))
@@ -36,8 +36,8 @@ public class CreateInquiryRequestValidator : CustomValidator<CreateInquiryReques
     {
         CascadeMode = CascadeMode.Stop;
 
-        RuleFor(i => i.Name).NotEmpty().MinimumLength(3).MaximumLength(60);
-        RuleFor(i => i.Title).NotEmpty().MinimumLength(3).MaximumLength(100);
+        RuleFor(i => i.Name).NotEmpty().MinimumLength(3).MaximumLength(60).NotContainForbiddenCharacters();
+        RuleFor(i => i.Title).NotEmpty().MinimumLength(3).MaximumLength(100).NotContainForbiddenCharacters();
         RuleFor(i => i.UserAddressId).NotEmpty();
 
         RuleFor(i => i.RecipientIds)

@@ -21,14 +21,15 @@ public class CreateTraderRequestValidator : CustomValidator<CreateTraderRequest>
     {
         CascadeMode = CascadeMode.Stop;
 
-        RuleFor(t => t.FirstName).NotEmpty().Length(3, 20);
-        RuleFor(t => t.LastName).NotEmpty().Length(3, 20);
-        RuleFor(t => t.CompanyName).Length(3, 100).Unless(t => string.IsNullOrEmpty(t.CompanyName));
+        RuleFor(t => t.FirstName).NotEmpty().Length(3, 20).NotContainForbiddenCharacters();
+        RuleFor(t => t.LastName).NotEmpty().Length(3, 20).NotContainForbiddenCharacters();
+        RuleFor(t => t.CompanyName).Length(3, 100).NotContainForbiddenCharacters().Unless(t => string.IsNullOrEmpty(t.CompanyName));
 
         RuleFor(t => t.Email)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage(localizer["email.invalid"])
+            .NotContainForbiddenCharacters()
             .MustAsync(async (email, ct) => await traderRepo.GetBySpecAsync(new TraderByEmailSpec(email, currentUser.GetUserId()), ct) is null)
                 .WithMessage((_, email) => string.Format(localizer["trader.alreadyexists"], email));
 

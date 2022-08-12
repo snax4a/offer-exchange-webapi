@@ -18,6 +18,7 @@ public class CreateGroupRequestValidator : CustomValidator<CreateGroupRequest>
             .NotEmpty()
             .MinimumLength(3)
             .MaximumLength(20)
+            .NotContainForbiddenCharacters()
             .MustAsync(async (name, ct) => await repository.GetBySpecAsync(new GroupByNameAndOwnerSpec(name, currentUser.GetUserId()), ct) is null)
                 .WithMessage((_, name) => string.Format(localizer["group.alreadyexists"], name));
 

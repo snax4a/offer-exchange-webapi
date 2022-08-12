@@ -28,8 +28,8 @@ public class CreateOfferRequestValidator : CustomValidator<CreateOfferRequest>
             .Must(token => tokenService.ValidateToken(token))
             .WithMessage(localizer["offer.invalidtoken"]);
 
-        RuleFor(p => p.CurrencyCode).NotEmpty().Length(3);
-        RuleFor(o => o.Freebie).MinimumLength(10).MaximumLength(1000);
+        RuleFor(p => p.CurrencyCode).NotEmpty().Length(3).NotContainForbiddenCharacters();
+        RuleFor(o => o.Freebie).MinimumLength(10).MaximumLength(1000).NotContainForbiddenCharacters();
         RuleFor(o => o.ExpirationDate).GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow));
 
         RuleFor(o => o.DeliveryCostType).NotEmpty();
