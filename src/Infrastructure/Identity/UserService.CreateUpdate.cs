@@ -3,6 +3,7 @@ using FSH.WebApi.Application.Common.Exceptions;
 using FSH.WebApi.Application.Common.Mailing;
 using FSH.WebApi.Application.Exchange.Billing.Customers.Specifications;
 using FSH.WebApi.Application.Identity.Users;
+using FSH.WebApi.Core.Shared.Extensions;
 using FSH.WebApi.Domain.Billing;
 using FSH.WebApi.Domain.Common;
 using FSH.WebApi.Domain.Identity;
@@ -108,11 +109,11 @@ internal partial class UserService
     {
         var user = new ApplicationUser
         {
-            Email = request.Email,
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            CompanyName = request.CompanyName,
-            PhoneNumber = request.PhoneNumber,
+            Email = request.Email.StripHtml(),
+            FirstName = request.FirstName.StripHtml(),
+            LastName = request.LastName.StripHtml(),
+            CompanyName = request.CompanyName.StripHtml(),
+            PhoneNumber = request.PhoneNumber.StripHtml(),
             IsActive = true
         };
 
@@ -147,7 +148,9 @@ internal partial class UserService
 
         _ = user ?? throw new NotFoundException(_localizer["User Not Found."]);
 
-        bool shouldUpdateStripeCustomer = request.Email != user.Email || request.CompanyName != user.CompanyName;
+        string strippedEmail = request.Email.StripHtml();
+        string strippedCompanyName = request.CompanyName.StripHtml();
+        bool shouldUpdateStripeCustomer = strippedEmail != user.Email || strippedCompanyName != user.CompanyName;
 
         string currentImage = user.ImageUrl ?? string.Empty;
         if (request.Image != null || request.DeleteCurrentImage)
@@ -160,11 +163,11 @@ internal partial class UserService
             }
         }
 
-        user.FirstName = request.FirstName;
-        user.LastName = request.LastName;
-        user.CompanyName = request.CompanyName;
-        user.Email = request.Email; // TODO: send verification email instead
-        user.PhoneNumber = request.PhoneNumber;
+        user.FirstName = request.FirstName.StripHtml();
+        user.LastName = request.LastName.StripHtml();
+        user.CompanyName = strippedCompanyName;
+        user.Email = strippedEmail; // TODO: send verification email instead
+        user.PhoneNumber = request.PhoneNumber.StripHtml();
 
         var result = await _userManager.UpdateAsync(user);
 
@@ -182,7 +185,7 @@ internal partial class UserService
             // Update customer data in stripe
             var spec = new CustomerByUserIdSpec(Guid.Parse(user.Id));
             var customer = await _customerRepository.GetBySpecAsync(spec);
-            await _stripeService.UpdateCustomer(customer!.StripeCustomerId, request.Email, request.CompanyName);
+            await _stripeService.UpdateCustomer(customer!.StripeCustomerId, strippedEmail, strippedCompanyName);
         }
     }
 

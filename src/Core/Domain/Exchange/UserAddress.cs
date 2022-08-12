@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class UserAddress : AuditableEntity, IAggregateRoot
@@ -15,7 +17,7 @@ public class UserAddress : AuditableEntity, IAggregateRoot
     {
         if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
-        Name = name;
+        Name = name.StripHtml();
         Address = address;
         AddressId = address.Id;
     }

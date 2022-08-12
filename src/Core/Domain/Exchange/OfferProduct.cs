@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class OfferProduct : BaseEntity
@@ -52,8 +54,8 @@ public class OfferProduct : BaseEntity
         GrossValue = NetValue + CalculateVAT(NetValue, VatRate ?? 0);
         DeliveryDate = deliveryDate;
         IsReplacement = isReplacement;
-        ReplacementName = replacementName;
-        Freebie = freebie;
+        ReplacementName = replacementName?.StripHtml();
+        Freebie = freebie?.StripHtml();
     }
 
     private long CalculateVAT(long value, short vatRate)

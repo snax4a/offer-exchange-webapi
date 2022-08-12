@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using FSH.WebApi.Application.Common.FileStorage;
+using FSH.WebApi.Core.Shared.Extensions;
 using FSH.WebApi.Domain.Common;
 using FSH.WebApi.Infrastructure.Common.Extensions;
 

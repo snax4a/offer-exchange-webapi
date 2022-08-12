@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class Group : AuditableEntity, IAggregateRoot
@@ -10,13 +12,13 @@ public class Group : AuditableEntity, IAggregateRoot
     {
         if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
 
-        Name = name;
+        Name = name.StripHtml();
         Color = color;
     }
 
     public Group Update(string? name, ColorName? color)
     {
-        if (name is not null && Name?.Equals(name) is not true) Name = name;
+        if (name is not null && Name?.Equals(name) is not true) Name = name.StripHtml();
         if (color is not null && Color != color) Color = (ColorName)color;
         return this;
     }

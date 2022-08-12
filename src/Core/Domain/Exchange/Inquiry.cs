@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class Inquiry : AuditableEntity, IAggregateRoot
@@ -37,8 +39,8 @@ public class Inquiry : AuditableEntity, IAggregateRoot
 
         Id = id;
         ReferenceNumber = referenceNumber;
-        Name = name;
-        Title = title;
+        Name = name.StripHtml();
+        Title = title.StripHtml();
         ShippingAddress = shippingAddress;
         ShippingAddressId = shippingAddress?.Id;
         Products = products;

@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 // TODO: In the feature maybe we should make it a value object
@@ -26,12 +28,12 @@ public class Address : BaseEntity, IAggregateRoot
         if (string.IsNullOrWhiteSpace(postalCode)) throw new ArgumentNullException(nameof(postalCode));
         if (string.IsNullOrWhiteSpace(locality)) throw new ArgumentNullException(nameof(locality));
 
-        CountryCode = countryCode;
-        CountrySubdivisionName = countrySubdivisionName;
-        Line1 = line1;
-        Line2 = line2;
-        PostalCode = postalCode;
-        Locality = locality;
+        CountryCode = countryCode.StripHtml();
+        CountrySubdivisionName = countrySubdivisionName.StripHtml();
+        Line1 = line1.StripHtml();
+        Line2 = line2?.StripHtml();
+        PostalCode = postalCode.StripHtml();
+        Locality = locality.StripHtml();
     }
 
     public override bool Equals(object? obj)

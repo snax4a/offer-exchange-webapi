@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
@@ -55,7 +57,7 @@ public class Offer : BaseEntity, IAggregateRoot, ICreatedOnInformation
         NetValue = offerProducts.Sum(op => op.NetValue);
         GrossValue = offerProducts.Sum(op => op.GrossValue);
         DeliveryCost = deliveryCost;
-        Freebie = offerFreebie;
+        Freebie = offerFreebie?.StripHtml();
         HasFreebies = !string.IsNullOrWhiteSpace(offerFreebie) || offerProducts.Any(op => !string.IsNullOrWhiteSpace(op.Freebie));
         HasReplacements = offerProducts.Any(op => op.IsReplacement);
         OfferProducts = offerProducts;

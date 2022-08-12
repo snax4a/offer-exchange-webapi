@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class InquiryProduct : AuditableEntity
@@ -16,7 +18,7 @@ public class InquiryProduct : AuditableEntity
     public InquiryProduct(Guid inquiryId, string name, int quantity, DateOnly? preferredDeliveryDate)
     {
         InquiryId = inquiryId;
-        Name = name;
+        Name = name.StripHtml();
         Quantity = quantity;
         PreferredDeliveryDate = preferredDeliveryDate;
     }

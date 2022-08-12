@@ -1,3 +1,5 @@
+using FSH.WebApi.Core.Shared.Extensions;
+
 namespace FSH.WebApi.Domain.Exchange;
 
 public class Trader : AuditableEntity, IAggregateRoot
@@ -17,18 +19,18 @@ public class Trader : AuditableEntity, IAggregateRoot
         if (string.IsNullOrWhiteSpace(email)) throw new ArgumentNullException(nameof(email));
         if (companyName?.Length == 0) throw new ArgumentException(nameof(companyName));
 
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        CompanyName = companyName;
+        FirstName = firstName.StripHtml();
+        LastName = lastName.StripHtml();
+        Email = email.StripHtml();
+        CompanyName = companyName?.StripHtml();
     }
 
     public Trader Update(string? firstName, string? lastName, string? email, string? companyName)
     {
-        if (firstName is not null && FirstName?.Equals(firstName) is not true) FirstName = firstName;
-        if (lastName is not null && LastName?.Equals(lastName) is not true) LastName = lastName;
-        if (email is not null && Email?.Equals(email) is not true) Email = email;
-        if (CompanyName?.Equals(companyName) is not true) CompanyName = companyName;
+        if (firstName is not null && FirstName?.Equals(firstName) is not true) FirstName = firstName.StripHtml();
+        if (lastName is not null && LastName?.Equals(lastName) is not true) LastName = lastName.StripHtml();
+        if (email is not null && Email?.Equals(email) is not true) Email = email.StripHtml();
+        if (CompanyName?.Equals(companyName) is not true) CompanyName = companyName?.StripHtml();
         return this;
     }
 
