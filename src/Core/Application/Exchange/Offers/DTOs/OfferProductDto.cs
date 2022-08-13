@@ -23,14 +23,23 @@ public class OfferProductValidator : CustomValidator<OfferProductDto>
     {
         CascadeMode = CascadeMode.Stop;
 
-        RuleFor(p => p.CurrencyCode).NotEmpty().Length(3);
+        RuleFor(p => p.CurrencyCode).NotEmpty().Length(3).NotContainForbiddenCharacters();
         RuleFor(p => p.VatRate).InclusiveBetween((short)0, (short)100);
         RuleFor(p => p.Quantity).NotEmpty().GreaterThan(0);
         RuleFor(p => p.NetPrice).NotEmpty().GreaterThan(0L);
         RuleFor(p => p.DeliveryDate).NotEmpty().GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow));
         RuleFor(p => p.IsReplacement).NotNull();
-        RuleFor(p => p.ReplacementName).MinimumLength(3).MaximumLength(100);
-        RuleFor(p => p.Freebie).MinimumLength(3).MaximumLength(2000);
         RuleFor(p => p.InquiryProduct).SetValidator(new InquiryProductDetailsValidator());
+
+        RuleFor(p => p.ReplacementName)
+            .MinimumLength(3)
+            .MaximumLength(100)
+            .Unless(p => p.ReplacementName is null);
+
+        RuleFor(p => p.Freebie)
+            .MinimumLength(3)
+            .MaximumLength(2000)
+            .NotContainForbiddenCharacters()
+            .Unless(p => p.Freebie is null);
     }
 }
